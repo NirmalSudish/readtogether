@@ -931,60 +931,242 @@ body {
   }
 }
 
-/* ---------- Responsive ---------- */
-@media (max-width: 640px) {
+/* ============================================
+   RESPONSIVE - Tablet (641px–1024px)
+   ============================================ */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .screen {
+    padding: 32px 20px;
+  }
+
+  .landing-content {
+    max-width: 560px;
+  }
+
   .logo-text {
-    font-size: 2.2rem;
+    font-size: 2.6rem;
   }
 
   .action-cards {
-    grid-template-columns: 1fr;
-    gap: 12px;
-  }
-
-  .action-card {
-    padding: 24px 20px;
-  }
-
-  .features-strip {
     gap: 16px;
   }
 
-  .book-info-card {
-    flex-direction: column;
-    text-align: center;
+  .action-card {
+    padding: 28px 20px;
   }
 
-  .book-actions {
-    width: 100%;
+  .room-container {
+    max-width: 520px;
+  }
+}
+
+/* ============================================
+   RESPONSIVE - Mobile (≤640px)
+   ============================================ */
+@media (max-width: 640px) {
+  .screen {
+    padding: 24px 16px;
+    align-items: flex-start;
+    padding-top: 48px;
   }
 
-  .book-actions button {
-    flex: 1;
+  /* Logo */
+  .logo-area {
+    margin-bottom: 32px;
+  }
+
+  .logo-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: var(--radius-lg);
+    margin-bottom: 16px;
+  }
+
+  .logo-icon svg {
+    width: 34px;
+    height: 34px;
+  }
+
+  .logo-text {
+    font-size: 2rem;
+  }
+
+  .logo-tagline {
+    font-size: 0.95rem;
+  }
+
+  /* Action cards – stack vertically */
+  .action-cards {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin-bottom: 32px;
+  }
+
+  .action-card {
+    padding: 20px 18px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    text-align: left;
+  }
+
+  .card-icon {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 0;
+    flex-shrink: 0;
+  }
+
+  .card-icon svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .action-card h3 {
+    font-size: 1.05rem;
+    margin-bottom: 4px;
+  }
+
+  .action-card p {
+    font-size: 0.8rem;
+  }
+
+  /* Features strip */
+  .features-strip {
+    gap: 10px;
+    justify-content: flex-start;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    padding-bottom: 4px;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .features-strip span {
+    font-size: 0.72rem;
+    white-space: nowrap;
+  }
+
+  /* Form screens */
+  .form-container {
+    max-width: 100%;
+  }
+
+  .form-header h2 {
+    font-size: 1.7rem;
+  }
+
+  .form-header p {
+    font-size: 0.9rem;
+  }
+
+  .back-btn {
+    margin-bottom: 24px;
+  }
+
+  .input-group input {
+    padding: 13px 14px;
+    font-size: 0.95rem;
+  }
+
+  .primary-btn {
+    padding: 14px;
+    font-size: 0.95rem;
+  }
+
+  /* Room screen */
+  .room-container {
+    max-width: 100%;
+  }
+
+  .room-title-area h2 {
+    font-size: 1.5rem;
   }
 
   .room-code-display {
     flex-wrap: wrap;
     justify-content: center;
+    gap: 8px;
+    padding: 14px 16px;
+  }
+
+  .code-label {
+    width: 100%;
+    text-align: center;
   }
 
   .code-value {
     width: 100%;
     text-align: center;
-    font-size: 1.4rem;
+    font-size: 1.6rem;
+    letter-spacing: 6px;
+  }
+
+  /* User cards */
+  .user-card {
+    padding: 14px 16px;
+    gap: 12px;
+  }
+
+  .user-avatar {
+    width: 38px;
+    height: 38px;
+  }
+
+  /* Book upload zone */
+  .upload-zone {
+    padding: 28px 16px;
+  }
+
+  .upload-icon {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 12px;
+  }
+
+  .upload-zone h3 {
+    font-size: 1rem;
+  }
+
+  /* Book info card */
+  .book-info-card {
+    flex-direction: column;
+    text-align: center;
+    gap: 12px;
+    padding: 16px;
+  }
+
+  .book-actions {
+    width: 100%;
+    flex-direction: row;
+  }
+
+  .book-actions button {
+    flex: 1;
+    justify-content: center;
+  }
+
+  /* Toast */
+  #toast-container {
+    top: auto;
+    bottom: 24px;
+    right: 16px;
+    left: 16px;
+  }
+
+  .toast {
+    max-width: 100%;
+    text-align: center;
   }
 }
 
-@media (max-width: 400px) {
-  .screen {
-    padding: 24px 16px;
-  }
-
+/* Very small phones */
+@media (max-width: 380px) {
   .logo-text {
-    font-size: 1.8rem;
+    font-size: 1.7rem;
   }
 
-  .form-header h2 {
-    font-size: 1.5rem;
+  .code-value {
+    font-size: 1.3rem;
+    letter-spacing: 4px;
   }
 }

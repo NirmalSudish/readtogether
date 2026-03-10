@@ -1300,80 +1300,223 @@ input[type="range"]::-webkit-slider-thumb {
     }
 }
 
-/* ---------- Responsive ---------- */
-@media (max-width: 768px) {
+/* ============================================
+   RESPONSIVE - Tablet (641px–1024px)
+   ============================================ */
+@media (min-width: 641px) and (max-width: 1024px) {
     .reader-header {
-        height: 50px;
-        padding: 0 8px;
+        height: 52px;
+        padding: 0 12px;
     }
 
+    .reader-main {
+        margin-top: 52px;
+        margin-bottom: 70px;
+    }
+
+    #epub-viewer {
+        padding: 24px 40px;
+    }
+
+    .reader-footer {
+        height: 70px;
+        padding: 0 16px;
+    }
+
+    .chat-sidebar,
+    .notes-sidebar {
+        width: 320px;
+    }
+
+    .chat-sidebar {
+        right: -320px;
+    }
+
+    .notes-sidebar {
+        left: -320px;
+    }
+
+    .progress-bar-container {
+        width: 100px;
+    }
+
+    .video-widget {
+        width: 240px;
+    }
+}
+
+/* ============================================
+   RESPONSIVE - Mobile (≤640px)
+   ============================================ */
+@media (max-width: 640px) {
+
+    /* --- Header --- */
+    .reader-header {
+        height: 50px;
+        padding: 0 6px;
+        gap: 2px;
+    }
+
+    .icon-btn {
+        width: 36px;
+        height: 36px;
+    }
+
+    .icon-btn svg {
+        width: 18px;
+        height: 18px;
+    }
+
+    /* Hide book title on very small screens — saves space */
+    .book-title {
+        display: none;
+    }
+
+    /* Shrink sync indicator to icon-only */
     .sync-indicator {
-        padding: 4px 10px;
+        padding: 4px 8px;
+        gap: 6px;
     }
 
     .sync-text {
         display: none;
     }
 
+    /* --- EPUB viewer area --- */
     .reader-main {
         margin-top: 50px;
-        margin-bottom: 68px;
+        margin-bottom: 64px;
     }
 
     #epub-viewer {
-        padding: 16px 20px;
+        padding: 12px 12px;
     }
 
+    /* Tap-targets for page nav — make wider so thumbs can reach */
     .nav-zone {
-        width: 50px;
+        width: 52px;
     }
 
+    .nav-arrow {
+        width: 36px;
+        height: 36px;
+    }
+
+    /* --- Footer --- */
     .reader-footer {
-        height: 68px;
-        padding: 0 12px;
+        height: 64px;
+        padding: 0 8px;
     }
 
-    .progress-bar-container {
-        width: 80px;
+    /* Hide progress bar on tiny screens */
+    .footer-left {
+        display: none;
+    }
+
+    .footer-right {
+        flex: 0;
     }
 
     .page-info {
-        font-size: 0.7rem;
+        font-size: 0.68rem;
     }
 
+    .sync-control {
+        gap: 10px;
+    }
+
+    .sync-btn {
+        width: 40px;
+        height: 40px;
+    }
+
+    .sync-progress-ring,
+    .sync-progress-ring svg {
+        width: 44px;
+        height: 44px;
+    }
+
+    /* --- Chat & Notes sidebars — full-width drawers --- */
     .chat-sidebar {
         width: 100%;
         right: -100%;
     }
 
+    .notes-sidebar {
+        width: 100%;
+        left: -100%;
+    }
+
+    .chat-sidebar.open {
+        right: 0;
+    }
+
+    .notes-sidebar.open {
+        left: 0;
+    }
+
+    /* --- Font settings menu --- */
     .font-menu {
-        right: 8px;
-        width: 240px;
+        right: 6px;
+        left: 6px;
+        width: auto;
+    }
+
+    /* --- Video widget — move to bottom-left, make smaller --- */
+    .video-widget {
+        bottom: 70px;
+        right: auto;
+        left: 12px;
+        width: calc(100vw - 24px);
+        max-width: 300px;
+    }
+
+    /* --- Highlight tooltip — slightly taller tap target --- */
+    #highlight-tooltip {
+        font-size: 12px;
+        padding: 9px 14px;
+    }
+
+    /* --- Notes sidebar compose area --- */
+    .notes-compose-area {
+        padding: 12px;
+    }
+
+    .notes-input {
+        font-size: 0.9rem;
+    }
+
+    /* --- Disconnect overlay --- */
+    .disconnect-card {
+        padding: 24px 20px;
+        margin: 16px;
     }
 }
 
-@media (max-width: 480px) {
-    .sync-btn {
-        width: 38px;
-        height: 38px;
+/* ============================================
+   iPhone safe-area (notch + home indicator)
+   ============================================ */
+@supports (padding-top: env(safe-area-inset-top)) {
+    .reader-header {
+        padding-top: env(safe-area-inset-top);
+        /* Stretch the fixed header to cover the notch */
+        height: calc(56px + env(safe-area-inset-top));
     }
 
-    .sync-progress-ring {
-        width: 42px;
-        height: 42px;
-    }
+    @media (max-width: 640px) {
+        .reader-header {
+            height: calc(50px + env(safe-area-inset-top));
+        }
 
-    .sync-progress-ring svg {
-        width: 42px;
-        height: 42px;
-    }
+        .reader-main {
+            margin-top: calc(50px + env(safe-area-inset-top));
+            margin-bottom: calc(64px + env(safe-area-inset-bottom));
+        }
 
-    .footer-left {
-        display: none;
-    }
-
-    .sync-control {
-        gap: 10px;
+        .reader-footer {
+            padding-bottom: env(safe-area-inset-bottom);
+            height: calc(64px + env(safe-area-inset-bottom));
+        }
     }
 }
 
