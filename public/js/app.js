@@ -259,8 +259,9 @@ function startReading() {
 
 function showReaderScreen() {
     showScreen('reader-screen');
+    // Small delay ensures display:block dimensions are painted before EPUB.js reads them
     if (typeof initReaderSPA === 'function') {
-        initReaderSPA();
+        setTimeout(initReaderSPA, 50);
     }
 }
 

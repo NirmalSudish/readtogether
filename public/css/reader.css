@@ -366,23 +366,26 @@ input[type="range"]::-webkit-slider-thumb {
 /* ---------- Reader Main ---------- */
 .reader-main {
     flex: 1 1 auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    position: relative;
     margin-top: 56px;
     margin-bottom: 72px;
-    position: relative;
+    height: calc(100vh - 128px);
     overflow: hidden;
+    width: 100%;
+    /* Create a stable block for absolute children to reference */
+    display: block;
 }
 
 #epub-viewer {
-    flex: 1 1 auto;
+    position: absolute;
+    top: 32px;
+    bottom: 32px;
+    left: 0;
+    right: 0;
     width: 100%;
-    height: 100%;
+    height: calc(100% - 64px);
     max-width: 800px;
     margin: 0 auto;
-    padding: 32px 60px;
 }
 
 .reader-loading {
