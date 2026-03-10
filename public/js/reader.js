@@ -1,4 +1,10 @@
 // Header variables shifted to global scope for SPA sharing
+let isPdf = false;
+let pdfDoc = null;
+let currentPdfPage = 1;
+let totalPdfPages = 0;
+let pdfCanvas = null;
+let pdfCtx = null;
 let book = null;
 let rendition = null;
 let sessionData = null;
@@ -72,14 +78,10 @@ function loadBook(bookData) {
 
     console.log("Loading book from:", fullPath);
 
-    // Warning for PDFs (Reader currently only supports EPUB natively)
-    if (bookData.type === '.pdf' || bookData.filename.endsWith('.pdf')) {
-        loadingEl.innerHTML = `
-            <div class="error-container" style="color: white; text-align: center; padding: 20px;">
-                <p class="error-msg" style="margin-bottom: 20px;">PDF Support is currently limited. Please use an EPUB file for synchronized reading.</p>
-                ${sessionData.role === 'host' ? '<button class="primary-btn" onclick="goBackToRoom()" style="padding: 10px 20px; cursor: pointer;">Go Back to Upload</button>' : ''}
-            </div>
-        `;
+    isPdf = bookData.type === '.pdf' || bookData.filename.endsWith('.pdf');
+
+    if (isPdf) {
+        initPdfReader(fullPath, loadingEl);
         return;
     }
 
@@ -273,7 +275,103 @@ function jumpToCfi(cfi) {
     }
 }
 
+// ---- PDF Rendering Logic ----
+async function initPdfReader(url, loadingEl) {
+    try {
+        pdfDoc = await pdfjsLib.getDocument(url).promise;
+        totalPdfPages = pdfDoc.numPages;
+        totalLocations = totalPdfPages;
+
+        // Restore session page or start at 1
+        currentPdfPage = sessionData.currentLocation ? parseInt(sessionData.currentLocation) : 1;
+        if (isNaN(currentPdfPage) || currentPdfPage < 1) currentPdfPage = 1;
+        currentLocationIndex = currentPdfPage - 1;
+
+        loadingEl.style.display = 'none';
+
+        const viewer = document.getElementById('epub-viewer');
+        viewer.innerHTML = '<canvas id="pdf-canvas" style="max-height: 100%; max-width: 100%; box-shadow: 0 4px 8px rgba(0,0,0,0.1);"></canvas>';
+        pdfCanvas = document.getElementById('pdf-canvas');
+        pdfCtx = pdfCanvas.getContext('2d');
+
+        applyTheme(currentTheme); // apply bg colors
+        renderPdfPage(currentPdfPage);
+
+        // Auto-resize on window resize or device rotation
+        window.addEventListener('resize', () => {
+            if (isPdf && pdfDoc) {
+                renderPdfPage(currentPdfPage);
+            }
+        });
+
+    } catch (err) {
+        console.error("PDF init error", err);
+        loadingEl.innerHTML = `
+            <div class="error-container" style="color: var(--error); text-align: center; padding: 20px;">
+                <p class="error-msg" style="margin-bottom: 20px;">Failed to load PDF file.</p>
+                <button class="primary-btn" onclick="location.reload()" style="padding: 10px 20px; cursor: pointer; color: white;">Refresh App</button>
+            </div>
+        `;
+    }
+}
+
+async function renderPdfPage(pageNum) {
+    if (!pdfDoc) return;
+    try {
+        const page = await pdfDoc.getPage(pageNum);
+        const viewer = document.getElementById('epub-viewer');
+
+        // Calculate appropriate scale based on container
+        const unscaledViewport = page.getViewport({ scale: 1 });
+        const scaleX = viewer.clientWidth / unscaledViewport.width;
+        const scaleY = viewer.clientHeight / unscaledViewport.height;
+        let scale = Math.min(scaleX, scaleY) * 0.95; // 95% to leave a tiny padding margin
+        if (scale > 2) scale = 2; // cap max scale
+
+        const viewport = page.getViewport({ scale });
+
+        // Ensure proper HiDPI canvas rendering
+        const outputScale = window.devicePixelRatio || 1;
+        pdfCanvas.width = Math.floor(viewport.width * outputScale);
+        pdfCanvas.height = Math.floor(viewport.height * outputScale);
+        pdfCanvas.style.width = Math.floor(viewport.width) + "px";
+        pdfCanvas.style.height = Math.floor(viewport.height) + "px";
+
+        const transform = outputScale !== 1
+            ? [outputScale, 0, 0, outputScale, 0, 0]
+            : null;
+
+        const renderContext = {
+            canvasContext: pdfCtx,
+            transform: transform,
+            viewport: viewport
+        };
+
+        await page.render(renderContext).promise;
+
+        currentLocationIndex = pageNum - 1;
+
+        sessionData.currentLocation = pageNum;
+        sessionStorage.setItem('readTogether', JSON.stringify(sessionData));
+
+        updatePageInfo();
+        updateProgress();
+    } catch (e) {
+        console.error("Error rendering PDF page", e);
+    }
+}
+
 function doLocalJump(cfi) {
+    if (isPdf) {
+        // cfi for PDF is just the page number
+        const pageNum = parseInt(cfi);
+        if (!isNaN(pageNum) && pageNum >= 1 && pageNum <= totalPdfPages) {
+            currentPdfPage = pageNum;
+            renderPdfPage(currentPdfPage);
+        }
+        return;
+    }
+
     if (!rendition) return;
     const viewer = document.getElementById('epub-viewer');
     viewer.style.transition = 'opacity 0.2s';
@@ -353,9 +451,31 @@ function setupSocketListeners() {
 
         currentLocationIndex = data.page;
 
-        if (rendition && locations.length > 0) {
-            const viewer = document.getElementById('epub-viewer');
+        const viewer = document.getElementById('epub-viewer');
 
+        if (isPdf) {
+            viewer.style.transition = 'opacity 0.15s ease-out, transform 0.15s ease-out';
+            viewer.style.opacity = '0';
+            viewer.style.transform = data.direction === 'next' ? 'translateX(-30px)' : 'translateX(30px)';
+
+            setTimeout(() => {
+                currentPdfPage = data.direction === 'next' ? currentPdfPage + 1 : currentPdfPage - 1;
+                if (currentPdfPage < 1) currentPdfPage = 1;
+                if (currentPdfPage > totalPdfPages) currentPdfPage = totalPdfPages;
+
+                renderPdfPage(currentPdfPage).then(() => {
+                    viewer.style.transition = 'none';
+                    viewer.style.transform = data.direction === 'next' ? 'translateX(30px)' : 'translateX(-30px)';
+                    void viewer.offsetWidth; // Force Reflow
+                    viewer.style.transition = 'opacity 0.2s ease-out, transform 0.2s ease-out';
+                    viewer.style.opacity = '1';
+                    viewer.style.transform = 'translateX(0)';
+                });
+            }, 150);
+            return;
+        }
+
+        if (rendition && locations.length > 0) {
             // Slide transition out
             viewer.style.transition = 'opacity 0.15s ease-out, transform 0.15s ease-out';
             viewer.style.opacity = '0';
@@ -526,6 +646,9 @@ function applyTheme(theme) {
                 }
             });
         }
+        if (isPdf && pdfCanvas) {
+            document.getElementById('epub-viewer').style.backgroundColor = '#faf8f5';
+        }
     } else if (theme === 'sepia') {
         document.body.classList.add('sepia-theme');
         sunIcon.style.display = 'block';
@@ -542,6 +665,9 @@ function applyTheme(theme) {
                 }
             });
         }
+        if (isPdf && pdfCanvas) {
+            document.getElementById('epub-viewer').style.backgroundColor = '#f4ecd8';
+        }
     } else {
         // Dark
         sunIcon.style.display = 'block';
@@ -557,6 +683,9 @@ function applyTheme(theme) {
                     color: '#e0e0e8 !important'
                 }
             });
+        }
+        if (isPdf && pdfCanvas) {
+            document.getElementById('epub-viewer').style.backgroundColor = '#1a1a2e';
         }
     }
 }
