@@ -64,6 +64,7 @@ body.sepia-theme {
 
 /* ---------- SPA Reader Screen Overrides ---------- */
 #reader-screen {
+    position: relative;
     padding: 0;
     flex-direction: column;
     justify-content: flex-start;
@@ -365,15 +366,16 @@ input[type="range"]::-webkit-slider-thumb {
 
 /* ---------- Reader Main ---------- */
 .reader-main {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 56px;
-    margin-bottom: 72px;
-    position: relative;
+    position: absolute;
+    top: 56px;
+    /* Below the header */
+    bottom: 72px;
+    /* Above the footer */
+    left: 0;
+    right: 0;
     overflow: hidden;
     width: 100%;
+    background: transparent;
 }
 
 #epub-viewer {

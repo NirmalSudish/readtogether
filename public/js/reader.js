@@ -104,7 +104,7 @@ function loadBook(bookData) {
                 </div>
             `;
         }
-    }, 15000);
+    }, 60000);
 
     book.opened.then(() => {
         console.log("Book opened successfully");
