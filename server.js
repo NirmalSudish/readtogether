@@ -159,38 +159,82 @@ io.on('connection', (socket) => {
       return;
     }
 
-    if (room.guest && room.guest.id !== socket.id) {
+    let targetRole = 'guest';
+
+    // Intelligent slot reassignment if a user disconnected and lost their session completely
+    if (room.host && room.host.connected === false && (!room.guest || room.guest.connected !== false)) {
+      // Host dropped out, let them reclaim the host slot!
+      targetRole = 'host';
+    } else if (room.guest && room.guest.connected === false) {
+      // Guest dropped out, they reclaim the guest slot.
+      targetRole = 'guest';
+    } else if (!room.guest) {
+      // Normal guest join
+      targetRole = 'guest';
+    } else if (room.host && room.host.id === socket.id) {
+      targetRole = 'host';
+    } else if (room.guest && room.guest.id === socket.id) {
+      targetRole = 'guest';
+    } else {
+      // Both are strictly connected
       socket.emit('join-error', { message: 'Room is full. Only two readers per room.' });
       return;
     }
 
-    room.guest = {
-      id: socket.id,
-      name: data.name || 'Guest'
-    };
+    const userName = data.name || (targetRole === 'host' ? 'Host' : 'Guest');
 
     socket.join(roomCode);
     socket.roomCode = roomCode;
-    socket.isHost = false;
-    socket.userName = data.name || 'Guest';
+    socket.isHost = (targetRole === 'host');
+    socket.userName = userName;
 
-    // Send room info to guest
-    socket.emit('room-joined', {
-      code: roomCode,
-      role: 'guest',
-      userName: socket.userName,
-      hostName: room.host.name,
-      book: room.book,
-      currentPage: room.currentPage
-    });
+    if (targetRole === 'host') {
+      room.host = {
+        id: socket.id,
+        name: userName,
+        connected: true
+      };
 
-    // Notify host
-    io.to(room.host.id).emit('user-joined', {
-      name: socket.userName,
-      id: socket.id
-    });
+      // Let the joined user know they successfully became the host again
+      socket.emit('room-created', {
+        code: roomCode,
+        role: 'host',
+        userName: socket.userName
+      });
 
-    console.log(`${socket.userName} joined room: ${roomCode}`);
+      // If the guest is still here waiting, silently tell them the host is back!
+      if (room.guest && room.guest.connected !== false) {
+        io.to(room.guest.id).emit('host-reconnected', { name: userName });
+      }
+
+      console.log(`Reclaimed host slot for room: ${roomCode}`);
+    } else {
+      room.guest = {
+        id: socket.id,
+        name: userName,
+        connected: true
+      };
+
+      // Send room info to guest
+      socket.emit('room-joined', {
+        code: roomCode,
+        role: 'guest',
+        userName: socket.userName,
+        hostName: room.host.name,
+        book: room.book,
+        currentPage: room.currentPage
+      });
+
+      // Notify host that guest connected or reconnected
+      if (room.host && room.host.connected !== false) {
+        io.to(room.host.id).emit('user-joined', {
+          name: socket.userName,
+          id: socket.id
+        });
+      }
+
+      console.log(`${userName} joined room: ${roomCode}`);
+    }
   });
 
   // Start reading
@@ -344,6 +388,7 @@ io.on('connection', (socket) => {
   socket.on('webrtc-offer', (data) => {
     socket.to(socket.roomCode).emit('webrtc-offer', {
       offer: data.offer,
+      mode: data.mode,
       senderId: socket.id
     });
   });
@@ -351,6 +396,7 @@ io.on('connection', (socket) => {
   socket.on('webrtc-answer', (data) => {
     socket.to(socket.roomCode).emit('webrtc-answer', {
       answer: data.answer,
+      mode: data.mode,
       senderId: socket.id
     });
   });

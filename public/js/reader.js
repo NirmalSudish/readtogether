@@ -903,15 +903,22 @@ function createPeerConnection() {
 
 // 2. Partner receives offer, sets Remote, builds Answer
 async function handleReceiveOffer(data) {
+    const mode = data.mode || 'video';
+    const useVideo = mode === 'video';
+
     if (!isVideoCallActive) {
         // Auto-accept if they aren't already calling
         try {
-            const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+            const stream = await navigator.mediaDevices.getUserMedia({ video: useVideo, audio: true });
             localStream = stream;
 
-            document.getElementById('local-video').srcObject = stream;
+            const localVideoEl = document.getElementById('local-video');
+            localVideoEl.srcObject = stream;
+            localVideoEl.style.display = useVideo ? 'block' : 'none';
+
             document.getElementById('video-widget').style.display = 'flex';
             document.getElementById('video-waiting-overlay').style.display = 'none';
+            document.querySelector('.video-header span').textContent = useVideo ? 'Live Video' : 'Live Audio';
 
             isVideoCallActive = true;
             setupDraggableWidget();
@@ -929,7 +936,7 @@ async function handleReceiveOffer(data) {
     const answer = await peerConnection.createAnswer();
     await peerConnection.setLocalDescription(answer);
 
-    socket.emit('webrtc-answer', { answer });
+    socket.emit('webrtc-answer', { answer, mode });
 }
 
 // 3. Original caller receives answer, sets Remote
