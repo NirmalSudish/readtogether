@@ -385,6 +385,12 @@ function setupSocketListeners() {
             loadBook(bookData);
         }
     });
+
+    // --- WebRTC ---
+    socket.on('webrtc-offer', handleReceiveOffer);
+    socket.on('webrtc-answer', handleReceiveAnswer);
+    socket.on('webrtc-ice-candidate', handleReceiveIceCandidate);
+    socket.on('call-ended', handleRemoteCallEnded);
 }
 
 // ---- Sync Display ----
@@ -818,4 +824,236 @@ function renderNotes() {
 
         list.appendChild(card);
     });
+}
+
+// ============================================
+// WebRTC Video Call Implementation (Free P2P)
+// ============================================
+
+let localStream = null;
+let peerConnection = null;
+let isVideoCallActive = false;
+
+// STUN servers (free connection brokers provided by Google)
+const rtcConfig = {
+    iceServers: [
+        { urls: 'stun:stun.l.google.com:19302' },
+        { urls: 'stun:stun1.l.google.com:19302' }
+    ]
+};
+
+async function toggleCall() {
+    if (isVideoCallActive) {
+        endCall();
+        return;
+    }
+
+    try {
+        const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+        localStream = stream;
+
+        document.getElementById('local-video').srcObject = stream;
+        document.getElementById('video-widget').style.display = 'flex';
+        document.getElementById('video-waiting-overlay').style.display = 'flex';
+        document.getElementById('call-status-text').textContent = 'Calling partner...';
+
+        isVideoCallActive = true;
+
+        setupDraggableWidget();
+
+        // 1. Host creates Offer (or Guest if they click first)
+        createPeerConnection();
+        const offer = await peerConnection.createOffer();
+        await peerConnection.setLocalDescription(offer);
+
+        socket.emit('webrtc-offer', { offer });
+    } catch (err) {
+        console.error('Error accessing media devices.', err);
+        alert('Could not access camera or microphone. Please check your browser permissions.');
+    }
+}
+
+function createPeerConnection() {
+    peerConnection = new RTCPeerConnection(rtcConfig);
+
+    // Add our local tracks safely
+    if (localStream) {
+        localStream.getTracks().forEach(track => {
+            peerConnection.addTrack(track, localStream);
+        });
+    }
+
+    // ICE Candidate generation (routing info)
+    peerConnection.onicecandidate = event => {
+        if (event.candidate) {
+            socket.emit('webrtc-ice-candidate', { candidate: event.candidate });
+        }
+    };
+
+    // When we get the remote partner's video stream
+    peerConnection.ontrack = event => {
+        document.getElementById('remote-video').srcObject = event.streams[0];
+        document.getElementById('video-waiting-overlay').style.display = 'none';
+    };
+}
+
+// 2. Partner receives offer, sets Remote, builds Answer
+async function handleReceiveOffer(data) {
+    if (!isVideoCallActive) {
+        // Auto-accept if they aren't already calling
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+            localStream = stream;
+
+            document.getElementById('local-video').srcObject = stream;
+            document.getElementById('video-widget').style.display = 'flex';
+            document.getElementById('video-waiting-overlay').style.display = 'none';
+
+            isVideoCallActive = true;
+            setupDraggableWidget();
+        } catch (err) {
+            console.error(err);
+            return; // Can't answer without permissions
+        }
+    }
+
+    if (!peerConnection) {
+        createPeerConnection();
+    }
+
+    await peerConnection.setRemoteDescription(new RTCSessionDescription(data.offer));
+    const answer = await peerConnection.createAnswer();
+    await peerConnection.setLocalDescription(answer);
+
+    socket.emit('webrtc-answer', { answer });
+}
+
+// 3. Original caller receives answer, sets Remote
+async function handleReceiveAnswer(data) {
+    if (peerConnection) {
+        await peerConnection.setRemoteDescription(new RTCSessionDescription(data.answer));
+    }
+}
+
+// 4. Broker the connection paths
+async function handleReceiveIceCandidate(data) {
+    if (peerConnection) {
+        try {
+            await peerConnection.addIceCandidate(new RTCIceCandidate(data.candidate));
+        } catch (e) {
+            console.error('Error adding received ice candidate', e);
+        }
+    }
+}
+
+function toggleMic() {
+    if (!localStream) return;
+    const audioTrack = localStream.getAudioTracks()[0];
+    if (audioTrack) {
+        audioTrack.enabled = !audioTrack.enabled;
+        const btn = document.getElementById('toggle-mic-btn');
+        if (audioTrack.enabled) {
+            btn.classList.remove('muted');
+        } else {
+            btn.classList.add('muted');
+        }
+    }
+}
+
+function toggleCam() {
+    if (!localStream) return;
+    const videoTrack = localStream.getVideoTracks()[0];
+    if (videoTrack) {
+        videoTrack.enabled = !videoTrack.enabled;
+        const btn = document.getElementById('toggle-cam-btn');
+        if (videoTrack.enabled) {
+            btn.classList.remove('disabled');
+        } else {
+            btn.classList.add('disabled');
+        }
+    }
+}
+
+function endCall() {
+    if (peerConnection) {
+        peerConnection.close();
+        peerConnection = null;
+    }
+    if (localStream) {
+        localStream.getTracks().forEach(track => track.stop());
+        localStream = null;
+    }
+
+    document.getElementById('video-widget').style.display = 'none';
+    document.getElementById('remote-video').srcObject = null;
+    document.getElementById('local-video').srcObject = null;
+
+    isVideoCallActive = false;
+    socket.emit('call-ended');
+}
+
+function handleRemoteCallEnded() {
+    endCall();
+}
+
+// ----- Draggable Widget Logic -----
+function setupDraggableWidget() {
+    const widget = document.getElementById('video-widget');
+    const header = document.getElementById('video-header');
+
+    let isDragging = false;
+    let currentX;
+    let currentY;
+    let initialX;
+    let initialY;
+    let xOffset = 0;
+    let yOffset = 0;
+
+    header.addEventListener('mousedown', dragStart);
+    document.addEventListener('mouseup', dragEnd);
+    document.addEventListener('mousemove', drag);
+
+    // Touch support mapping natively
+    header.addEventListener('touchstart', dragStart, { passive: false });
+    document.addEventListener('touchend', dragEnd);
+    document.addEventListener('touchmove', drag, { passive: false });
+
+    function dragStart(e) {
+        if (e.type === 'touchstart') {
+            initialX = e.touches[0].clientX - xOffset;
+            initialY = e.touches[0].clientY - yOffset;
+        } else {
+            initialX = e.clientX - xOffset;
+            initialY = e.clientY - yOffset;
+        }
+
+        if (e.target.closest('.icon-btn')) return; // ignore close button
+        isDragging = true;
+    }
+
+    function dragEnd(e) {
+        initialX = currentX;
+        initialY = currentY;
+        isDragging = false;
+    }
+
+    function drag(e) {
+        if (isDragging) {
+            e.preventDefault();
+
+            if (e.type === 'touchmove') {
+                currentX = e.touches[0].clientX - initialX;
+                currentY = e.touches[0].clientY - initialY;
+            } else {
+                currentX = e.clientX - initialX;
+                currentY = e.clientY - initialY;
+            }
+
+            xOffset = currentX;
+            yOffset = currentY;
+
+            // Apply transform instead of direct style left/top for perf
+            widget.style.transform = `translate3d(${currentX}px, ${currentY}px, 0)`;
+        }
+    }
 }

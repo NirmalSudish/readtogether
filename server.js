@@ -340,6 +340,32 @@ io.on('connection', (socket) => {
     }
   });
 
+  // --- WebRTC Signaling ---
+  socket.on('webrtc-offer', (data) => {
+    socket.to(socket.roomCode).emit('webrtc-offer', {
+      offer: data.offer,
+      senderId: socket.id
+    });
+  });
+
+  socket.on('webrtc-answer', (data) => {
+    socket.to(socket.roomCode).emit('webrtc-answer', {
+      answer: data.answer,
+      senderId: socket.id
+    });
+  });
+
+  socket.on('webrtc-ice-candidate', (data) => {
+    socket.to(socket.roomCode).emit('webrtc-ice-candidate', {
+      candidate: data.candidate,
+      senderId: socket.id
+    });
+  });
+
+  socket.on('call-ended', () => {
+    socket.to(socket.roomCode).emit('call-ended');
+  });
+
   // Reconnect to room
   socket.on('reconnect-room', (data) => {
     const room = rooms.get(data.roomCode);
