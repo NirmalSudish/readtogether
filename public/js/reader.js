@@ -100,8 +100,19 @@ function loadBook(bookData) {
 
     document.getElementById('reader-book-title').textContent = bookData.originalName;
 
-    // Initialize epub.js
-    book = ePub(bookData.path);
+    // Initialize epub.js - Ensure path is absolute if BACKEND_URL is set
+    const fullPath = (BACKEND_URL && bookData.path.startsWith('/'))
+        ? `${BACKEND_URL}${bookData.path}`
+        : bookData.path;
+
+    console.log("Loading book from:", fullPath);
+    book = ePub(fullPath);
+
+    book.opened.catch(err => {
+        console.error("Error opening book:", err);
+        document.getElementById('reader-book-title').textContent = "Error Loading Book";
+        loadingEl.innerHTML = `<div class="error-msg">Failed to load book. Make sure the backend server is reachable.</div>`;
+    });
 
     rendition = book.renderTo('epub-viewer', {
         width: '100%',
@@ -111,36 +122,58 @@ function loadBook(bookData) {
         manager: 'continuous'
     });
 
+    // Handle iframe styling after rendering
+    rendition.on('started', () => {
+        applyTheme(currentTheme);
+        applyFontSize(currentFontSize);
+        applyFontFamily(currentFontFamily);
+    });
+
     // Apply initial theme
     applyTheme(currentTheme);
     applyFontSize(currentFontSize);
     applyFontFamily(currentFontFamily);
 
-    // Generate locations for progress tracking
+    // Display the book starting at the stored page or beginning
+    // We do this immediately so the user doesn't wait for location generation
+    if (sessionData.currentLocation && currentLocationIndex > 0) {
+        rendition.display(sessionData.currentLocation);
+    } else {
+        rendition.display();
+    }
+
+    // Generate locations for progress tracking in the background
     book.ready.then(() => {
+        console.log("Book ready, generating locations...");
         return book.locations.generate(1024);
     }).then((locs) => {
         locations = locs;
         totalLocations = locations.length;
+        console.log("Locations generated:", totalLocations);
 
         socket.emit('set-total-locations', { total: totalLocations });
 
-        // Display the book starting at the stored page or beginning
-        if (currentLocationIndex > 0 && locations[currentLocationIndex]) {
-            rendition.display(locations[currentLocationIndex]);
-        } else {
-            rendition.display();
-        }
+        // Sync progress now that locations are ready
+        updateProgress();
+    }).catch(err => {
+        console.error("Error generating locations:", err);
     });
 
     rendition.on('rendered', () => {
         loadingEl.style.display = 'none';
+        console.log("Book rendered successfully");
     });
 
     rendition.on('relocated', (location) => {
         // Update page info
         const current = location.start.location;
         currentLocationIndex = current;
+
+        // Save precise location to session so refresh works perfectly
+        if (sessionData) {
+            sessionData.currentLocation = location.start.cfi;
+            sessionStorage.setItem('readTogether', JSON.stringify(sessionData));
+        }
 
         updatePageInfo();
         updateProgress();

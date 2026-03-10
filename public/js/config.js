@@ -1,5 +1,5 @@
 // Configuration for production deployment
-// 1. When running locally, set this to empty string ''
-// 2. When deploying frontend to Netlify, set this to your Render.com backend URL
-// Example: const BACKEND_URL = 'https://read-together-backend.onrender.com';
-const BACKEND_URL = ''; // CHANGE THIS WHEN DEPLOYING
+// 1. When running locally, leave this as empty string ''
+// 2. When deploying frontend separately (e.g. Netlify), set this to your Render.com backend URL
+// 3. If you are serving the frontend from Render.com (same server as backend), leave this as ''
+const BACKEND_URL = ''; // Example: 'https://readtogether-backend.onrender.com'
