@@ -1,16 +1,11 @@
-/* ============================================
-   READ TOGETHER - Reader Logic
-   ============================================ */
-
-// ---- State ----
-let socket;
+// Header variables shifted to global scope for SPA sharing
 let book = null;
 let rendition = null;
 let sessionData = null;
 let currentLocationIndex = 0;
 let totalLocations = 0;
 let locations = [];
-let isReady = false;
+let isReaderInitialized = false; // Renamed to avoid lobby collision
 let chatOpen = false;
 let notesOpen = false;
 let fontMenuOpen = false;
@@ -20,55 +15,20 @@ let currentFontSize = 18;
 let currentFontFamily = "'Lora', serif";
 let notes = JSON.parse(localStorage.getItem('readTogether_notes') || '[]');
 
+// ---- Initialize Reader for SPA Mode ----
+function initReaderSPA() {
+    if (isReaderInitialized) return;
+    console.log("Initializing Reader Screen...");
 
-// ---- Initialize ----
-document.addEventListener('DOMContentLoaded', () => {
-    // Load session data
-    const stored = sessionStorage.getItem('readTogether');
-    if (!stored) {
-        window.location.href = '/';
-        return;
-    }
-
-    sessionData = JSON.parse(stored);
-
-    // Connect socket - Use BACKEND_URL or auto-detect if not set
-    const connectionUrl = BACKEND_URL || window.location.origin;
-    console.log("Connecting to:", connectionUrl);
-
-    socket = io(connectionUrl, {
-        reconnection: true,
-        reconnectionDelay: 1000,
-        reconnectionAttempts: 10
-    });
+    sessionData = {
+        roomCode: currentRoom,
+        role: userRole,
+        userName: userName,
+        book: bookInfo
+    };
 
     setupSocketListeners();
 
-    // Rejoin room
-    socket.on('connect', () => {
-        socket.emit('reconnect-room', {
-            roomCode: sessionData.roomCode,
-            role: sessionData.role,
-            name: sessionData.userName
-        });
-    });
-
-    socket.on('reconnect-success', (data) => {
-        console.log('Reconnected to room:', data.code);
-        if (data.book && !book) {
-            loadBook(data.book);
-        }
-        if (data.currentPage !== undefined) {
-            currentLocationIndex = data.currentPage;
-        }
-    });
-
-    socket.on('reconnect-error', (data) => {
-        alert(data.message);
-        window.location.href = '/';
-    });
-
-    // Load the book
     if (sessionData.book) {
         loadBook(sessionData.book);
     }
@@ -85,12 +45,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Notes: char counter + initial render
     const notesInput = document.getElementById('notes-input');
-    notesInput.addEventListener('input', () => {
-        const len = notesInput.value.length;
-        document.getElementById('notes-char-count').textContent = `${len} / 1000`;
-    });
+    if (notesInput) {
+        notesInput.addEventListener('input', () => {
+            const len = notesInput.value.length;
+            document.getElementById('notes-char-count').textContent = `${len} / 1000`;
+        });
+    }
     renderNotes();
-});
+
+    isReaderInitialized = true;
+    updatePageInfo();
+}
 
 // ---- Book Loading ----
 function loadBook(bookData) {
@@ -106,11 +71,43 @@ function loadBook(bookData) {
         : `${baseUrl}${bookData.path}`;
 
     console.log("Loading book from:", fullPath);
-    book = ePub(fullPath);
+
+    // Warning for PDFs (Reader currently only supports EPUB natively)
+    if (bookData.type === '.pdf' || bookData.filename.endsWith('.pdf')) {
+        loadingEl.innerHTML = `
+            <div class="error-container" style="color: white; text-align: center; padding: 20px;">
+                <p class="error-msg" style="margin-bottom: 20px;">PDF Support is currently limited. Please use an EPUB file for synchronized reading.</p>
+                ${sessionData.role === 'host' ? '<button class="primary-btn" onclick="goBackToRoom()" style="padding: 10px 20px; cursor: pointer;">Go Back to Upload</button>' : ''}
+            </div>
+        `;
+        return;
+    }
+
+    try {
+        book = ePub(fullPath);
+    } catch (e) {
+        console.error("EPub init error:", e);
+        loadingEl.innerHTML = `<p class="error-msg">Failed to initialize reader engine.</p>`;
+        return;
+    }
+
+    // Safety timeout: If book doesn't render in 15 seconds, show error
+    const loadingTimeout = setTimeout(() => {
+        if (loadingEl.style.display !== 'none') {
+            console.error("Book loading timed out");
+            loadingEl.innerHTML = `
+                <div class="error-container" style="color: white; text-align: center; padding: 20px;">
+                    <p class="error-msg" style="margin-bottom: 20px;">Loading is taking longer than expected. The file might be corrupted or too large.</p>
+                    <button class="primary-btn" onclick="location.reload()" style="padding: 10px 20px; cursor: pointer;">Refresh App</button>
+                </div>
+            `;
+        }
+    }, 15000);
 
     book.opened.then(() => {
         console.log("Book opened successfully");
     }).catch(err => {
+        clearTimeout(loadingTimeout);
         console.error("Error opening book:", err);
         const is404 = err.message && err.message.includes('404');
         const errorMessage = is404
@@ -172,6 +169,7 @@ function loadBook(bookData) {
     });
 
     rendition.on('rendered', () => {
+        clearTimeout(loadingTimeout);
         loadingEl.style.display = 'none';
         console.log("Book rendered successfully");
     });
@@ -703,7 +701,11 @@ function hideDisconnectOverlay() {
 
 // ---- Go Back ----
 function goBackToRoom() {
-    window.location.href = '/';
+    if (typeof exitReader === 'function') {
+        exitReader();
+    } else {
+        window.location.href = '/';
+    }
 }
 
 // ---- Keyboard Shortcuts ----

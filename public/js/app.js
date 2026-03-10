@@ -254,8 +254,21 @@ function startReading() {
     // Notify guest to join
     socket.emit('start-reading');
 
-    window.location.href = '/reader.html';
+    showReaderScreen();
 }
+
+function showReaderScreen() {
+    showScreen('reader-screen');
+    if (typeof initReaderSPA === 'function') {
+        initReaderSPA();
+    }
+}
+
+function exitReader() {
+    showScreen('room-screen');
+    // We don't fully destroy the reader state here so reconnection is fast
+}
+
 
 function downloadBook() {
     if (!currentRoom) return;
@@ -294,15 +307,7 @@ function showNotification(text) {
 socket.on('host-started-reading', () => {
     if (userRole === 'guest' && bookInfo && currentRoom) {
         showToast('Host started reading! Joining...', 'success');
-        sessionStorage.setItem('readTogether', JSON.stringify({
-            roomCode: currentRoom,
-            role: userRole,
-            userName: userName,
-            book: bookInfo
-        }));
-        setTimeout(() => {
-            window.location.href = '/reader.html';
-        }, 1000);
+        showReaderScreen();
     }
 });
 
