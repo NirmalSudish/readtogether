@@ -418,14 +418,13 @@ async function startLobbyCall(mode) {
         lobbyLocalStream = stream;
 
         document.getElementById('lobby-call-actions').style.display = 'none';
-        const widget = document.getElementById('lobby-call-widget');
+        const widget = document.getElementById('video-widget');
         widget.style.display = 'block';
-        document.getElementById('lobby-call-status-text').textContent = useVideo ? 'Video call ringing...' : 'Audio call ringing...';
+        document.getElementById('call-status-text').textContent = useVideo ? 'Video call ringing...' : 'Audio call ringing...';
 
         if (useVideo) {
-            document.getElementById('lobby-videos').style.display = 'block';
-            document.getElementById('lobby-cam-btn').style.display = 'flex';
-            document.getElementById('lobby-local-video').srcObject = stream;
+            document.getElementById('reader-cam-ctrl').style.display = 'flex';
+            document.getElementById('local-video').srcObject = stream;
         }
 
         createLobbyPeer();
@@ -442,7 +441,7 @@ async function startLobbyCall(mode) {
 
 function createLobbyPeer() {
     lobbyPeer = new RTCPeerConnection(lobbyRtcConfig);
-    const statusText = document.getElementById('lobby-call-status-text');
+    const statusText = document.getElementById('call-status-text');
 
     lobbyPeer.oniceconnectionstatechange = () => {
         console.log("Lobby ICE State:", lobbyPeer.iceConnectionState);
@@ -460,14 +459,15 @@ function createLobbyPeer() {
     };
 
     lobbyPeer.ontrack = e => {
-        const remoteVideo = document.getElementById('lobby-remote-video');
+        const remoteVideo = document.getElementById('remote-video');
         remoteVideo.srcObject = e.streams[0];
         remoteVideo.play().catch(err => console.error("Play error:", err));
-        document.getElementById('lobby-call-status-text').textContent = lobbyCallMode === 'video' ? 'Video call connected' : 'Audio call connected ✓';
+        document.getElementById('call-status-text').textContent = lobbyCallMode === 'video' ? 'Video call connected' : 'Audio call connected ✓';
 
         if (lobbyCallMode === 'video') {
-            document.getElementById('lobby-videos').style.display = 'block';
+            document.getElementById('video-widget').classList.add('video-active'); // ensure layout adapts
         }
+        document.getElementById('video-waiting-overlay').style.display = 'none';
     };
 }
 
@@ -486,14 +486,13 @@ async function handleLobbyOffer(data) {
         lobbyLocalStream = stream;
 
         document.getElementById('lobby-call-actions').style.display = 'none';
-        const widget = document.getElementById('lobby-call-widget');
+        const widget = document.getElementById('video-widget');
         widget.style.display = 'block';
-        document.getElementById('lobby-call-status-text').textContent = useVideo ? 'Video call connected' : 'Audio call connected ✓';
+        document.getElementById('call-status-text').textContent = useVideo ? 'Video call connected' : 'Audio call connected ✓';
 
         if (useVideo) {
-            document.getElementById('lobby-videos').style.display = 'block';
-            document.getElementById('lobby-cam-btn').style.display = 'flex';
-            document.getElementById('lobby-local-video').srcObject = stream;
+            document.getElementById('reader-cam-ctrl').style.display = 'flex';
+            document.getElementById('local-video').srcObject = stream;
         }
 
         createLobbyPeer();
@@ -537,7 +536,8 @@ function endLobbyCall() {
     if (lobbyPeer) { lobbyPeer.close(); lobbyPeer = null; }
     if (lobbyLocalStream) { lobbyLocalStream.getTracks().forEach(t => t.stop()); lobbyLocalStream = null; }
 
-    document.getElementById('lobby-call-widget').style.display = 'none';
+    document.getElementById('video-widget').style.display = 'none';
+    document.getElementById('video-waiting-overlay').style.display = 'flex';
     const actions = document.getElementById('lobby-call-actions');
     if (actions) actions.style.display = 'block';
     lobbyPendingCandidates = [];
@@ -549,7 +549,7 @@ function toggleLobbyMic() {
     const track = lobbyLocalStream.getAudioTracks()[0];
     if (track) {
         track.enabled = !track.enabled;
-        document.getElementById('lobby-mic-btn').classList.toggle('muted', !track.enabled);
+        document.getElementById('toggle-mic-btn').classList.toggle('muted', !track.enabled);
     }
 }
 
@@ -558,7 +558,7 @@ function toggleLobbyCam() {
     const track = lobbyLocalStream.getVideoTracks()[0];
     if (track) {
         track.enabled = !track.enabled;
-        document.getElementById('lobby-cam-btn').classList.toggle('off', !track.enabled);
+        document.getElementById('reader-cam-ctrl').classList.toggle('off', !track.enabled);
     }
 }
 
