@@ -365,27 +365,23 @@ input[type="range"]::-webkit-slider-thumb {
 
 /* ---------- Reader Main ---------- */
 .reader-main {
-    flex: 1 1 auto;
-    position: relative;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     margin-top: 56px;
     margin-bottom: 72px;
-    height: calc(100vh - 128px);
+    position: relative;
     overflow: hidden;
     width: 100%;
-    /* Create a stable block for absolute children to reference */
-    display: block;
 }
 
 #epub-viewer {
-    position: absolute;
-    top: 32px;
-    bottom: 32px;
-    left: 0;
-    right: 0;
     width: 100%;
-    height: calc(100% - 64px);
+    height: 100%;
     max-width: 800px;
     margin: 0 auto;
+    padding: 32px 60px;
 }
 
 .reader-loading {

@@ -96,9 +96,9 @@ function loadBook(bookData) {
         if (loadingEl.style.display !== 'none') {
             console.error("Book loading timed out");
             loadingEl.innerHTML = `
-                <div class="error-container" style="color: white; text-align: center; padding: 20px;">
-                    <p class="error-msg" style="margin-bottom: 20px;">Loading is taking longer than expected. The file might be corrupted or too large.</p>
-                    <button class="primary-btn" onclick="location.reload()" style="padding: 10px 20px; cursor: pointer;">Refresh App</button>
+                <div class="error-container" style="color: var(--error); text-align: center; padding: 20px;">
+                    <p class="error-msg" style="margin-bottom: 20px;">Loading is taking longer than expected. The file might be corrupted or over the size limit.</p>
+                    <button class="primary-btn" onclick="location.reload()" style="padding: 10px 20px; cursor: pointer; color: white;">Refresh App</button>
                 </div>
             `;
         }
@@ -116,9 +116,9 @@ function loadBook(bookData) {
 
         document.getElementById('reader-book-title').textContent = "Error: File Missing";
         loadingEl.innerHTML = `
-            <div class="error-container" style="color: white; text-align: center; padding: 20px;">
-                <p class="error-msg" style="margin-bottom: 20px;">${errorMessage}</p>
-                ${sessionData.role === 'host' ? '<button class="primary-btn" onclick="goBackToRoom()" style="padding: 10px 20px; cursor: pointer;">Go Back to Upload</button>' : ''}
+            <div class="error-container" style="color: var(--error); text-align: center; padding: 20px;">
+                <p class="error-msg" style="margin-bottom: 20px; font-weight: bold;">${errorMessage}</p>
+                ${sessionData.role === 'host' ? '<button class="primary-btn" onclick="let s = document.getElementById(\'reader-screen\'); s.classList.remove(\'active\'); document.getElementById(\'room-screen\').classList.add(\'active\');" style="padding: 10px 20px; cursor: pointer; color: white;">Go Back to Upload</button>' : ''}
             </div>
         `;
     });
