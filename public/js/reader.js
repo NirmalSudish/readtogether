@@ -85,15 +85,7 @@ function loadBook(bookData) {
         return;
     }
 
-    try {
-        book = ePub(fullPath);
-    } catch (e) {
-        console.error("EPub init error:", e);
-        loadingEl.innerHTML = `<p class="error-msg">Failed to initialize reader engine.</p>`;
-        return;
-    }
-
-    // Safety timeout: If book doesn't render in 15 seconds, show error
+    // Safety timeout: If book doesn't render in 60 seconds, show error
     const loadingTimeout = setTimeout(() => {
         if (loadingEl.style.display !== 'none') {
             console.error("Book loading timed out");
@@ -106,136 +98,131 @@ function loadBook(bookData) {
         }
     }, 60000);
 
-    book.opened.then(() => {
-        console.log("Book opened successfully");
-    }).catch(err => {
-        clearTimeout(loadingTimeout);
-        console.error("Error opening book:", err);
-        const is404 = err.message && err.message.includes('404');
-        const errorMessage = is404
-            ? "Book file not found on server. It may have been deleted during a server restart."
-            : "Failed to load book. Make sure the server is reachable.";
+    // Fetch the EPUB as an ArrayBuffer to bypass Safari/EPUB.js XHR Range-Request bugs
+    fetch(fullPath)
+        .then(response => {
+            if (!response.ok) throw new Error("Network response was not ok");
+            return response.arrayBuffer();
+        })
+        .then(buffer => {
+            book = ePub();
+            book.open(buffer, 'binary');
 
-        document.getElementById('reader-book-title').textContent = "Error: File Missing";
-        loadingEl.innerHTML = `
-            <div class="error-container" style="color: var(--error); text-align: center; padding: 20px;">
-                <p class="error-msg" style="margin-bottom: 20px; font-weight: bold;">${errorMessage}</p>
-                ${sessionData.role === 'host' ? '<button class="primary-btn" onclick="let s = document.getElementById(\'reader-screen\'); s.classList.remove(\'active\'); document.getElementById(\'room-screen\').classList.add(\'active\');" style="padding: 10px 20px; cursor: pointer; color: white;">Go Back to Upload</button>' : ''}
-            </div>
-        `;
-    });
+            book.opened.then(() => {
+                console.log("Book opened successfully from ArrayBuffer");
+            }).catch(err => {
+                clearTimeout(loadingTimeout);
+                console.error("Error opening book:", err);
+                const errorMessage = "Failed to load book. Make sure the server is reachable.";
+                document.getElementById('reader-book-title').textContent = "Error: File Missing";
+                loadingEl.innerHTML = `
+                    <div class="error-container" style="color: var(--error); text-align: center; padding: 20px;">
+                        <p class="error-msg" style="margin-bottom: 20px; font-weight: bold;">${errorMessage}</p>
+                        ${sessionData.role === 'host' ? '<button class="primary-btn" onclick="let s = document.getElementById(\'reader-screen\'); s.classList.remove(\'active\'); document.getElementById(\'room-screen\').classList.add(\'active\');" style="padding: 10px 20px; cursor: pointer; color: white;">Go Back to Upload</button>' : ''}
+                    </div>
+                `;
+            });
 
-    rendition = book.renderTo('epub-viewer', {
-        width: '100%',
-        height: '100%',
-        spread: 'none',
-        flow: 'paginated',
-        manager: 'continuous'
-    });
+            rendition = book.renderTo('epub-viewer', {
+                width: '100%',
+                height: '100%',
+                spread: 'none',
+                flow: 'paginated',
+                manager: 'continuous'
+            });
 
-    // Handle iframe styling after rendering
-    rendition.on('started', () => {
-        applyTheme(currentTheme);
-        applyFontSize(currentFontSize);
-        applyFontFamily(currentFontFamily);
-    });
+            // Handle iframe styling after rendering
+            rendition.on('started', () => {
+                applyTheme(currentTheme);
+                applyFontSize(currentFontSize);
+                applyFontFamily(currentFontFamily);
+            });
 
-    // Apply initial theme
-    applyTheme(currentTheme);
-    applyFontSize(currentFontSize);
-    applyFontFamily(currentFontFamily);
-
-    // Display the book starting at the stored page or beginning
-    // We do this immediately so the user doesn't wait for location generation
-    if (sessionData.currentLocation && currentLocationIndex > 0) {
-        rendition.display(sessionData.currentLocation);
-    } else {
-        rendition.display();
-    }
-
-    // Generate locations for progress tracking in the background
-    book.ready.then(() => {
-        console.log("Book ready, generating locations...");
-        return book.locations.generate(1024);
-    }).then((locs) => {
-        locations = locs;
-        totalLocations = locations.length;
-        console.log("Locations generated:", totalLocations);
-
-        socket.emit('set-total-locations', { total: totalLocations });
-
-        // Sync progress now that locations are ready
-        updateProgress();
-    }).catch(err => {
-        console.error("Error generating locations:", err);
-    });
-
-    rendition.on('rendered', () => {
-        clearTimeout(loadingTimeout);
-        loadingEl.style.display = 'none';
-        console.log("Book rendered successfully");
-
-        // Force a resize to fix Zero-Height rendering bugs in SPA/iOS Safari
-        setTimeout(() => {
-            if (rendition) {
-                rendition.resize('100%', '100%');
+            // Display the book starting at the stored page or beginning
+            if (sessionData.currentLocation && currentLocationIndex > 0) {
+                rendition.display(sessionData.currentLocation);
+            } else {
+                rendition.display();
             }
-        }, 300);
-    });
 
-    // Auto-resize on window resize or device rotation
-    window.addEventListener('resize', () => {
-        if (rendition) {
-            rendition.resize('100%', '100%');
-        }
-    });
+            // Generate locations asynchronously without blocking UI immediately
+            book.ready.then(() => {
+                console.log("Book ready, generating locations...");
+                // Setting a huge subset size speeds up generation drastically (1600 chars vs 1024)
+                return book.locations.generate(1600);
+            }).then((locs) => {
+                locations = locs;
+                totalLocations = locations.length;
+                console.log("Locations generated:", totalLocations);
 
-    rendition.on('relocated', (location) => {
-        // Update page info
-        const current = location.start.location;
-        currentLocationIndex = current;
+                socket.emit('set-total-locations', { total: totalLocations });
+                updateProgress();
+            }).catch(err => {
+                console.error("Error generating locations:", err);
+            });
 
-        // Save precise location to session so refresh works perfectly
-        if (sessionData) {
-            sessionData.currentLocation = location.start.cfi;
-            sessionStorage.setItem('readTogether', JSON.stringify(sessionData));
-        }
+            rendition.on('rendered', () => {
+                clearTimeout(loadingTimeout);
+                loadingEl.style.display = 'none';
+                console.log("Book rendered successfully");
 
-        updatePageInfo();
-        updateProgress();
-    });
+                // Force a resize to fix Zero-Height rendering bugs in SPA/iOS Safari
+                setTimeout(() => {
+                    if (rendition) {
+                        rendition.resize('100%', '100%');
+                    }
+                }, 300);
+            });
 
-    // Handle touch/swipe on mobile
-    rendition.on('touchstart', handleTouchStart);
-    rendition.on('touchend', handleTouchEnd);
+            // Auto-resize on window resize or device rotation
+            window.addEventListener('resize', () => {
+                if (rendition) {
+                    rendition.resize('100%', '100%');
+                }
+            });
 
-    // Highlighting / Selection features
-    rendition.on('selected', (cfiRange, contents) => {
-        currentSelectionCfi = cfiRange;
-        currentSelectionText = contents.window.getSelection().toString().trim();
+            rendition.on('relocated', (location) => {
+                const current = location.start.location;
+                currentLocationIndex = current;
+                if (sessionData) {
+                    sessionData.currentLocation = location.start.cfi;
+                    sessionStorage.setItem('readTogether', JSON.stringify(sessionData));
+                }
+                updatePageInfo();
+                updateProgress();
+            });
 
-        // Get iframe position
-        const iframe = document.querySelector('#epub-viewer iframe');
-        const iframeRect = iframe.getBoundingClientRect();
+            rendition.on('touchstart', handleTouchStart);
+            rendition.on('touchend', handleTouchEnd);
 
-        // Get selection rect inside iframe
-        const range = contents.window.getSelection().getRangeAt(0);
-        const rect = range.getBoundingClientRect();
+            rendition.on('selected', (cfiRange, contents) => {
+                currentSelectionCfi = cfiRange;
+                currentSelectionText = contents.window.getSelection().toString().trim();
+                const iframe = document.querySelector('#epub-viewer iframe');
+                const iframeRect = iframe.getBoundingClientRect();
+                const range = contents.window.getSelection().getRangeAt(0);
+                const rect = range.getBoundingClientRect();
+                const tooltip = document.getElementById('highlight-tooltip');
+                tooltip.style.display = 'flex';
+                const top = iframeRect.top + rect.top - 40;
+                const left = Math.max(20, iframeRect.left + rect.left + (rect.width / 2));
+                tooltip.style.top = `${top}px`;
+                tooltip.style.left = `${left}px`;
+            });
 
-        const tooltip = document.getElementById('highlight-tooltip');
-        tooltip.style.display = 'flex';
+            rendition.on('click', () => {
+                document.getElementById('highlight-tooltip').style.display = 'none';
+            });
 
-        // Position it just above the selection
-        const top = iframeRect.top + rect.top - 40;
-        const left = Math.max(20, iframeRect.left + rect.left + (rect.width / 2));
-
-        tooltip.style.top = `${top}px`;
-        tooltip.style.left = `${left}px`;
-    });
-
-    rendition.on('click', () => {
-        document.getElementById('highlight-tooltip').style.display = 'none';
-    });
+        })
+        .catch(err => {
+            clearTimeout(loadingTimeout);
+            console.error("Fetch init error:", err);
+            loadingEl.innerHTML = `<div class="error-container" style="color: var(--error); text-align: center; padding: 20px;">
+                <p class="error-msg" style="margin-bottom: 20px;">Failed to download and initialize the reader engine. Please check your network connection.</p>
+                <button class="primary-btn" onclick="location.reload()" style="padding: 10px 20px; cursor: pointer; color: white;">Refresh App</button>
+            </div>`;
+        });
 }
 
 // ---- Highlighting State ----
