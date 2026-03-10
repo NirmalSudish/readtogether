@@ -32,12 +32,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     sessionData = JSON.parse(stored);
 
-    // Connect socket
-    socket = BACKEND_URL ? io(BACKEND_URL, {
-        reconnection: true,
-        reconnectionDelay: 1000,
-        reconnectionAttempts: 10
-    }) : io({
+    // Connect socket - Use BACKEND_URL or auto-detect if not set
+    const connectionUrl = BACKEND_URL || window.location.origin;
+    console.log("Connecting to:", connectionUrl);
+
+    socket = io(connectionUrl, {
         reconnection: true,
         reconnectionDelay: 1000,
         reconnectionAttempts: 10
@@ -101,17 +100,30 @@ function loadBook(bookData) {
     document.getElementById('reader-book-title').textContent = bookData.originalName;
 
     // Initialize epub.js - Ensure path is absolute if BACKEND_URL is set
-    const fullPath = (BACKEND_URL && bookData.path.startsWith('/'))
-        ? `${BACKEND_URL}${bookData.path}`
-        : bookData.path;
+    const baseUrl = BACKEND_URL || window.location.origin;
+    const fullPath = bookData.path.startsWith('http')
+        ? bookData.path
+        : `${baseUrl}${bookData.path}`;
 
     console.log("Loading book from:", fullPath);
     book = ePub(fullPath);
 
-    book.opened.catch(err => {
+    book.opened.then(() => {
+        console.log("Book opened successfully");
+    }).catch(err => {
         console.error("Error opening book:", err);
-        document.getElementById('reader-book-title').textContent = "Error Loading Book";
-        loadingEl.innerHTML = `<div class="error-msg">Failed to load book. Make sure the backend server is reachable.</div>`;
+        const is404 = err.message && err.message.includes('404');
+        const errorMessage = is404
+            ? "Book file not found on server. It may have been deleted during a server restart."
+            : "Failed to load book. Make sure the server is reachable.";
+
+        document.getElementById('reader-book-title').textContent = "Error: File Missing";
+        loadingEl.innerHTML = `
+            <div class="error-container" style="color: white; text-align: center; padding: 20px;">
+                <p class="error-msg" style="margin-bottom: 20px;">${errorMessage}</p>
+                ${sessionData.role === 'host' ? '<button class="primary-btn" onclick="goBackToRoom()" style="padding: 10px 20px; cursor: pointer;">Go Back to Upload</button>' : ''}
+            </div>
+        `;
     });
 
     rendition = book.renderTo('epub-viewer', {
@@ -926,6 +938,16 @@ async function toggleCall(mode = 'video') {
 
 function createPeerConnection() {
     peerConnection = new RTCPeerConnection(rtcConfig);
+    const statusEl = document.getElementById('call-status-text');
+
+    peerConnection.oniceconnectionstatechange = () => {
+        console.log("ICE State:", peerConnection.iceConnectionState);
+        if (peerConnection.iceConnectionState === 'failed') {
+            statusEl.textContent = "Connection Failed. Try again.";
+        } else if (peerConnection.iceConnectionState === 'connected') {
+            statusEl.textContent = "Connected ✓";
+        }
+    };
 
     // Add our local tracks safely
     if (localStream) {

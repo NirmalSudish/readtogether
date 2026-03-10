@@ -3,11 +3,11 @@
    ============================================ */
 
 // Socket connection
-const socket = BACKEND_URL ? io(BACKEND_URL, {
-    reconnection: true,
-    reconnectionDelay: 1000,
-    reconnectionAttempts: 10
-}) : io({
+// Socket connection - Use BACKEND_URL or auto-detect based on current origin
+const connectionUrl = BACKEND_URL || window.location.origin;
+console.log("Connecting Lobby to:", connectionUrl);
+
+const socket = io(connectionUrl, {
     reconnection: true,
     reconnectionDelay: 1000,
     reconnectionAttempts: 10
@@ -437,6 +437,14 @@ async function startLobbyCall(mode) {
 
 function createLobbyPeer() {
     lobbyPeer = new RTCPeerConnection(lobbyRtcConfig);
+    const statusText = document.getElementById('lobby-call-status-text');
+
+    lobbyPeer.oniceconnectionstatechange = () => {
+        console.log("Lobby ICE State:", lobbyPeer.iceConnectionState);
+        if (lobbyPeer.iceConnectionState === 'failed') {
+            statusText.textContent = "Connection Failed. Check NAT/Twilio.";
+        }
+    };
 
     if (lobbyLocalStream) {
         lobbyLocalStream.getTracks().forEach(t => lobbyPeer.addTrack(t, lobbyLocalStream));
