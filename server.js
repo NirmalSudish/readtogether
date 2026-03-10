@@ -193,6 +193,16 @@ io.on('connection', (socket) => {
     console.log(`${socket.userName} joined room: ${roomCode}`);
   });
 
+  // Start reading
+  socket.on('start-reading', () => {
+    socket.to(socket.roomCode).emit('host-started-reading');
+  });
+
+  // Jump to specific CFI location (shared highlight)
+  socket.on('jump-to-scene', (data) => {
+    socket.to(socket.roomCode).emit('jumped-to-scene', data);
+  });
+
   // Page ready (user wants to advance)
   socket.on('page-ready', (data) => {
     const room = rooms.get(socket.roomCode);
@@ -256,7 +266,10 @@ io.on('connection', (socket) => {
       sender: socket.userName,
       senderId: socket.id,
       text: data.text,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
+      isHighlight: data.isHighlight || false,
+      cfi: data.cfi || null,
+      pageIndex: data.pageIndex || 0
     };
 
     room.chatMessages.push(message);

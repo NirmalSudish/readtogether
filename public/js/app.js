@@ -249,6 +249,9 @@ function startReading() {
         book: bookInfo
     }));
 
+    // Notify guest to join
+    socket.emit('start-reading');
+
     window.location.href = '/reader.html';
 }
 
@@ -285,7 +288,22 @@ function showNotification(text) {
     }, 8000);
 }
 
-// ---- Disconnect Handling ----
+// ---- Disconnect & Start Handling ----
+socket.on('host-started-reading', () => {
+    if (userRole === 'guest' && bookInfo && currentRoom) {
+        showToast('Host started reading! Joining...', 'success');
+        sessionStorage.setItem('readTogether', JSON.stringify({
+            roomCode: currentRoom,
+            role: userRole,
+            userName: userName,
+            book: bookInfo
+        }));
+        setTimeout(() => {
+            window.location.href = '/reader.html';
+        }, 1000);
+    }
+});
+
 socket.on('guest-disconnected', (data) => {
     document.getElementById('guest-status').className = 'user-status waiting';
     document.getElementById('guest-status-text').textContent = 'Disconnected';
