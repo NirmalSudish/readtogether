@@ -376,6 +376,7 @@ socket.on('reconnect', () => {
 let lobbyLocalStream = null;
 let lobbyPeer = null;
 let lobbyCallMode = 'audio';
+let lobbyPendingCandidates = [];
 
 const lobbyRtcConfig = {
     iceServers: [
@@ -433,6 +434,7 @@ function createLobbyPeer() {
     lobbyPeer.ontrack = e => {
         const remoteVideo = document.getElementById('lobby-remote-video');
         remoteVideo.srcObject = e.streams[0];
+        remoteVideo.play().catch(err => console.error("Play error:", err));
         document.getElementById('lobby-call-status-text').textContent = lobbyCallMode === 'video' ? 'Video call connected' : 'Audio call connected ✓';
 
         if (lobbyCallMode === 'video') {
@@ -444,6 +446,12 @@ function createLobbyPeer() {
 async function handleLobbyOffer(data) {
     lobbyCallMode = data.mode || 'audio';
     const useVideo = lobbyCallMode === 'video';
+
+    const accept = confirm(`Incoming ${lobbyCallMode} call. Accept?`);
+    if (!accept) {
+        socket.emit('call-ended');
+        return;
+    }
 
     try {
         const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: useVideo });
@@ -464,22 +472,36 @@ async function handleLobbyOffer(data) {
         await lobbyPeer.setRemoteDescription(new RTCSessionDescription(data.offer));
         const answer = await lobbyPeer.createAnswer();
         await lobbyPeer.setLocalDescription(answer);
-        socket.emit('webrtc-answer', { answer });
+
+        for (const c of lobbyPendingCandidates) {
+            try { await lobbyPeer.addIceCandidate(new RTCIceCandidate(c)); } catch (e) { }
+        }
+        lobbyPendingCandidates = [];
+
+        socket.emit('webrtc-answer', { answer, mode: lobbyCallMode });
 
     } catch (err) {
         console.error('Lobby answer error:', err);
+        socket.emit('call-ended');
+        alert('Failed to access camera or microphone.');
     }
 }
 
 async function handleLobbyAnswer(data) {
     if (lobbyPeer) {
         await lobbyPeer.setRemoteDescription(new RTCSessionDescription(data.answer));
+        for (const c of lobbyPendingCandidates) {
+            try { await lobbyPeer.addIceCandidate(new RTCIceCandidate(c)); } catch (e) { }
+        }
+        lobbyPendingCandidates = [];
     }
 }
 
 async function handleLobbyIce(data) {
-    if (lobbyPeer) {
+    if (lobbyPeer && lobbyPeer.remoteDescription && lobbyPeer.remoteDescription.type) {
         try { await lobbyPeer.addIceCandidate(new RTCIceCandidate(data.candidate)); } catch (e) { }
+    } else {
+        lobbyPendingCandidates.push(data.candidate);
     }
 }
 
@@ -490,6 +512,7 @@ function endLobbyCall() {
     document.getElementById('lobby-call-widget').style.display = 'none';
     const actions = document.getElementById('lobby-call-actions');
     if (actions) actions.style.display = 'block';
+    lobbyPendingCandidates = [];
     socket.emit('call-ended');
 }
 

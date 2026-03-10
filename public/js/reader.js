@@ -833,6 +833,7 @@ function renderNotes() {
 let localStream = null;
 let peerConnection = null;
 let isVideoCallActive = false;
+let pendingCandidates = [];
 
 // STUN servers (free connection brokers provided by Google)
 const rtcConfig = {
@@ -896,8 +897,11 @@ function createPeerConnection() {
 
     // When we get the remote partner's video stream
     peerConnection.ontrack = event => {
-        document.getElementById('remote-video').srcObject = event.streams[0];
+        const remoteVid = document.getElementById('remote-video');
+        remoteVid.srcObject = event.streams[0];
+        remoteVid.play().catch(e => console.error("Play error:", e));
         document.getElementById('video-waiting-overlay').style.display = 'none';
+        document.getElementById('call-status-text').textContent = 'Connected';
     };
 }
 
@@ -907,7 +911,12 @@ async function handleReceiveOffer(data) {
     const useVideo = mode === 'video';
 
     if (!isVideoCallActive) {
-        // Auto-accept if they aren't already calling
+        const accept = confirm(`Incoming ${mode} call from your reading partner. Accept?`);
+        if (!accept) {
+            socket.emit('call-ended');
+            return;
+        }
+
         try {
             const stream = await navigator.mediaDevices.getUserMedia({ video: useVideo, audio: true });
             localStream = stream;
@@ -924,7 +933,9 @@ async function handleReceiveOffer(data) {
             setupDraggableWidget();
         } catch (err) {
             console.error(err);
-            return; // Can't answer without permissions
+            socket.emit('call-ended');
+            alert('Failed to access camera or microphone.');
+            return;
         }
     }
 
@@ -936,6 +947,12 @@ async function handleReceiveOffer(data) {
     const answer = await peerConnection.createAnswer();
     await peerConnection.setLocalDescription(answer);
 
+    // Process ICE candidates that arrived before the remote description was set
+    for (const c of pendingCandidates) {
+        try { await peerConnection.addIceCandidate(new RTCIceCandidate(c)); } catch (e) { }
+    }
+    pendingCandidates = [];
+
     socket.emit('webrtc-answer', { answer, mode });
 }
 
@@ -943,17 +960,23 @@ async function handleReceiveOffer(data) {
 async function handleReceiveAnswer(data) {
     if (peerConnection) {
         await peerConnection.setRemoteDescription(new RTCSessionDescription(data.answer));
+        for (const c of pendingCandidates) {
+            try { await peerConnection.addIceCandidate(new RTCIceCandidate(c)); } catch (e) { }
+        }
+        pendingCandidates = [];
     }
 }
 
 // 4. Broker the connection paths
 async function handleReceiveIceCandidate(data) {
-    if (peerConnection) {
+    if (peerConnection && peerConnection.remoteDescription && peerConnection.remoteDescription.type) {
         try {
             await peerConnection.addIceCandidate(new RTCIceCandidate(data.candidate));
         } catch (e) {
             console.error('Error adding received ice candidate', e);
         }
+    } else {
+        pendingCandidates.push(data.candidate);
     }
 }
 
@@ -1000,6 +1023,7 @@ function endCall() {
     document.getElementById('local-video').srcObject = null;
 
     isVideoCallActive = false;
+    pendingCandidates = [];
     socket.emit('call-ended');
 }
 
