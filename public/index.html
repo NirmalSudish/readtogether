@@ -423,8 +423,20 @@
                     <p>Loading book...</p>
                 </div>
                 <div id="epub-viewer"></div>
-                <div class="nav-zone nav-zone-prev" id="nav-prev" onclick="requestPrevPage()"></div>
-                <div class="nav-zone nav-zone-next" id="nav-next" onclick="requestNextPage()"></div>
+                <div class="nav-zone nav-zone-prev" id="prev-page-btn" onclick="requestPrevPage()">
+                    <div class="nav-arrow">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="15 18 9 12 15 6"></polyline>
+                        </svg>
+                    </div>
+                </div>
+                <div class="nav-zone nav-zone-next" id="next-page-btn" onclick="requestNextPage()">
+                    <div class="nav-arrow">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="9 18 15 12 9 6"></polyline>
+                        </svg>
+                    </div>
+                </div>
             </main>
 
             <footer class="reader-footer" id="reader-footer">
