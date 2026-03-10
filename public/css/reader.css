@@ -150,6 +150,7 @@ body {
 }
 
 .book-title {
+    display: block;
     font-size: 0.85rem;
     font-weight: 500;
     white-space: nowrap;
