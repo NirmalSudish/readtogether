@@ -172,6 +172,20 @@ function loadBook(bookData) {
         clearTimeout(loadingTimeout);
         loadingEl.style.display = 'none';
         console.log("Book rendered successfully");
+
+        // Force a resize to fix Zero-Height rendering bugs in SPA/iOS Safari
+        setTimeout(() => {
+            if (rendition) {
+                rendition.resize('100%', '100%');
+            }
+        }, 300);
+    });
+
+    // Auto-resize on window resize or device rotation
+    window.addEventListener('resize', () => {
+        if (rendition) {
+            rendition.resize('100%', '100%');
+        }
     });
 
     rendition.on('relocated', (location) => {
