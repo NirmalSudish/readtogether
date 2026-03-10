@@ -98,6 +98,7 @@ socket.on('room-joined', (data) => {
 
     showScreen('room-screen');
     showToast(`Joined room ${data.code}!`, 'success');
+    showLobbyCallButtons();
 });
 
 socket.on('join-error', (data) => {
@@ -119,6 +120,7 @@ socket.on('user-joined', (data) => {
 
     showToast(`${data.name} joined the room!`, 'success');
     showNotification(`${data.name} has joined! You can now start reading together.`);
+    showLobbyCallButtons();
 });
 
 // ---- Book Upload ----
@@ -366,3 +368,151 @@ socket.on('reconnect', () => {
         });
     }
 });
+
+// ============================================
+// Lobby WebRTC Call (Audio / Video)
+// ============================================
+
+let lobbyLocalStream = null;
+let lobbyPeer = null;
+let lobbyCallMode = 'audio';
+
+const lobbyRtcConfig = {
+    iceServers: [
+        { urls: 'stun:stun.l.google.com:19302' },
+        { urls: 'stun:stun1.l.google.com:19302' }
+    ]
+};
+
+function showLobbyCallButtons() {
+    document.getElementById('lobby-call-actions').style.display = 'block';
+}
+
+async function startLobbyCall(mode) {
+    lobbyCallMode = mode;
+    const useVideo = mode === 'video';
+
+    try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: useVideo });
+        lobbyLocalStream = stream;
+
+        document.getElementById('lobby-call-actions').style.display = 'none';
+        const widget = document.getElementById('lobby-call-widget');
+        widget.style.display = 'block';
+        document.getElementById('lobby-call-status-text').textContent = useVideo ? 'Video call ringing...' : 'Audio call ringing...';
+
+        if (useVideo) {
+            document.getElementById('lobby-videos').style.display = 'block';
+            document.getElementById('lobby-cam-btn').style.display = 'flex';
+            document.getElementById('lobby-local-video').srcObject = stream;
+        }
+
+        createLobbyPeer();
+
+        const offer = await lobbyPeer.createOffer();
+        await lobbyPeer.setLocalDescription(offer);
+        socket.emit('webrtc-offer', { offer, mode });
+
+    } catch (err) {
+        console.error('Lobby call error:', err);
+        alert('Could not access microphone/camera. Check browser permissions.');
+    }
+}
+
+function createLobbyPeer() {
+    lobbyPeer = new RTCPeerConnection(lobbyRtcConfig);
+
+    if (lobbyLocalStream) {
+        lobbyLocalStream.getTracks().forEach(t => lobbyPeer.addTrack(t, lobbyLocalStream));
+    }
+
+    lobbyPeer.onicecandidate = e => {
+        if (e.candidate) socket.emit('webrtc-ice-candidate', { candidate: e.candidate });
+    };
+
+    lobbyPeer.ontrack = e => {
+        const remoteVideo = document.getElementById('lobby-remote-video');
+        remoteVideo.srcObject = e.streams[0];
+        document.getElementById('lobby-call-status-text').textContent = lobbyCallMode === 'video' ? 'Video call connected' : 'Audio call connected ✓';
+
+        if (lobbyCallMode === 'video') {
+            document.getElementById('lobby-videos').style.display = 'block';
+        }
+    };
+}
+
+async function handleLobbyOffer(data) {
+    lobbyCallMode = data.mode || 'audio';
+    const useVideo = lobbyCallMode === 'video';
+
+    try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: useVideo });
+        lobbyLocalStream = stream;
+
+        document.getElementById('lobby-call-actions').style.display = 'none';
+        const widget = document.getElementById('lobby-call-widget');
+        widget.style.display = 'block';
+        document.getElementById('lobby-call-status-text').textContent = useVideo ? 'Video call connected' : 'Audio call connected ✓';
+
+        if (useVideo) {
+            document.getElementById('lobby-videos').style.display = 'block';
+            document.getElementById('lobby-cam-btn').style.display = 'flex';
+            document.getElementById('lobby-local-video').srcObject = stream;
+        }
+
+        createLobbyPeer();
+        await lobbyPeer.setRemoteDescription(new RTCSessionDescription(data.offer));
+        const answer = await lobbyPeer.createAnswer();
+        await lobbyPeer.setLocalDescription(answer);
+        socket.emit('webrtc-answer', { answer });
+
+    } catch (err) {
+        console.error('Lobby answer error:', err);
+    }
+}
+
+async function handleLobbyAnswer(data) {
+    if (lobbyPeer) {
+        await lobbyPeer.setRemoteDescription(new RTCSessionDescription(data.answer));
+    }
+}
+
+async function handleLobbyIce(data) {
+    if (lobbyPeer) {
+        try { await lobbyPeer.addIceCandidate(new RTCIceCandidate(data.candidate)); } catch (e) { }
+    }
+}
+
+function endLobbyCall() {
+    if (lobbyPeer) { lobbyPeer.close(); lobbyPeer = null; }
+    if (lobbyLocalStream) { lobbyLocalStream.getTracks().forEach(t => t.stop()); lobbyLocalStream = null; }
+
+    document.getElementById('lobby-call-widget').style.display = 'none';
+    const actions = document.getElementById('lobby-call-actions');
+    if (actions) actions.style.display = 'block';
+    socket.emit('call-ended');
+}
+
+function toggleLobbyMic() {
+    if (!lobbyLocalStream) return;
+    const track = lobbyLocalStream.getAudioTracks()[0];
+    if (track) {
+        track.enabled = !track.enabled;
+        document.getElementById('lobby-mic-btn').classList.toggle('muted', !track.enabled);
+    }
+}
+
+function toggleLobbyCam() {
+    if (!lobbyLocalStream) return;
+    const track = lobbyLocalStream.getVideoTracks()[0];
+    if (track) {
+        track.enabled = !track.enabled;
+        document.getElementById('lobby-cam-btn').classList.toggle('off', !track.enabled);
+    }
+}
+
+// Wire up WebRTC signaling in the lobby
+socket.on('webrtc-offer', handleLobbyOffer);
+socket.on('webrtc-answer', handleLobbyAnswer);
+socket.on('webrtc-ice-candidate', handleLobbyIce);
+socket.on('call-ended', () => { if (lobbyPeer) endLobbyCall(); });

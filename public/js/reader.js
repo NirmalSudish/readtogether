@@ -842,31 +842,35 @@ const rtcConfig = {
     ]
 };
 
-async function toggleCall() {
+async function toggleCall(mode = 'video') {
     if (isVideoCallActive) {
         endCall();
         return;
     }
 
+    const useVideo = mode === 'video';
+
     try {
-        const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+        const stream = await navigator.mediaDevices.getUserMedia({ video: useVideo, audio: true });
         localStream = stream;
 
-        document.getElementById('local-video').srcObject = stream;
+        const localVideoEl = document.getElementById('local-video');
+        localVideoEl.srcObject = stream;
+        localVideoEl.style.display = useVideo ? 'block' : 'none';
+
         document.getElementById('video-widget').style.display = 'flex';
         document.getElementById('video-waiting-overlay').style.display = 'flex';
-        document.getElementById('call-status-text').textContent = 'Calling partner...';
+        document.getElementById('call-status-text').textContent = useVideo ? 'Starting video call...' : 'Starting audio call...';
+        document.querySelector('.video-header span').textContent = useVideo ? 'Live Video' : 'Live Audio';
 
         isVideoCallActive = true;
-
         setupDraggableWidget();
 
-        // 1. Host creates Offer (or Guest if they click first)
         createPeerConnection();
         const offer = await peerConnection.createOffer();
         await peerConnection.setLocalDescription(offer);
 
-        socket.emit('webrtc-offer', { offer });
+        socket.emit('webrtc-offer', { offer, mode });
     } catch (err) {
         console.error('Error accessing media devices.', err);
         alert('Could not access camera or microphone. Please check your browser permissions.');

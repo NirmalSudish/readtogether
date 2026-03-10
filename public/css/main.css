@@ -931,6 +931,165 @@ body {
   }
 }
 
+/* ---------- Lobby Call Actions ---------- */
+.call-actions {
+  margin-bottom: 20px;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 16px 20px;
+  background: var(--bg-card);
+  animation: slideUp 0.4s ease;
+}
+
+.call-actions-label {
+  display: block;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.call-btns-row {
+  display: flex;
+  gap: 10px;
+}
+
+.call-action-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 16px;
+  border-radius: var(--radius-md);
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition-base);
+  border: 1px solid var(--border-medium);
+}
+
+.audio-call-btn {
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+}
+
+.audio-call-btn:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+
+.video-call-btn {
+  background: var(--text-primary);
+  color: var(--bg-primary);
+  border-color: var(--text-primary);
+}
+
+.video-call-btn:hover {
+  opacity: 0.85;
+  transform: translateY(-2px);
+}
+
+/* Lobby call widget (active call state) */
+.lobby-call-widget {
+  margin-bottom: 20px;
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: var(--bg-card);
+  animation: slideUp 0.3s ease;
+}
+
+.lobby-call-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.lobby-call-status {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.call-pulse {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--success, #22c55e);
+  animation: statusPulse 1.5s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+.lobby-end-call-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 0, 0, 0.08);
+  border: 1px solid rgba(255, 0, 0, 0.2);
+  color: var(--error);
+  padding: 7px 14px;
+  border-radius: var(--radius-full);
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.lobby-end-call-btn:hover {
+  background: rgba(255, 0, 0, 0.15);
+}
+
+.lobby-videos {
+  position: relative;
+  background: #111;
+  aspect-ratio: 16/9;
+  overflow: hidden;
+}
+
+.lobby-call-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 12px;
+  background: var(--bg-secondary);
+}
+
+.lobby-ctrl-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1px solid var(--border-medium);
+  background: var(--bg-card);
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.lobby-ctrl-btn:hover {
+  background: var(--bg-card-hover);
+}
+
+.lobby-ctrl-btn.muted,
+.lobby-ctrl-btn.off {
+  background: rgba(255, 0, 0, 0.08);
+  border-color: rgba(255, 0, 0, 0.2);
+  color: var(--error);
+}
+
 /* ============================================
    RESPONSIVE - Tablet (641px–1024px)
    ============================================ */
