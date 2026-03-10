@@ -378,12 +378,27 @@ let lobbyPeer = null;
 let lobbyCallMode = 'audio';
 let lobbyPendingCandidates = [];
 
-const lobbyRtcConfig = {
+let lobbyRtcConfig = {
     iceServers: [
         { urls: 'stun:stun.l.google.com:19302' },
         { urls: 'stun:stun1.l.google.com:19302' }
     ]
 };
+
+// Fetch premium TURN credentials via backend on load
+async function fetchLobbyTurnConfig() {
+    try {
+        const response = await fetch(`${BACKEND_URL}/api/get-turn-credentials`);
+        const data = await response.json();
+        if (data.iceServers) {
+            lobbyRtcConfig.iceServers = data.iceServers;
+            console.log("Using secured ICE config");
+        }
+    } catch (e) {
+        console.error("Failed to fetch TURN config, falling back to STUN", e);
+    }
+}
+fetchLobbyTurnConfig();
 
 function showLobbyCallButtons() {
     document.getElementById('lobby-call-actions').style.display = 'block';

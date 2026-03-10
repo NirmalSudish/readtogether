@@ -835,13 +835,26 @@ let peerConnection = null;
 let isVideoCallActive = false;
 let pendingCandidates = [];
 
-// STUN servers (free connection brokers provided by Google)
-const rtcConfig = {
+let rtcConfig = {
     iceServers: [
         { urls: 'stun:stun.l.google.com:19302' },
         { urls: 'stun:stun1.l.google.com:19302' }
     ]
 };
+
+async function fetchTurnConfig() {
+    try {
+        const response = await fetch(`${BACKEND_URL}/api/get-turn-credentials`);
+        const data = await response.json();
+        if (data.iceServers) {
+            rtcConfig.iceServers = data.iceServers;
+            console.log("Using secure ICE config for Reader");
+        }
+    } catch (e) {
+        console.error("Failed to fetch TURN, using STUN only", e);
+    }
+}
+fetchTurnConfig();
 
 async function toggleCall(mode = 'video') {
     if (isVideoCallActive) {

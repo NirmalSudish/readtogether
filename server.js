@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const http = require('http');
 const { Server } = require('socket.io');
@@ -6,6 +7,7 @@ const path = require('path');
 const fs = require('fs');
 const { v4: uuidv4 } = require('uuid');
 const cors = require('cors');
+const twilio = require('twilio');
 
 const app = express();
 app.use(cors()); // Allow requests from any origin (e.g., Netlify)
@@ -16,6 +18,34 @@ const io = new Server(server, {
   cors: {
     origin: '*', // Allow connections from Netlify
     methods: ['GET', 'POST']
+  }
+});
+
+// Twilio TURN server generation endpoint for WebRTC stability
+app.get('/api/get-turn-credentials', (req, res) => {
+  const accountSid = process.env.TWILIO_ACCOUNT_SID;
+  const authToken = process.env.TWILIO_AUTH_TOKEN;
+
+  // If no Twilio creds exist, just return standard free STUN servers
+  if (!accountSid || !authToken) {
+    return res.json({
+      iceServers: [
+        { urls: 'stun:stun.l.google.com:19302' },
+        { urls: 'stun:stun1.l.google.com:19302' }
+      ]
+    });
+  }
+
+  try {
+    const client = twilio(accountSid, authToken);
+    client.tokens.create().then(token => {
+      res.json(token);
+    }).catch(err => {
+      console.error("Twilio error:", err);
+      res.status(500).json({ error: 'Failed to fetch TURN credentials' });
+    });
+  } catch (e) {
+    res.status(500).json({ error: 'Failed' });
   }
 });
 
