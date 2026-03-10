@@ -323,132 +323,177 @@
             <div class="notification-banner" id="notification-banner" style="display: none;">
                 <span id="notification-text"></span>
             </div>
-    </div>
-    </section>
+        </section>
 
-    <!-- Reader Screen (SPA merged) -->
-    <section id="reader-screen" class="screen">
-        <header class="reader-header" id="reader-header">
-            <div class="header-left">
-                <button class="icon-btn" id="back-to-room-btn" onclick="exitReader()" title="Back to room">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <line x1="19" y1="12" x2="5" y2="12"></line>
-                        <polyline points="12 19 5 12 12 5"></polyline>
-                    </svg>
-                </button>
-                <div class="book-title-bar">
-                    <span class="book-title" id="reader-book-title">Loading...</span>
-                </div>
-            </div>
-            <div class="header-center">
-                <div class="sync-indicator" id="sync-indicator">
-                    <div class="sync-avatars">
-                        <div class="sync-avatar host-sync" id="host-sync-avatar" title="Host">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <circle cx="12" cy="7" r="4"></circle>
-                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                            </svg>
-                        </div>
-                        <div class="sync-avatar guest-sync" id="guest-sync-avatar" title="Guest">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <circle cx="12" cy="7" r="4"></circle>
-                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                            </svg>
-                        </div>
+        <!-- Reader Screen (SPA merged) -->
+        <section id="reader-screen" class="screen">
+            <header class="reader-header" id="reader-header">
+                <div class="header-left">
+                    <button class="icon-btn" id="back-to-room-btn" onclick="exitReader()" title="Back to room">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="19" y1="12" x2="5" y2="12"></line>
+                            <polyline points="12 19 5 12 12 5"></polyline>
+                        </svg>
+                    </button>
+                    <div class="book-title-bar">
+                        <span class="book-title" id="reader-book-title">Loading...</span>
                     </div>
-                    <span class="sync-text" id="sync-text">Both connected</span>
+                </div>
+                <div class="header-center">
+                    <div class="sync-indicator" id="sync-indicator">
+                        <div class="sync-avatars">
+                            <div class="sync-avatar host-sync" id="host-sync-avatar" title="Host">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="7" r="4"></circle>
+                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                </svg>
+                            </div>
+                            <div class="sync-avatar guest-sync" id="guest-sync-avatar" title="Guest">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="7" r="4"></circle>
+                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <span class="sync-text" id="sync-text">Both connected</span>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <button class="icon-btn" id="toggle-theme-btn" onclick="toggleTheme()" title="Toggle theme">
+                        <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="5"></circle>
+                            <line x1="12" y1="1" x2="12" y2="3"></line>
+                            <line x1="12" y1="21" x2="12" y2="23"></line>
+                            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                            <line x1="1" y1="12" x2="3" y2="12"></line>
+                            <line x1="21" y1="12" x2="23" y2="12"></line>
+                            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                        </svg>
+                    </button>
+                    <button class="icon-btn" id="font-size-btn" onclick="toggleFontMenu()" title="Font size">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="4 7 4 4 20 4 20 7"></polyline>
+                            <line x1="9" y1="20" x2="15" y2="20"></line>
+                            <line x1="12" y1="4" x2="12" y2="20"></line>
+                        </svg>
+                    </button>
+                    <button class="icon-btn" id="notes-toggle-btn" onclick="toggleNotes()" title="Toggle notes">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                        </svg>
+                    </button>
+                    <button class="icon-btn" id="reader-audio-call-btn" onclick="toggleCall('audio')"
+                        title="Audio call">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path
+                                d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.39 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z">
+                            </path>
+                        </svg>
+                    </button>
+                    <button class="icon-btn" id="chat-toggle-btn" onclick="toggleChat()" title="Toggle chat">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                        </svg>
+                    </button>
+                </div>
+            </header>
+
+            <div class="font-menu" id="font-menu" style="display: none;">
+                <div class="font-menu-header">Text Size</div>
+                <div class="font-slider-row">
+                    <button class="font-adj-btn" onclick="adjustFontSize(-1)">A-</button>
+                    <input type="range" id="font-slider" min="12" max="28" value="18" oninput="setFontSize(this.value)">
+                    <button class="font-adj-btn large" onclick="adjustFontSize(1)">A+</button>
+                </div>
+                <div class="font-family-options">
+                    <button class="font-family-btn active" data-font="'Lora', serif"
+                        onclick="setFontFamily(this)">Serif</button>
+                    <button class="font-family-btn" data-font="'Inter', sans-serif"
+                        onclick="setFontFamily(this)">Sans</button>
                 </div>
             </div>
-            <div class="header-right">
-                <button class="icon-btn" id="toggle-theme-btn" onclick="toggleTheme()" title="Toggle theme">
-                    <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="12" cy="12" r="5"></circle>
-                        <line x1="12" y1="1" x2="12" y2="3"></line>
-                        <line x1="12" y1="21" x2="12" y2="23"></line>
-                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                        <line x1="1" y1="12" x2="3" y2="12"></line>
-                        <line x1="21" y1="12" x2="23" y2="12"></line>
-                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                    </svg>
-                </button>
-                <button class="icon-btn" id="font-size-btn" onclick="toggleFontMenu()" title="Font size">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polyline points="4 7 4 4 20 4 20 7"></polyline>
-                        <line x1="9" y1="20" x2="15" y2="20"></line>
-                        <line x1="12" y1="4" x2="12" y2="20"></line>
-                    </svg>
-                </button>
-                <button class="icon-btn" id="notes-toggle-btn" onclick="toggleNotes()" title="Toggle notes">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-                    </svg>
-                </button>
-                <button class="icon-btn" id="reader-audio-call-btn" onclick="toggleCall('audio')" title="Audio call">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path
-                            d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.39 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z">
-                        </path>
-                    </svg>
-                </button>
-                <button class="icon-btn" id="chat-toggle-btn" onclick="toggleChat()" title="Toggle chat">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-                    </svg>
-                </button>
-            </div>
-        </header>
 
-        <div class="font-menu" id="font-menu" style="display: none;">
-            <div class="font-menu-header">Text Size</div>
-            <div class="font-slider-row">
-                <button class="font-adj-btn" onclick="adjustFontSize(-1)">A-</button>
-                <input type="range" id="font-slider" min="12" max="28" value="18" oninput="setFontSize(this.value)">
-                <button class="font-adj-btn large" onclick="adjustFontSize(1)">A+</button>
+            <main class="reader-main" id="reader-main">
+                <div class="reader-loading" id="reader-loading">
+                    <div class="loading-spinner"></div>
+                    <p>Loading book...</p>
+                </div>
+                <div id="epub-viewer"></div>
+                <div class="nav-zone nav-zone-prev" id="nav-prev" onclick="requestPrevPage()"></div>
+                <div class="nav-zone nav-zone-next" id="nav-next" onclick="requestNextPage()"></div>
+            </main>
+
+            <footer class="reader-footer" id="reader-footer">
+                <div class="footer-left">
+                    <span class="page-info" id="page-info">Page 0</span>
+                </div>
+                <div class="footer-center">
+                    <div class="sync-status" id="sync-status">
+                        <div class="sync-progress-ring">
+                            <svg viewBox="0 0 48 48">
+                                <circle class="ring-bg" cx="24" cy="24" r="20"></circle>
+                                <circle class="ring-fill" cx="24" cy="24" r="20" id="sync-ring"></circle>
+                            </svg>
+                            <span class="sync-count" id="sync-count">0/2</span>
+                        </div>
+                        <span class="sync-label" id="sync-label">Ready</span>
+                    </div>
+                </div>
+                <div class="footer-right">
+                    <div class="reading-progress-bar">
+                        <div class="reading-progress-fill" id="reading-progress-fill"></div>
+                    </div>
+                </div>
+            </footer>
+
+            <aside class="chat-sidebar" id="chat-sidebar">
+                <div class="chat-header">
+                    <h3>Chat</h3><button onclick="toggleChat()">×</button>
+                </div>
+                <div class="chat-messages" id="chat-messages"></div>
+                <div class="chat-input-area">
+                    <input type="text" id="chat-input" placeholder="Type..." onkeydown="handleChatKeydown(event)">
+                    <button onclick="sendChatMessage()">Send</button>
+                </div>
+            </aside>
+        </section>
+
+        <!-- Global Draggable Video Widget -->
+        <div class="video-widget" id="video-widget" style="display: none;">
+            <div class="video-header" id="video-header">
+                <span>Room Call</span>
+                <button class="icon-btn sm" onclick="endLobbyCall()"><svg viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg></button>
             </div>
-            <div class="font-family-options">
-                <button class="font-family-btn active" data-font="'Lora', serif"
-                    onclick="setFontFamily(this)">Serif</button>
-                <button class="font-family-btn" data-font="'Inter', sans-serif"
-                    onclick="setFontFamily(this)">Sans</button>
+            <div class="video-streams">
+                <video id="remote-video" autoplay playsinline></video>
+                <video id="local-video" autoplay playsinline muted></video>
+                <div id="video-waiting-overlay" class="video-overlay">
+                    <div class="loading-spinner"></div><span id="call-status-text">Connecting...</span>
+                </div>
+            </div>
+            <!-- Add standard controls inside the unified widget -->
+            <div class="video-controls">
+                <button class="video-control-btn" onclick="toggleLobbyMic()" title="Mic"><svg viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                        <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z" />
+                        <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
+                        <line x1="12" y1="19" x2="12" y2="22" />
+                    </svg></button>
+                <button class="video-control-btn" id="reader-cam-ctrl" onclick="toggleLobbyCam()" title="Cam"><svg
+                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                        <path
+                            d="M15.6 11.6L22 7v10l-6.4-4.5v-1zM4 5h9a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7c0-1.1.9-2 2-2z" />
+                    </svg></button>
             </div>
         </div>
-
-        <main class="reader-main" id="reader-main">
-            <div class="reader-loading" id="reader-loading">
-                <div class="loading-spinner"></div>
-                <p>Loading book...</p>
-            </div>
-            <div id="epub-viewer"></div>
-            <div class="nav-zone nav-zone-prev" id="nav-prev" onclick="requestPrevPage()"></div>
-            <div class="nav-zone nav-zone-next" id="nav-next" onclick="requestNextPage()"></div>
-        </main>
-
-        <footer class="reader-footer" id="reader-footer">
-            <div class="footer-left">
-                <span class="page-info" id="page-info">Page 0</span>
-            </div>
-            <div class="footer-center">
-                <div class="sync-status" id="sync-status">
-                    <div class="sync-progress-ring">
-                        <svg viewBox="0 0 48 48">
-                            <circle class="ring-bg" cx="24" cy="24" r="20"></circle>
-                            <circle class="ring-fill" cx="24" cy="24" r="20" id="sync-ring"></circle>
-                        </svg>
-                        <span class="sync-count" id="sync-count">0/2</span>
-                    </div>
-                    <span class="sync-label" id="sync-label">Ready</span>
-                </div>
-            </div>
-            <div class="footer-right">
-                <div class="reading-progress-bar">
-                    <div class="reading-progress-fill" id="reading-progress-fill"></div>
-                </div>
-            </div>
-        </footer>
 
         <aside class="chat-sidebar" id="chat-sidebar">
             <div class="chat-header">
@@ -460,52 +505,6 @@
                 <button onclick="sendChatMessage()">Send</button>
             </div>
         </aside>
-    </section>
-
-    <!-- Global Draggable Video Widget -->
-    <div class="video-widget" id="video-widget" style="display: none;">
-        <div class="video-header" id="video-header">
-            <span>Room Call</span>
-            <button class="icon-btn sm" onclick="endLobbyCall()"><svg viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-width="2">
-                    <line x1="18" y1="6" x2="6" y2="18"></line>
-                    <line x1="6" y1="6" x2="18" y2="18"></line>
-                </svg></button>
-        </div>
-        <div class="video-streams">
-            <video id="remote-video" autoplay playsinline></video>
-            <video id="local-video" autoplay playsinline muted></video>
-            <div id="video-waiting-overlay" class="video-overlay">
-                <div class="loading-spinner"></div><span id="call-status-text">Connecting...</span>
-            </div>
-        </div>
-        <!-- Add standard controls inside the unified widget -->
-        <div class="video-controls">
-            <button class="video-control-btn" onclick="toggleLobbyMic()" title="Mic"><svg viewBox="0 0 24 24"
-                    fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
-                    <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z" />
-                    <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
-                    <line x1="12" y1="19" x2="12" y2="22" />
-                </svg></button>
-            <button class="video-control-btn" id="reader-cam-ctrl" onclick="toggleLobbyCam()" title="Cam"><svg
-                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
-                    <path
-                        d="M15.6 11.6L22 7v10l-6.4-4.5v-1zM4 5h9a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7c0-1.1.9-2 2-2z" />
-                </svg></button>
-        </div>
-    </div>
-
-    <aside class="chat-sidebar" id="chat-sidebar">
-        <div class="chat-header">
-            <h3>Chat</h3><button onclick="toggleChat()">×</button>
-        </div>
-        <div class="chat-messages" id="chat-messages"></div>
-        <div class="chat-input-area">
-            <input type="text" id="chat-input" placeholder="Type..." onkeydown="handleChatKeydown(event)">
-            <button onclick="sendChatMessage()">Send</button>
-        </div>
-    </aside>
-    </section>
     </div>
 
     <!-- Toast notifications -->
