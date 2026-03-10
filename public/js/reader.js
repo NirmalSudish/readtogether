@@ -195,7 +195,9 @@ function loadBook(bookData) {
     rendition.on('relocated', (location) => {
         // Update page info
         const current = location.start.location;
-        currentLocationIndex = current;
+        if (typeof current === 'number' && current >= 0) {
+            currentLocationIndex = current;
+        }
 
         // Save precise location to session so refresh works perfectly
         if (sessionData) {
@@ -477,7 +479,7 @@ function setupSocketListeners() {
             return;
         }
 
-        if (rendition && locations.length > 0) {
+        if (rendition) {
             // Slide transition out
             viewer.style.transition = 'opacity 0.15s ease-out, transform 0.15s ease-out';
             viewer.style.opacity = '0';

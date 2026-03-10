@@ -295,7 +295,7 @@ io.on('connection', (socket) => {
     });
 
     // If all users are ready, advance the page
-    if (readyCount >= totalUsers && totalUsers === 2) {
+    if (readyCount >= totalUsers) {
       room.currentPage = data.nextPage;
       room.readyUsers.clear();
 
