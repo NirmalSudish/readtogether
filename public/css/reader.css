@@ -417,66 +417,6 @@ input[type="range"]::-webkit-slider-thumb {
     font-size: 0.9rem;
 }
 
-/* Navigation Zones */
-.nav-zone {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    width: 100px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    z-index: 5;
-    opacity: 0.3;
-    transition: all var(--transition-base);
-}
-
-.nav-zone:hover,
-.nav-zone.ready {
-    opacity: 1;
-}
-
-.nav-zone-prev {
-    left: 0;
-}
-
-.nav-zone-next {
-    right: 0;
-}
-
-.nav-arrow {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    background: var(--reader-header-bg);
-    border: 1px solid var(--border-medium);
-    box-shadow: var(--shadow-md);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--reader-text);
-    transition: all var(--transition-fast);
-}
-
-.nav-zone:hover .nav-arrow {
-    background: var(--reader-text);
-    color: var(--reader-bg);
-    transform: scale(1.05);
-}
-
-.nav-zone.ready .nav-arrow {
-    background: var(--reader-text);
-    color: var(--reader-bg);
-    transform: scale(1.15);
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-    border-color: var(--reader-text);
-}
-
-.nav-arrow svg {
-    width: 24px;
-    height: 24px;
-}
 
 /* ---------- Reader Footer ---------- */
 .reader-footer {

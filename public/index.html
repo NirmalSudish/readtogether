@@ -423,20 +423,6 @@
                     <p>Loading book...</p>
                 </div>
                 <div id="epub-viewer"></div>
-                <div class="nav-zone nav-zone-prev" id="prev-page-btn" onclick="requestPrevPage()">
-                    <div class="nav-arrow">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polyline points="15 18 9 12 15 6"></polyline>
-                        </svg>
-                    </div>
-                </div>
-                <div class="nav-zone nav-zone-next" id="next-page-btn" onclick="requestNextPage()">
-                    <div class="nav-arrow">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polyline points="9 18 15 12 9 6"></polyline>
-                        </svg>
-                    </div>
-                </div>
             </main>
 
             <footer class="reader-footer" id="reader-footer">
@@ -444,15 +430,31 @@
                     <span class="page-info" id="page-info">Page 0</span>
                 </div>
                 <div class="footer-center">
-                    <div class="sync-status" id="sync-status">
-                        <div class="sync-progress-ring">
-                            <svg viewBox="0 0 48 48">
-                                <circle class="ring-bg" cx="24" cy="24" r="20"></circle>
-                                <circle class="ring-fill" cx="24" cy="24" r="20" id="sync-ring"></circle>
+                    <div class="sync-control">
+                        <button class="sync-btn prev-btn" id="prev-page-btn" onclick="requestPrevPage()">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="15 18 9 12 15 6"></polyline>
                             </svg>
-                            <span class="sync-count" id="sync-count">0/2</span>
+                        </button>
+
+                        <div class="sync-status" id="sync-status">
+                            <div class="sync-progress-ring">
+                                <svg viewBox="0 0 48 48">
+                                    <circle class="ring-bg" cx="24" cy="24" r="20"></circle>
+                                    <circle class="ring-fill" cx="24" cy="24" r="20" id="sync-ring"></circle>
+                                </svg>
+                                <span class="sync-count" id="sync-count">0/2</span>
+                            </div>
+                            <span class="sync-label" id="sync-label">Ready</span>
                         </div>
-                        <span class="sync-label" id="sync-label">Ready</span>
+
+                        <button class="sync-btn next-btn" id="next-page-btn" onclick="requestNextPage()">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="9 18 15 12 9 6"></polyline>
+                            </svg>
+                        </button>
                     </div>
                 </div>
                 <div class="footer-right">
