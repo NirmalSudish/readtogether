@@ -277,7 +277,7 @@ async function initPdfReader(url, loadingEl) {
         loadingEl.style.display = 'none';
 
         const viewer = document.getElementById('epub-viewer');
-        viewer.innerHTML = '<canvas id="pdf-canvas" style="max-height: 100%; max-width: 100%; box-shadow: 0 4px 8px rgba(0,0,0,0.1);"></canvas>';
+        viewer.innerHTML = '<div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;"><canvas id="pdf-canvas" style="max-height: 100%; max-width: 100%; box-shadow: 0 4px 8px rgba(0,0,0,0.1);"></canvas></div>';
         pdfCanvas = document.getElementById('pdf-canvas');
         pdfCtx = pdfCanvas.getContext('2d');
 
@@ -619,8 +619,8 @@ function applyTheme(theme) {
 
     if (theme === 'light') {
         document.body.classList.add('light-theme');
-        sunIcon.style.display = 'none';
-        moonIcon.style.display = 'block';
+        if (sunIcon) sunIcon.style.display = 'none';
+        if (moonIcon) moonIcon.style.display = 'block';
 
         if (rendition) {
             rendition.themes.default({
@@ -638,8 +638,8 @@ function applyTheme(theme) {
         }
     } else if (theme === 'sepia') {
         document.body.classList.add('sepia-theme');
-        sunIcon.style.display = 'block';
-        moonIcon.style.display = 'none';
+        if (sunIcon) sunIcon.style.display = 'block';
+        if (moonIcon) moonIcon.style.display = 'none';
 
         if (rendition) {
             rendition.themes.default({
@@ -657,8 +657,8 @@ function applyTheme(theme) {
         }
     } else {
         // Dark
-        sunIcon.style.display = 'block';
-        moonIcon.style.display = 'none';
+        if (sunIcon) sunIcon.style.display = 'block';
+        if (moonIcon) moonIcon.style.display = 'none';
 
         if (rendition) {
             rendition.themes.default({
