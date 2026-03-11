@@ -230,6 +230,13 @@ function showBookInfo(book) {
     document.getElementById('book-size').textContent = formatFileSize(book.size);
     document.getElementById('book-info-card').style.display = 'flex';
 
+    // Only host can start reading
+    if (userRole === 'guest') {
+        document.getElementById('start-reading-btn').style.display = 'none';
+    } else {
+        document.getElementById('start-reading-btn').style.display = 'flex';
+    }
+
     // Hide upload area
     if (document.getElementById('upload-zone')) {
         document.getElementById('upload-zone').style.display = 'none';
