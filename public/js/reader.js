@@ -12,6 +12,7 @@ let currentLocationIndex = 0;
 let totalLocations = 0;
 let locations = [];
 let isReaderInitialized = false; // Renamed to avoid lobby collision
+let isPageReady = false; // Tracking page sync state
 let chatOpen = false;
 let notesOpen = false;
 let fontMenuOpen = false;
@@ -390,13 +391,13 @@ function doLocalJump(cfi) {
 
 // ---- Page Navigation with Sync ----
 function requestNextPage() {
-    if (isReady) {
+    if (isPageReady) {
         // Cancel ready status
         cancelReady();
         return;
     }
 
-    isReady = true;
+    isPageReady = true;
     updateLocalSyncUI();
 
     socket.emit('page-ready', {
@@ -408,12 +409,12 @@ function requestNextPage() {
 function requestPrevPage() {
     if (currentLocationIndex <= 0) return;
 
-    if (isReady) {
+    if (isPageReady) {
         cancelReady();
         return;
     }
 
-    isReady = true;
+    isPageReady = true;
     updateLocalSyncUI();
 
     socket.emit('page-ready', {
@@ -423,7 +424,7 @@ function requestPrevPage() {
 }
 
 function cancelReady() {
-    isReady = false;
+    isPageReady = false;
     updateLocalSyncUI();
     socket.emit('page-cancel');
 }
@@ -432,7 +433,7 @@ function updateLocalSyncUI() {
     const nextBtn = document.getElementById('next-page-btn');
     const prevBtn = document.getElementById('prev-page-btn');
 
-    if (isReady) {
+    if (isPageReady) {
         nextBtn.classList.add('ready');
         prevBtn.classList.add('ready');
     } else {
@@ -450,7 +451,7 @@ function setupSocketListeners() {
 
     // Page advance (both users confirmed)
     socket.on('page-advance', (data) => {
-        isReady = false;
+        isPageReady = false;
         updateLocalSyncUI();
 
         currentLocationIndex = data.page;
@@ -474,8 +475,16 @@ function setupSocketListeners() {
                     viewer.style.transition = 'opacity 0.2s ease-out, transform 0.2s ease-out';
                     viewer.style.opacity = '1';
                     viewer.style.transform = 'translateX(0)';
+                }).catch(err => {
+                    console.error('PDF render error:', err);
+                    viewer.style.opacity = '1';
+                    viewer.style.transform = 'translateX(0)';
                 });
             }, 150);
+            
+            // Reset sync display for PDF
+            updateSyncDisplay(0, 2);
+            flashSyncSuccess();
             return;
         }
 
@@ -486,21 +495,38 @@ function setupSocketListeners() {
             viewer.style.transform = data.direction === 'next' ? 'translateX(-30px)' : 'translateX(30px)';
 
             setTimeout(() => {
-                const action = data.direction === 'next' ? rendition.next() : rendition.prev();
-                action.then(() => {
-                    updatePageInfo();
-                    updateProgress();
+                try {
+                    const action = data.direction === 'next' ? rendition.next() : rendition.prev();
+                    
+                    const handleSuccess = () => {
+                        updatePageInfo();
+                        updateProgress();
 
-                    // Reset position to opposite side invisibly
-                    viewer.style.transition = 'none';
-                    viewer.style.transform = data.direction === 'next' ? 'translateX(30px)' : 'translateX(-30px)';
-                    void viewer.offsetWidth; // Force Reflow
+                        // Reset position to opposite side invisibly
+                        viewer.style.transition = 'none';
+                        viewer.style.transform = data.direction === 'next' ? 'translateX(30px)' : 'translateX(-30px)';
+                        void viewer.offsetWidth; // Force Reflow
 
-                    // Slide in transition
-                    viewer.style.transition = 'opacity 0.2s ease-out, transform 0.2s ease-out';
+                        // Slide in transition
+                        viewer.style.transition = 'opacity 0.2s ease-out, transform 0.2s ease-out';
+                        viewer.style.opacity = '1';
+                        viewer.style.transform = 'translateX(0)';
+                    };
+
+                    if (action && typeof action.then === 'function') {
+                        action.then(handleSuccess).catch(err => {
+                            console.error('EPUB render error:', err);
+                            viewer.style.opacity = '1';
+                            viewer.style.transform = 'translateX(0)';
+                        });
+                    } else {
+                        handleSuccess();
+                    }
+                } catch (err) {
+                    console.error('Error turning page:', err);
                     viewer.style.opacity = '1';
                     viewer.style.transform = 'translateX(0)';
-                });
+                }
             }, 150);
         }
 
