@@ -568,3 +568,12 @@ socket.on('webrtc-offer', handleLobbyOffer);
 socket.on('webrtc-answer', handleLobbyAnswer);
 socket.on('webrtc-ice-candidate', handleLobbyIce);
 socket.on('call-ended', () => { if (lobbyPeer) endLobbyCall(); });
+
+// Global toggle call for reader buttons
+function toggleCall(mode) {
+    if (lobbyLocalStream) {
+        endLobbyCall();
+    } else {
+        startLobbyCall(mode);
+    }
+}
