@@ -1,0 +1,183 @@
+﻿commit da1a498394fd57dce766647eab5c27005f544922
+Author: Nirmal <nirmal.sudish@gmail.com>
+Date:   Tue Mar 10 06:20:13 2026 -0700
+
+    Fix host read auto-join, add page transitions and highlight chat bookmarks
+
+diff --git a/public/js/reader.js b/public/js/reader.js
+index 6ba5fc1..f797c85 100644
+--- a/public/js/reader.js
++++ b/public/js/reader.js
+@@ -149,8 +149,86 @@ function loadBook(bookData) {
+     // Handle touch/swipe on mobile
+     rendition.on('touchstart', handleTouchStart);
+     rendition.on('touchend', handleTouchEnd);
++
++    // Highlighting / Selection features
++    rendition.on('selected', (cfiRange, contents) => {
++        currentSelectionCfi = cfiRange;
++        currentSelectionText = contents.window.getSelection().toString().trim();
++
++        // Get iframe position
++        const iframe = document.querySelector('#epub-viewer iframe');
++        const iframeRect = iframe.getBoundingClientRect();
++
++        // Get selection rect inside iframe
++        const range = contents.window.getSelection().getRangeAt(0);
++        const rect = range.getBoundingClientRect();
++
++        const tooltip = document.getElementById('highlight-tooltip');
++        tooltip.style.display = 'flex';
++
++        // Position it just above the selection
++        const top = iframeRect.top + rect.top - 40;
++        const left = Math.max(20, iframeRect.left + rect.left + (rect.width / 2));
++
++        tooltip.style.top = `${top}px`;
++        tooltip.style.left = `${left}px`;
++    });
++
++    rendition.on('click', () => {
++        document.getElementById('highlight-tooltip').style.display = 'none';
++    });
++}
++
++// ---- Highlighting State ----
++let currentSelectionCfi = null;
++let currentSelectionText = '';
++
++function applyHighlight() {
++    document.getElementById('highlight-tooltip').style.display = 'none';
++    if (!currentSelectionCfi) return;
++
++    // Auto highlight in reader
++    rendition.annotations.highlight(currentSelectionCfi, {}, (e) => { });
++
++    const shortText = currentSelectionText.length > 80 ? currentSelectionText.substring(0, 80) + '...' : currentSelectionText;
++
++    // Send highlight context to chat
++    socket.emit('chat-message', {
++        text: shortText,
++        isHighlight: true,
++        cfi: currentSelectionCfi,
++        pageIndex: currentLocationIndex
++    });
++
++    // Clear selection inside iframe natively via injected JS script or simply skip for now
++    if (rendition.getContents && rendition.getContents().length > 0) {
++        rendition.getContents()[0].window.getSelection().removeAllRanges();
++    }
+ }
+ 
++function jumpToCfi(cfi) {
++    if (rendition) {
++        // Broadcast jump to partner
++        socket.emit('jump-to-scene', { cfi });
++
++        // Local jump
++        doLocalJump(cfi);
++    }
++}
++
++function doLocalJump(cfi) {
++    if (!rendition) return;
++    const viewer = document.getElementById('epub-viewer');
++    viewer.style.transition = 'opacity 0.2s';
++    viewer.style.opacity = '0';
++    setTimeout(() => {
++        rendition.display(cfi).then(() => {
++            viewer.style.opacity = '1';
++        });
++    }, 200);
++}
++
++
+ // ---- Page Navigation with Sync ----
+ function requestNextPage() {
+     if (isReady) {
+@@ -219,17 +297,30 @@ function setupSocketListeners() {
+         currentLocationIndex = data.page;
+ 
+         if (rendition && locations.length > 0) {
+-            if (data.direction === 'next') {
+-                rendition.next().then(() => {
+-                    updatePageInfo();
+-                    updateProgress();
+-                });
+-            } else {
+-                rendition.prev().then(() => {
++            const viewer = document.getElementById('epub-viewer');
++
++            // Slide transition out
++            viewer.style.transition = 'opacity 0.15s ease-out, transform 0.15s ease-out';
++            viewer.style.opacity = '0';
++            viewer.style.transform = data.direction === 'next' ? 'translateX(-30px)' : 'translateX(30px)';
++
++            setTimeout(() => {
++                const action = data.direction === 'next' ? rendition.next() : rendition.prev();
++                action.then(() => {
+                     updatePageInfo();
+                     updateProgress();
++
++                    // Reset position to opposite side invisibly
++                    viewer.style.transition = 'none';
++                    viewer.style.transform = data.direction === 'next' ? 'translateX(30px)' : 'translateX(-30px)';
++                    void viewer.offsetWidth; // Force Reflow
++
++                    // Slide in transition
++                    viewer.style.transition = 'opacity 0.2s ease-out, transform 0.2s ease-out';
++                    viewer.style.opacity = '1';
++                    viewer.style.transform = 'translateX(0)';
+                 });
+-            }
++            }, 150);
+         }
+ 
+         // Reset sync display
+@@ -239,6 +330,11 @@ function setupSocketListeners() {
+         flashSyncSuccess();
+     });
+ 
++    // Jump to Scene (highlight click sync)
++    socket.on('jumped-to-scene', (data) => {
++        doLocalJump(data.cfi);
++    });
++
+     // Chat
+     socket.on('chat-received', (msg) => {
+         addChatMessage(msg);
+@@ -505,11 +601,29 @@ function addChatMessage(msg) {
+     const time = new Date(msg.timestamp);
+     const timeStr = time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+ 
+-    msgEl.innerHTML = `
+-    ${!isOwn ? `<span class="chat-msg-sender">${escapeHtml(msg.sender)}</span>` : ''}
+-    <div class="chat-msg-bubble">${escapeHtml(msg.text)}</div>
+-    <span class="chat-msg-time">${timeStr}</span>
+-  `;
++    if (msg.isHighlight) {
++        msgEl.innerHTML = `
++            ${!isOwn ? `<span class="chat-msg-sender">${escapeHtml(msg.sender)}</span>` : ''}
++            <div class="chat-msg-bubble highlight-bubble" onclick="jumpToCfi('${msg.cfi}')" style="cursor: pointer; background: rgba(124,106,255,0.15); border: 1px solid rgba(124,106,255,0.3); border-radius: 8px; padding: 12px; transition: all 0.2s;">
++                <div style="font-size: 0.65rem; color: var(--text-muted); font-weight: 700; margin-bottom: 6px; letter-spacing: 0.05em; display: flex; align-items: center; gap: 4px;">
++                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="12" height="12"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
++                    HIGHLIGHT ON LOC ${msg.pageIndex}
++                </div>
++                <div style="font-style: italic; font-size: 0.85rem; line-height: 1.5; color: var(--reader-text); border-left: 2px solid var(--accent); padding-left: 8px;">"${escapeHtml(msg.text)}"</div>
++                <div style="font-size: 0.65rem; font-weight: 600; color: var(--accent-light); margin-top: 8px; display: flex; align-items: center; gap: 4px;">
++                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="12" height="12"><polyline points="9 10 4 15 9 20"/><path d="M20 4v7a4 4 0 0 1-4 4H4"/></svg>
++                    Tap to jump to page
++                </div>
++            </div>
++            <span class="chat-msg-time">${timeStr}</span>
++        `;
++    } else {
++        msgEl.innerHTML = `
++            ${!isOwn ? `<span class="chat-msg-sender">${escapeHtml(msg.sender)}</span>` : ''}
++            <div class="chat-msg-bubble">${escapeHtml(msg.text)}</div>
++            <span class="chat-msg-time">${timeStr}</span>
++        `;
++    }
+ 
+     container.appendChild(msgEl);
+     container.scrollTop = container.scrollHeight;

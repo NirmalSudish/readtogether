@@ -1,0 +1,4185 @@
+﻿diff --git a/package-lock.json b/package-lock.json
+index 8f6a3fb..276f4fc 100644
+--- a/package-lock.json
++++ b/package-lock.json
+@@ -9,215 +9,12 @@
+       "version": "1.0.0",
+       "dependencies": {
+         "cors": "^2.8.6",
+-        "dot-env": "^0.0.1",
+-        "dotenv": "^17.3.1",
+-        "epubjs": "^0.3.93",
+         "express": "^4.18.2",
+-        "jsdom": "^28.1.0",
+         "multer": "^1.4.5-lts.1",
+         "socket.io": "^4.7.2",
+-        "twilio": "^5.12.2",
+         "uuid": "^9.0.0"
+       }
+     },
+-    "node_modules/@acemir/cssom": {
+-      "version": "0.9.31",
+-      "resolved": "https://registry.npmjs.org/@acemir/cssom/-/cssom-0.9.31.tgz",
+-      "integrity": "sha512-ZnR3GSaH+/vJ0YlHau21FjfLYjMpYVIzTD8M8vIEQvIGxeOXyXdzCI140rrCY862p/C/BbzWsjc1dgnM9mkoTA==",
+-      "license": "MIT"
+-    },
+-    "node_modules/@asamuzakjp/css-color": {
+-      "version": "5.0.1",
+-      "resolved": "https://registry.npmjs.org/@asamuzakjp/css-color/-/css-color-5.0.1.tgz",
+-      "integrity": "sha512-2SZFvqMyvboVV1d15lMf7XiI3m7SDqXUuKaTymJYLN6dSGadqp+fVojqJlVoMlbZnlTmu3S0TLwLTJpvBMO1Aw==",
+-      "license": "MIT",
+-      "dependencies": {
+-        "@csstools/css-calc": "^3.1.1",
+-        "@csstools/css-color-parser": "^4.0.2",
+-        "@csstools/css-parser-algorithms": "^4.0.0",
+-        "@csstools/css-tokenizer": "^4.0.0",
+-        "lru-cache": "^11.2.6"
+-      },
+-      "engines": {
+-        "node": "^20.19.0 || ^22.12.0 || >=24.0.0"
+-      }
+-    },
+-    "node_modules/@asamuzakjp/dom-selector": {
+-      "version": "6.8.1",
+-      "resolved": "https://registry.npmjs.org/@asamuzakjp/dom-selector/-/dom-selector-6.8.1.tgz",
+-      "integrity": "sha512-MvRz1nCqW0fsy8Qz4dnLIvhOlMzqDVBabZx6lH+YywFDdjXhMY37SmpV1XFX3JzG5GWHn63j6HX6QPr3lZXHvQ==",
+-      "license": "MIT",
+-      "dependencies": {
+-        "@asamuzakjp/nwsapi": "^2.3.9",
+-        "bidi-js": "^1.0.3",
+-        "css-tree": "^3.1.0",
+-        "is-potential-custom-element-name": "^1.0.1",
+-        "lru-cache": "^11.2.6"
+-      }
+-    },
+-    "node_modules/@asamuzakjp/nwsapi": {
+-      "version": "2.3.9",
+-      "resolved": "https://registry.npmjs.org/@asamuzakjp/nwsapi/-/nwsapi-2.3.9.tgz",
+-      "integrity": "sha512-n8GuYSrI9bF7FFZ/SjhwevlHc8xaVlb/7HmHelnc/PZXBD2ZR49NnN9sMMuDdEGPeeRQ5d0hqlSlEpgCX3Wl0Q==",
+-      "license": "MIT"
+-    },
+-    "node_modules/@bramus/specificity": {
+-      "version": "2.4.2",
+-      "resolved": "https://registry.npmjs.org/@bramus/specificity/-/specificity-2.4.2.tgz",
+-      "integrity": "sha512-ctxtJ/eA+t+6q2++vj5j7FYX3nRu311q1wfYH3xjlLOsczhlhxAg2FWNUXhpGvAw3BWo1xBcvOV6/YLc2r5FJw==",
+-      "license": "MIT",
+-      "dependencies": {
+-        "css-tree": "^3.0.0"
+-      },
+-      "bin": {
+-        "specificity": "bin/cli.js"
+-      }
+-    },
+-    "node_modules/@csstools/color-helpers": {
+-      "version": "6.0.2",
+-      "resolved": "https://registry.npmjs.org/@csstools/color-helpers/-/color-helpers-6.0.2.tgz",
+-      "integrity": "sha512-LMGQLS9EuADloEFkcTBR3BwV/CGHV7zyDxVRtVDTwdI2Ca4it0CCVTT9wCkxSgokjE5Ho41hEPgb8OEUwoXr6Q==",
+-      "funding": [
+-        {
+-          "type": "github",
+-          "url": "https://github.com/sponsors/csstools"
+-        },
+-        {
+-          "type": "opencollective",
+-          "url": "https://opencollective.com/csstools"
+-        }
+-      ],
+-      "license": "MIT-0",
+-      "engines": {
+-        "node": ">=20.19.0"
+-      }
+-    },
+-    "node_modules/@csstools/css-calc": {
+-      "version": "3.1.1",
+-      "resolved": "https://registry.npmjs.org/@csstools/css-calc/-/css-calc-3.1.1.tgz",
+-      "integrity": "sha512-HJ26Z/vmsZQqs/o3a6bgKslXGFAungXGbinULZO3eMsOyNJHeBBZfup5FiZInOghgoM4Hwnmw+OgbJCNg1wwUQ==",
+-      "funding": [
+-        {
+-          "type": "github",
+-          "url": "https://github.com/sponsors/csstools"
+-        },
+-        {
+-          "type": "opencollective",
+-          "url": "https://opencollective.com/csstools"
+-        }
+-      ],
+-      "license": "MIT",
+-      "engines": {
+-        "node": ">=20.19.0"
+-      },
+-      "peerDependencies": {
+-        "@csstools/css-parser-algorithms": "^4.0.0",
+-        "@csstools/css-tokenizer": "^4.0.0"
+-      }
+-    },
+-    "node_modules/@csstools/css-color-parser": {
+-      "version": "4.0.2",
+-      "resolved": "https://registry.npmjs.org/@csstools/css-color-parser/-/css-color-parser-4.0.2.tgz",
+-      "integrity": "sha512-0GEfbBLmTFf0dJlpsNU7zwxRIH0/BGEMuXLTCvFYxuL1tNhqzTbtnFICyJLTNK4a+RechKP75e7w42ClXSnJQw==",
+-      "funding": [
+-        {
+-          "type": "github",
+-          "url": "https://github.com/sponsors/csstools"
+-        },
+-        {
+-          "type": "opencollective",
+-          "url": "https://opencollective.com/csstools"
+-        }
+-      ],
+-      "license": "MIT",
+-      "dependencies": {
+-        "@csstools/color-helpers": "^6.0.2",
+-        "@csstools/css-calc": "^3.1.1"
+-      },
+-      "engines": {
+-        "node": ">=20.19.0"
+-      },
+-      "peerDependencies": {
+-        "@csstools/css-parser-algorithms": "^4.0.0",
+-        "@csstools/css-tokenizer": "^4.0.0"
+-      }
+-    },
+-    "node_modules/@csstools/css-parser-algorithms": {
+-      "version": "4.0.0",
+-      "resolved": "https://registry.npmjs.org/@csstools/css-parser-algorithms/-/css-parser-algorithms-4.0.0.tgz",
+-      "integrity": "sha512-+B87qS7fIG3L5h3qwJ/IFbjoVoOe/bpOdh9hAjXbvx0o8ImEmUsGXN0inFOnk2ChCFgqkkGFQ+TpM5rbhkKe4w==",
+-      "funding": [
+-        {
+-          "type": "github",
+-          "url": "https://github.com/sponsors/csstools"
+-        },
+-        {
+-          "type": "opencollective",
+-          "url": "https://opencollective.com/csstools"
+-        }
+-      ],
+-      "license": "MIT",
+-      "peer": true,
+-      "engines": {
+-        "node": ">=20.19.0"
+-      },
+-      "peerDependencies": {
+-        "@csstools/css-tokenizer": "^4.0.0"
+-      }
+-    },
+-    "node_modules/@csstools/css-syntax-patches-for-csstree": {
+-      "version": "1.1.0",
+-      "resolved": "https://registry.npmjs.org/@csstools/css-syntax-patches-for-csstree/-/css-syntax-patches-for-csstree-1.1.0.tgz",
+-      "integrity": "sha512-H4tuz2nhWgNKLt1inYpoVCfbJbMwX/lQKp3g69rrrIMIYlFD9+zTykOKhNR8uGrAmbS/kT9n6hTFkmDkxLgeTA==",
+-      "funding": [
+-        {
+-          "type": "github",
+-          "url": "https://github.com/sponsors/csstools"
+-        },
+-        {
+-          "type": "opencollective",
+-          "url": "https://opencollective.com/csstools"
+-        }
+-      ],
+-      "license": "MIT-0"
+-    },
+-    "node_modules/@csstools/css-tokenizer": {
+-      "version": "4.0.0",
+-      "resolved": "https://registry.npmjs.org/@csstools/css-tokenizer/-/css-tokenizer-4.0.0.tgz",
+-      "integrity": "sha512-QxULHAm7cNu72w97JUNCBFODFaXpbDg+dP8b/oWFAZ2MTRppA3U00Y2L1HqaS4J6yBqxwa/Y3nMBaxVKbB/NsA==",
+-      "funding": [
+-        {
+-          "type": "github",
+-          "url": "https://github.com/sponsors/csstools"
+-        },
+-        {
+-          "type": "opencollective",
+-          "url": "https://opencollective.com/csstools"
+-        }
+-      ],
+-      "license": "MIT",
+-      "peer": true,
+-      "engines": {
+-        "node": ">=20.19.0"
+-      }
+-    },
+-    "node_modules/@exodus/bytes": {
+-      "version": "1.15.0",
+-      "resolved": "https://registry.npmjs.org/@exodus/bytes/-/bytes-1.15.0.tgz",
+-      "integrity": "sha512-UY0nlA+feH81UGSHv92sLEPLCeZFjXOuHhrIo0HQydScuQc8s0A7kL/UdgwgDq8g8ilksmuoF35YVTNphV2aBQ==",
+-      "license": "MIT",
+-      "engines": {
+-        "node": "^20.19.0 || ^22.12.0 || >=24.0.0"
+-      },
+-      "peerDependencies": {
+-        "@noble/hashes": "^1.8.0 || ^2.0.0"
+-      },
+-      "peerDependenciesMeta": {
+-        "@noble/hashes": {
+-          "optional": true
+-        }
+-      }
+-    },
+     "node_modules/@socket.io/component-emitter": {
+       "version": "3.1.2",
+       "resolved": "https://registry.npmjs.org/@socket.io/component-emitter/-/component-emitter-3.1.2.tgz",
+@@ -233,16 +30,6 @@
+         "@types/node": "*"
+       }
+     },
+-    "node_modules/@types/localforage": {
+-      "version": "0.0.34",
+-      "resolved": "https://registry.npmjs.org/@types/localforage/-/localforage-0.0.34.tgz",
+-      "integrity": "sha512-tJxahnjm9dEI1X+hQSC5f2BSd/coZaqbIl1m3TCl0q9SVuC52XcXfV0XmoCU1+PmjyucuVITwoTnN8OlTbEXXA==",
+-      "deprecated": "This is a stub types definition for localforage (https://github.com/localForage/localForage). localforage provides its own type definitions, so you don't need @types/localforage installed!",
+-      "license": "MIT",
+-      "dependencies": {
+-        "localforage": "*"
+-      }
+-    },
+     "node_modules/@types/node": {
+       "version": "25.3.5",
+       "resolved": "https://registry.npmjs.org/@types/node/-/node-25.3.5.tgz",
+@@ -252,16 +39,6 @@
+         "undici-types": "~7.18.0"
+       }
+     },
+-    "node_modules/@xmldom/xmldom": {
+-      "version": "0.7.13",
+-      "resolved": "https://registry.npmjs.org/@xmldom/xmldom/-/xmldom-0.7.13.tgz",
+-      "integrity": "sha512-lm2GW5PkosIzccsaZIz7tp8cPADSIlIHWDFTR1N0SzfinhhYgeIQjFMz4rYzanCScr3DqQLeomUDArp6MWKm+g==",
+-      "deprecated": "this version is no longer supported, please update to at least 0.8.*",
+-      "license": "MIT",
+-      "engines": {
+-        "node": ">=10.0.0"
+-      }
+-    },
+     "node_modules/accepts": {
+       "version": "1.3.8",
+       "resolved": "https://registry.npmjs.org/accepts/-/accepts-1.3.8.tgz",
+@@ -275,41 +52,6 @@
+         "node": ">= 0.6"
+       }
+     },
+-    "node_modules/agent-base": {
+-      "version": "6.0.2",
+-      "resolved": "https://registry.npmjs.org/agent-base/-/agent-base-6.0.2.tgz",
+-      "integrity": "sha512-RZNwNclF7+MS/8bDg70amg32dyeZGZxiDuQmZxKLAlQjr3jGyLx+4Kkk58UO7D2QdgFIQCovuSuZESne6RG6XQ==",
+-      "license": "MIT",
+-      "dependencies": {
+-        "debug": "4"
+-      },
+-      "engines": {
+-        "node": ">= 6.0.0"
+-      }
+-    },
+-    "node_modules/agent-base/node_modules/debug": {
+-      "version": "4.4.3",
+-      "resolved": "https://registry.npmjs.org/debug/-/debug-4.4.3.tgz",
+-      "integrity": "sha512-RGwwWnwQvkVfavKVt22FGLw+xYSdzARwm0ru6DhTVA3umU5hZc28V3kO4stgYryrTlLpuvgI9GiijltAjNbcqA==",
+-      "license": "MIT",
+-      "dependencies": {
+-        "ms": "^2.1.3"
+-      },
+-      "engines": {
+-        "node": ">=6.0"
+-      },
+-      "peerDependenciesMeta": {
+-        "supports-color": {
+-          "optional": true
+-        }
+-      }
+-    },
+-    "node_modules/agent-base/node_modules/ms": {
+-      "version": "2.1.3",
+-      "resolved": "https://registry.npmjs.org/ms/-/ms-2.1.3.tgz",
+-      "integrity": "sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==",
+-      "license": "MIT"
+-    },
+     "node_modules/append-field": {
+       "version": "1.0.0",
+       "resolved": "https://registry.npmjs.org/append-field/-/append-field-1.0.0.tgz",
+@@ -322,23 +64,6 @@
+       "integrity": "sha512-PCVAQswWemu6UdxsDFFX/+gVeYqKAod3D3UVm91jHwynguOwAvYPhx8nNlM++NqRcK6CxxpUafjmhIdKiHibqg==",
+       "license": "MIT"
+     },
+-    "node_modules/asynckit": {
+-      "version": "0.4.0",
+-      "resolved": "https://registry.npmjs.org/asynckit/-/asynckit-0.4.0.tgz",
+-      "integrity": "sha512-Oei9OH4tRh0YqU3GxhX79dM/mwVgvbZJaSNaRk+bshkj0S5cfHcgYakreBjrHwatXKbz+IoIdYLxrKim2MjW0Q==",
+-      "license": "MIT"
+-    },
+-    "node_modules/axios": {
+-      "version": "1.13.6",
+-      "resolved": "https://registry.npmjs.org/axios/-/axios-1.13.6.tgz",
+-      "integrity": "sha512-ChTCHMouEe2kn713WHbQGcuYrr6fXTBiu460OTwWrWob16g1bXn4vtz07Ope7ewMozJAnEquLk5lWQWtBig9DQ==",
+-      "license": "MIT",
+-      "dependencies": {
+-        "follow-redirects": "^1.15.11",
+-        "form-data": "^4.0.5",
+-        "proxy-from-env": "^1.1.0"
+-      }
+-    },
+     "node_modules/base64id": {
+       "version": "2.0.0",
+       "resolved": "https://registry.npmjs.org/base64id/-/base64id-2.0.0.tgz",
+@@ -348,15 +73,6 @@
+         "node": "^4.5.0 || >= 5.9"
+       }
+     },
+-    "node_modules/bidi-js": {
+-      "version": "1.0.3",
+-      "resolved": "https://registry.npmjs.org/bidi-js/-/bidi-js-1.0.3.tgz",
+-      "integrity": "sha512-RKshQI1R3YQ+n9YJz2QQ147P66ELpa1FQEg20Dk8oW9t2KgLbpDLLp9aGZ7y8WHSshDknG0bknqGw5/tyCs5tw==",
+-      "license": "MIT",
+-      "dependencies": {
+-        "require-from-string": "^2.0.2"
+-      }
+-    },
+     "node_modules/body-parser": {
+       "version": "1.20.4",
+       "resolved": "https://registry.npmjs.org/body-parser/-/body-parser-1.20.4.tgz",
+@@ -381,12 +97,6 @@
+         "npm": "1.2.8000 || >= 1.4.16"
+       }
+     },
+-    "node_modules/buffer-equal-constant-time": {
+-      "version": "1.0.1",
+-      "resolved": "https://registry.npmjs.org/buffer-equal-constant-time/-/buffer-equal-constant-time-1.0.1.tgz",
+-      "integrity": "sha512-zRpUiDwd/xk6ADqPMATG8vc9VPrkck7T07OIx0gnjmJAnHnTVXNQG3vfvWNuiZIkwu9KrKdA1iJKfsfTVxE6NA==",
+-      "license": "BSD-3-Clause"
+-    },
+     "node_modules/buffer-from": {
+       "version": "1.1.2",
+       "resolved": "https://registry.npmjs.org/buffer-from/-/buffer-from-1.1.2.tgz",
+@@ -442,18 +152,6 @@
+         "url": "https://github.com/sponsors/ljharb"
+       }
+     },
+-    "node_modules/combined-stream": {
+-      "version": "1.0.8",
+-      "resolved": "https://registry.npmjs.org/combined-stream/-/combined-stream-1.0.8.tgz",
+-      "integrity": "sha512-FQN4MRfuJeHf7cBbBMJFXhKSDq+2kAArBlmRBvcvFE5BB1HZKXtSFASDhdlz9zOYwxh8lDdnvmMOe/+5cdoEdg==",
+-      "license": "MIT",
+-      "dependencies": {
+-        "delayed-stream": "~1.0.0"
+-      },
+-      "engines": {
+-        "node": ">= 0.8"
+-      }
+-    },
+     "node_modules/concat-stream": {
+       "version": "1.6.2",
+       "resolved": "https://registry.npmjs.org/concat-stream/-/concat-stream-1.6.2.tgz",
+@@ -505,17 +203,6 @@
+       "integrity": "sha512-NXdYc3dLr47pBkpUCHtKSwIOQXLVn8dZEuywboCOJY/osA0wFSLlSawr3KN8qXJEyX66FcONTH8EIlVuK0yyFA==",
+       "license": "MIT"
+     },
+-    "node_modules/core-js": {
+-      "version": "3.48.0",
+-      "resolved": "https://registry.npmjs.org/core-js/-/core-js-3.48.0.tgz",
+-      "integrity": "sha512-zpEHTy1fjTMZCKLHUZoVeylt9XrzaIN2rbPXEt0k+q7JE5CkCZdo6bNq55bn24a69CH7ErAVLKijxJja4fw+UQ==",
+-      "hasInstallScript": true,
+-      "license": "MIT",
+-      "funding": {
+-        "type": "opencollective",
+-        "url": "https://opencollective.com/core-js"
+-      }
+-    },
+     "node_modules/core-util-is": {
+       "version": "1.0.3",
+       "resolved": "https://registry.npmjs.org/core-util-is/-/core-util-is-1.0.3.tgz",
+@@ -539,66 +226,6 @@
+         "url": "https://opencollective.com/express"
+       }
+     },
+-    "node_modules/css-tree": {
+-      "version": "3.2.1",
+-      "resolved": "https://registry.npmjs.org/css-tree/-/css-tree-3.2.1.tgz",
+-      "integrity": "sha512-X7sjQzceUhu1u7Y/ylrRZFU2FS6LRiFVp6rKLPg23y3x3c3DOKAwuXGDp+PAGjh6CSnCjYeAul8pcT8bAl+lSA==",
+-      "license": "MIT",
+-      "dependencies": {
+-        "mdn-data": "2.27.1",
+-        "source-map-js": "^1.2.1"
+-      },
+-      "engines": {
+-        "node": "^10 || ^12.20.0 || ^14.13.0 || >=15.0.0"
+-      }
+-    },
+-    "node_modules/cssstyle": {
+-      "version": "6.2.0",
+-      "resolved": "https://registry.npmjs.org/cssstyle/-/cssstyle-6.2.0.tgz",
+-      "integrity": "sha512-Fm5NvhYathRnXNVndkUsCCuR63DCLVVwGOOwQw782coXFi5HhkXdu289l59HlXZBawsyNccXfWRYvLzcDCdDig==",
+-      "license": "MIT",
+-      "dependencies": {
+-        "@asamuzakjp/css-color": "^5.0.1",
+-        "@csstools/css-syntax-patches-for-csstree": "^1.0.28",
+-        "css-tree": "^3.1.0",
+-        "lru-cache": "^11.2.6"
+-      },
+-      "engines": {
+-        "node": ">=20"
+-      }
+-    },
+-    "node_modules/d": {
+-      "version": "1.0.2",
+-      "resolved": "https://registry.npmjs.org/d/-/d-1.0.2.tgz",
+-      "integrity": "sha512-MOqHvMWF9/9MX6nza0KgvFH4HpMU0EF5uUDXqX/BtxtU8NfB0QzRtJ8Oe/6SuS4kbhyzVJwjd97EA4PKrzJ8bw==",
+-      "license": "ISC",
+-      "dependencies": {
+-        "es5-ext": "^0.10.64",
+-        "type": "^2.7.2"
+-      },
+-      "engines": {
+-        "node": ">=0.12"
+-      }
+-    },
+-    "node_modules/data-urls": {
+-      "version": "7.0.0",
+-      "resolved": "https://registry.npmjs.org/data-urls/-/data-urls-7.0.0.tgz",
+-      "integrity": "sha512-23XHcCF+coGYevirZceTVD7NdJOqVn+49IHyxgszm+JIiHLoB2TkmPtsYkNWT1pvRSGkc35L6NHs0yHkN2SumA==",
+-      "license": "MIT",
+-      "dependencies": {
+-        "whatwg-mimetype": "^5.0.0",
+-        "whatwg-url": "^16.0.0"
+-      },
+-      "engines": {
+-        "node": "^20.19.0 || ^22.12.0 || >=24.0.0"
+-      }
+-    },
+-    "node_modules/dayjs": {
+-      "version": "1.11.19",
+-      "resolved": "https://registry.npmjs.org/dayjs/-/dayjs-1.11.19.tgz",
+-      "integrity": "sha512-t5EcLVS6QPBNqM2z8fakk/NKel+Xzshgt8FFKAn+qwlD1pzZWxh0nVCrvFK7ZDb6XucZeF9z8C7CBWTRIVApAw==",
+-      "license": "MIT"
+-    },
+     "node_modules/debug": {
+       "version": "2.6.9",
+       "resolved": "https://registry.npmjs.org/debug/-/debug-2.6.9.tgz",
+@@ -608,21 +235,6 @@
+         "ms": "2.0.0"
+       }
+     },
+-    "node_modules/decimal.js": {
+-      "version": "10.6.0",
+-      "resolved": "https://registry.npmjs.org/decimal.js/-/decimal.js-10.6.0.tgz",
+-      "integrity": "sha512-YpgQiITW3JXGntzdUmyUR1V812Hn8T1YVXhCu+wO3OpS4eU9l4YdD3qjyiKdV6mvV29zapkMeD390UVEf2lkUg==",
+-      "license": "MIT"
+-    },
+-    "node_modules/delayed-stream": {
+-      "version": "1.0.0",
+-      "resolved": "https://registry.npmjs.org/delayed-stream/-/delayed-stream-1.0.0.tgz",
+-      "integrity": "sha512-ZySD7Nf91aLB0RxL4KGrKHBXl7Eds1DAmEdcoVawXnLD7SDhpNgtuII2aAkg7a7QS41jxPSZ17p4VdGnMHk3MQ==",
+-      "license": "MIT",
+-      "engines": {
+-        "node": ">=0.4.0"
+-      }
+-    },
+     "node_modules/depd": {
+       "version": "2.0.0",
+       "resolved": "https://registry.npmjs.org/depd/-/depd-2.0.0.tgz",
+@@ -642,24 +254,6 @@
+         "npm": "1.2.8000 || >= 1.4.16"
+       }
+     },
+-    "node_modules/dot-env": {
+-      "version": "0.0.1",
+-      "resolved": "https://registry.npmjs.org/dot-env/-/dot-env-0.0.1.tgz",
+-      "integrity": "sha512-SajHtzm3v7yjMH8DW9xY+4i7Zv/cN3aMtLVy0mRMuZu8L9qRCR7CNqcl4KBbG27e5Up4BpSlEyPXXLNbSAe2DQ==",
+-      "license": "MIT"
+-    },
+-    "node_modules/dotenv": {
+-      "version": "17.3.1",
+-      "resolved": "https://registry.npmjs.org/dotenv/-/dotenv-17.3.1.tgz",
+-      "integrity": "sha512-IO8C/dzEb6O3F9/twg6ZLXz164a2fhTnEWb95H23Dm4OuN+92NmEAlTrupP9VW6Jm3sO26tQlqyvyi4CsnY9GA==",
+-      "license": "BSD-2-Clause",
+-      "engines": {
+-        "node": ">=12"
+-      },
+-      "funding": {
+-        "url": "https://dotenvx.com"
+-      }
+-    },
+     "node_modules/dunder-proto": {
+       "version": "1.0.1",
+       "resolved": "https://registry.npmjs.org/dunder-proto/-/dunder-proto-1.0.1.tgz",
+@@ -674,15 +268,6 @@
+         "node": ">= 0.4"
+       }
+     },
+-    "node_modules/ecdsa-sig-formatter": {
+-      "version": "1.0.11",
+-      "resolved": "https://registry.npmjs.org/ecdsa-sig-formatter/-/ecdsa-sig-formatter-1.0.11.tgz",
+-      "integrity": "sha512-nagl3RYrbNv6kQkeJIpt6NJZy8twLB/2vtz6yN9Z4vRKHN4/QZJIEbqohALSgwKdnksuY3k5Addp5lg8sVoVcQ==",
+-      "license": "Apache-2.0",
+-      "dependencies": {
+-        "safe-buffer": "^5.0.1"
+-      }
+-    },
+     "node_modules/ee-first": {
+       "version": "1.1.1",
+       "resolved": "https://registry.npmjs.org/ee-first/-/ee-first-1.1.1.tgz",
+@@ -750,35 +335,6 @@
+       "integrity": "sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==",
+       "license": "MIT"
+     },
+-    "node_modules/entities": {
+-      "version": "6.0.1",
+-      "resolved": "https://registry.npmjs.org/entities/-/entities-6.0.1.tgz",
+-      "integrity": "sha512-aN97NXWF6AWBTahfVOIrB/NShkzi5H7F9r1s9mD3cDj4Ko5f2qhhVoYMibXF7GlLveb/D2ioWay8lxI97Ven3g==",
+-      "license": "BSD-2-Clause",
+-      "engines": {
+-        "node": ">=0.12"
+-      },
+-      "funding": {
+-        "url": "https://github.com/fb55/entities?sponsor=1"
+-      }
+-    },
+-    "node_modules/epubjs": {
+-      "version": "0.3.93",
+-      "resolved": "https://registry.npmjs.org/epubjs/-/epubjs-0.3.93.tgz",
+-      "integrity": "sha512-c06pNSdBxcXv3dZSbXAVLE1/pmleRhOT6mXNZo6INKmvuKpYB65MwU/lO7830czCtjIiK9i+KR+3S+p0wtljrw==",
+-      "license": "BSD-2-Clause",
+-      "dependencies": {
+-        "@types/localforage": "0.0.34",
+-        "@xmldom/xmldom": "^0.7.5",
+-        "core-js": "^3.18.3",
+-        "event-emitter": "^0.3.5",
+-        "jszip": "^3.7.1",
+-        "localforage": "^1.10.0",
+-        "lodash": "^4.17.21",
+-        "marks-pane": "^1.0.9",
+-        "path-webpack": "0.0.3"
+-      }
+-    },
+     "node_modules/es-define-property": {
+       "version": "1.0.1",
+       "resolved": "https://registry.npmjs.org/es-define-property/-/es-define-property-1.0.1.tgz",
+@@ -809,82 +365,12 @@
+         "node": ">= 0.4"
+       }
+     },
+-    "node_modules/es-set-tostringtag": {
+-      "version": "2.1.0",
+-      "resolved": "https://registry.npmjs.org/es-set-tostringtag/-/es-set-tostringtag-2.1.0.tgz",
+-      "integrity": "sha512-j6vWzfrGVfyXxge+O0x5sh6cvxAog0a/4Rdd2K36zCMV5eJ+/+tOAngRO8cODMNWbVRdVlmGZQL2YS3yR8bIUA==",
+-      "license": "MIT",
+-      "dependencies": {
+-        "es-errors": "^1.3.0",
+-        "get-intrinsic": "^1.2.6",
+-        "has-tostringtag": "^1.0.2",
+-        "hasown": "^2.0.2"
+-      },
+-      "engines": {
+-        "node": ">= 0.4"
+-      }
+-    },
+-    "node_modules/es5-ext": {
+-      "version": "0.10.64",
+-      "resolved": "https://registry.npmjs.org/es5-ext/-/es5-ext-0.10.64.tgz",
+-      "integrity": "sha512-p2snDhiLaXe6dahss1LddxqEm+SkuDvV8dnIQG0MWjyHpcMNfXKPE+/Cc0y+PhxJX3A4xGNeFCj5oc0BUh6deg==",
+-      "hasInstallScript": true,
+-      "license": "ISC",
+-      "dependencies": {
+-        "es6-iterator": "^2.0.3",
+-        "es6-symbol": "^3.1.3",
+-        "esniff": "^2.0.1",
+-        "next-tick": "^1.1.0"
+-      },
+-      "engines": {
+-        "node": ">=0.10"
+-      }
+-    },
+-    "node_modules/es6-iterator": {
+-      "version": "2.0.3",
+-      "resolved": "https://registry.npmjs.org/es6-iterator/-/es6-iterator-2.0.3.tgz",
+-      "integrity": "sha512-zw4SRzoUkd+cl+ZoE15A9o1oQd920Bb0iOJMQkQhl3jNc03YqVjAhG7scf9C5KWRU/R13Orf588uCC6525o02g==",
+-      "license": "MIT",
+-      "dependencies": {
+-        "d": "1",
+-        "es5-ext": "^0.10.35",
+-        "es6-symbol": "^3.1.1"
+-      }
+-    },
+-    "node_modules/es6-symbol": {
+-      "version": "3.1.4",
+-      "resolved": "https://registry.npmjs.org/es6-symbol/-/es6-symbol-3.1.4.tgz",
+-      "integrity": "sha512-U9bFFjX8tFiATgtkJ1zg25+KviIXpgRvRHS8sau3GfhVzThRQrOeksPeT0BWW2MNZs1OEWJ1DPXOQMn0KKRkvg==",
+-      "license": "ISC",
+-      "dependencies": {
+-        "d": "^1.0.2",
+-        "ext": "^1.7.0"
+-      },
+-      "engines": {
+-        "node": ">=0.12"
+-      }
+-    },
+     "node_modules/escape-html": {
+       "version": "1.0.3",
+       "resolved": "https://registry.npmjs.org/escape-html/-/escape-html-1.0.3.tgz",
+       "integrity": "sha512-NiSupZ4OeuGwr68lGIeym/ksIZMJodUGOSCZ/FSnTxcrekbvqrgdUxlJOMpijaKZVjAJrWrGs/6Jy8OMuyj9ow==",
+       "license": "MIT"
+     },
+-    "node_modules/esniff": {
+-      "version": "2.0.1",
+-      "resolved": "https://registry.npmjs.org/esniff/-/esniff-2.0.1.tgz",
+-      "integrity": "sha512-kTUIGKQ/mDPFoJ0oVfcmyJn4iBDRptjNVIzwIFR7tqWXdVI9xfA2RMwY/gbSpJG3lkdWNEjLap/NqVHZiJsdfg==",
+-      "license": "ISC",
+-      "dependencies": {
+-        "d": "^1.0.1",
+-        "es5-ext": "^0.10.62",
+-        "event-emitter": "^0.3.5",
+-        "type": "^2.7.2"
+-      },
+-      "engines": {
+-        "node": ">=0.10"
+-      }
+-    },
+     "node_modules/etag": {
+       "version": "1.8.1",
+       "resolved": "https://registry.npmjs.org/etag/-/etag-1.8.1.tgz",
+@@ -894,16 +380,6 @@
+         "node": ">= 0.6"
+       }
+     },
+-    "node_modules/event-emitter": {
+-      "version": "0.3.5",
+-      "resolved": "https://registry.npmjs.org/event-emitter/-/event-emitter-0.3.5.tgz",
+-      "integrity": "sha512-D9rRn9y7kLPnJ+hMq7S/nhvoKwwvVJahBi2BPmx3bvbsEdK3W9ii8cBSGjP+72/LnM4n6fo3+dkCX5FeTQruXA==",
+-      "license": "MIT",
+-      "dependencies": {
+-        "d": "1",
+-        "es5-ext": "~0.10.14"
+-      }
+-    },
+     "node_modules/express": {
+       "version": "4.22.1",
+       "resolved": "https://registry.npmjs.org/express/-/express-4.22.1.tgz",
+@@ -950,15 +426,6 @@
+         "url": "https://opencollective.com/express"
+       }
+     },
+-    "node_modules/ext": {
+-      "version": "1.7.0",
+-      "resolved": "https://registry.npmjs.org/ext/-/ext-1.7.0.tgz",
+-      "integrity": "sha512-6hxeJYaL110a9b5TEJSj0gojyHQAmA2ch5Os+ySCiA1QGdS697XWY1pzsrSjqA9LDEEgdB/KypIlR59RcLuHYw==",
+-      "license": "ISC",
+-      "dependencies": {
+-        "type": "^2.7.2"
+-      }
+-    },
+     "node_modules/finalhandler": {
+       "version": "1.3.2",
+       "resolved": "https://registry.npmjs.org/finalhandler/-/finalhandler-1.3.2.tgz",
+@@ -977,42 +444,6 @@
+         "node": ">= 0.8"
+       }
+     },
+-    "node_modules/follow-redirects": {
+-      "version": "1.15.11",
+-      "resolved": "https://registry.npmjs.org/follow-redirects/-/follow-redirects-1.15.11.tgz",
+-      "integrity": "sha512-deG2P0JfjrTxl50XGCDyfI97ZGVCxIpfKYmfyrQ54n5FO/0gfIES8C/Psl6kWVDolizcaaxZJnTS0QSMxvnsBQ==",
+-      "funding": [
+-        {
+-          "type": "individual",
+-          "url": "https://github.com/sponsors/RubenVerborgh"
+-        }
+-      ],
+-      "license": "MIT",
+-      "engines": {
+-        "node": ">=4.0"
+-      },
+-      "peerDependenciesMeta": {
+-        "debug": {
+-          "optional": true
+-        }
+-      }
+-    },
+-    "node_modules/form-data": {
+-      "version": "4.0.5",
+-      "resolved": "https://registry.npmjs.org/form-data/-/form-data-4.0.5.tgz",
+-      "integrity": "sha512-8RipRLol37bNs2bhoV67fiTEvdTrbMUYcFTiy3+wuuOnUog2QBHCZWXDRijWQfAkhBj2Uf5UnVaiWwA5vdd82w==",
+-      "license": "MIT",
+-      "dependencies": {
+-        "asynckit": "^0.4.0",
+-        "combined-stream": "^1.0.8",
+-        "es-set-tostringtag": "^2.1.0",
+-        "hasown": "^2.0.2",
+-        "mime-types": "^2.1.12"
+-      },
+-      "engines": {
+-        "node": ">= 6"
+-      }
+-    },
+     "node_modules/forwarded": {
+       "version": "0.2.0",
+       "resolved": "https://registry.npmjs.org/forwarded/-/forwarded-0.2.0.tgz",
+@@ -1094,153 +525,45 @@
+       "resolved": "https://registry.npmjs.org/has-symbols/-/has-symbols-1.1.0.tgz",
+       "integrity": "sha512-1cDNdwJ2Jaohmb3sg4OmKaMBwuC48sYni5HUw2DvsC8LjGTLK9h+eb1X6RyuOHe4hT0ULCW68iomhjUoKUqlPQ==",
+       "license": "MIT",
+-      "engines": {
+-        "node": ">= 0.4"
+-      },
+-      "funding": {
+-        "url": "https://github.com/sponsors/ljharb"
+-      }
+-    },
+-    "node_modules/has-tostringtag": {
+-      "version": "1.0.2",
+-      "resolved": "https://registry.npmjs.org/has-tostringtag/-/has-tostringtag-1.0.2.tgz",
+-      "integrity": "sha512-NqADB8VjPFLM2V0VvHUewwwsw0ZWBaIdgo+ieHtK3hasLz4qeCRjYcqfB6AQrBggRKppKF8L52/VqdVsO47Dlw==",
+-      "license": "MIT",
+-      "dependencies": {
+-        "has-symbols": "^1.0.3"
+-      },
+-      "engines": {
+-        "node": ">= 0.4"
+-      },
+-      "funding": {
+-        "url": "https://github.com/sponsors/ljharb"
+-      }
+-    },
+-    "node_modules/hasown": {
+-      "version": "2.0.2",
+-      "resolved": "https://registry.npmjs.org/hasown/-/hasown-2.0.2.tgz",
+-      "integrity": "sha512-0hJU9SCPvmMzIBdZFqNPXWa6dqh7WdH0cII9y+CyS8rG3nL48Bclra9HmKhVVUHyPWNH5Y7xDwAB7bfgSjkUMQ==",
+-      "license": "MIT",
+-      "dependencies": {
+-        "function-bind": "^1.1.2"
+-      },
+-      "engines": {
+-        "node": ">= 0.4"
+-      }
+-    },
+-    "node_modules/html-encoding-sniffer": {
+-      "version": "6.0.0",
+-      "resolved": "https://registry.npmjs.org/html-encoding-sniffer/-/html-encoding-sniffer-6.0.0.tgz",
+-      "integrity": "sha512-CV9TW3Y3f8/wT0BRFc1/KAVQ3TUHiXmaAb6VW9vtiMFf7SLoMd1PdAc4W3KFOFETBJUb90KatHqlsZMWV+R9Gg==",
+-      "license": "MIT",
+-      "dependencies": {
+-        "@exodus/bytes": "^1.6.0"
+-      },
+-      "engines": {
+-        "node": "^20.19.0 || ^22.12.0 || >=24.0.0"
+-      }
+-    },
+-    "node_modules/http-errors": {
+-      "version": "2.0.1",
+-      "resolved": "https://registry.npmjs.org/http-errors/-/http-errors-2.0.1.tgz",
+-      "integrity": "sha512-4FbRdAX+bSdmo4AUFuS0WNiPz8NgFt+r8ThgNWmlrjQjt1Q7ZR9+zTlce2859x4KSXrwIsaeTqDoKQmtP8pLmQ==",
+-      "license": "MIT",
+-      "dependencies": {
+-        "depd": "~2.0.0",
+-        "inherits": "~2.0.4",
+-        "setprototypeof": "~1.2.0",
+-        "statuses": "~2.0.2",
+-        "toidentifier": "~1.0.1"
+-      },
+-      "engines": {
+-        "node": ">= 0.8"
+-      },
+-      "funding": {
+-        "type": "opencollective",
+-        "url": "https://opencollective.com/express"
+-      }
+-    },
+-    "node_modules/http-proxy-agent": {
+-      "version": "7.0.2",
+-      "resolved": "https://registry.npmjs.org/http-proxy-agent/-/http-proxy-agent-7.0.2.tgz",
+-      "integrity": "sha512-T1gkAiYYDWYx3V5Bmyu7HcfcvL7mUrTWiM6yOfa3PIphViJ/gFPbvidQ+veqSOHci/PxBcDabeUNCzpOODJZig==",
+-      "license": "MIT",
+-      "dependencies": {
+-        "agent-base": "^7.1.0",
+-        "debug": "^4.3.4"
+-      },
+-      "engines": {
+-        "node": ">= 14"
+-      }
+-    },
+-    "node_modules/http-proxy-agent/node_modules/agent-base": {
+-      "version": "7.1.4",
+-      "resolved": "https://registry.npmjs.org/agent-base/-/agent-base-7.1.4.tgz",
+-      "integrity": "sha512-MnA+YT8fwfJPgBx3m60MNqakm30XOkyIoH1y6huTQvC0PwZG7ki8NacLBcrPbNoo8vEZy7Jpuk7+jMO+CUovTQ==",
+-      "license": "MIT",
+-      "engines": {
+-        "node": ">= 14"
+-      }
+-    },
+-    "node_modules/http-proxy-agent/node_modules/debug": {
+-      "version": "4.4.3",
+-      "resolved": "https://registry.npmjs.org/debug/-/debug-4.4.3.tgz",
+-      "integrity": "sha512-RGwwWnwQvkVfavKVt22FGLw+xYSdzARwm0ru6DhTVA3umU5hZc28V3kO4stgYryrTlLpuvgI9GiijltAjNbcqA==",
+-      "license": "MIT",
+-      "dependencies": {
+-        "ms": "^2.1.3"
+-      },
+-      "engines": {
+-        "node": ">=6.0"
+-      },
+-      "peerDependenciesMeta": {
+-        "supports-color": {
+-          "optional": true
+-        }
++      "engines": {
++        "node": ">= 0.4"
++      },
++      "funding": {
++        "url": "https://github.com/sponsors/ljharb"
+       }
+     },
+-    "node_modules/http-proxy-agent/node_modules/ms": {
+-      "version": "2.1.3",
+-      "resolved": "https://registry.npmjs.org/ms/-/ms-2.1.3.tgz",
+-      "integrity": "sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==",
+-      "license": "MIT"
+-    },
+-    "node_modules/https-proxy-agent": {
+-      "version": "5.0.1",
+-      "resolved": "https://registry.npmjs.org/https-proxy-agent/-/https-proxy-agent-5.0.1.tgz",
+-      "integrity": "sha512-dFcAjpTQFgoLMzC2VwU+C/CbS7uRL0lWmxDITmqm7C+7F0Odmj6s9l6alZc6AELXhrnggM2CeWSXHGOdX2YtwA==",
++    "node_modules/hasown": {
++      "version": "2.0.2",
++      "resolved": "https://registry.npmjs.org/hasown/-/hasown-2.0.2.tgz",
++      "integrity": "sha512-0hJU9SCPvmMzIBdZFqNPXWa6dqh7WdH0cII9y+CyS8rG3nL48Bclra9HmKhVVUHyPWNH5Y7xDwAB7bfgSjkUMQ==",
+       "license": "MIT",
+       "dependencies": {
+-        "agent-base": "6",
+-        "debug": "4"
++        "function-bind": "^1.1.2"
+       },
+       "engines": {
+-        "node": ">= 6"
++        "node": ">= 0.4"
+       }
+     },
+-    "node_modules/https-proxy-agent/node_modules/debug": {
+-      "version": "4.4.3",
+-      "resolved": "https://registry.npmjs.org/debug/-/debug-4.4.3.tgz",
+-      "integrity": "sha512-RGwwWnwQvkVfavKVt22FGLw+xYSdzARwm0ru6DhTVA3umU5hZc28V3kO4stgYryrTlLpuvgI9GiijltAjNbcqA==",
++    "node_modules/http-errors": {
++      "version": "2.0.1",
++      "resolved": "https://registry.npmjs.org/http-errors/-/http-errors-2.0.1.tgz",
++      "integrity": "sha512-4FbRdAX+bSdmo4AUFuS0WNiPz8NgFt+r8ThgNWmlrjQjt1Q7ZR9+zTlce2859x4KSXrwIsaeTqDoKQmtP8pLmQ==",
+       "license": "MIT",
+       "dependencies": {
+-        "ms": "^2.1.3"
++        "depd": "~2.0.0",
++        "inherits": "~2.0.4",
++        "setprototypeof": "~1.2.0",
++        "statuses": "~2.0.2",
++        "toidentifier": "~1.0.1"
+       },
+       "engines": {
+-        "node": ">=6.0"
++        "node": ">= 0.8"
+       },
+-      "peerDependenciesMeta": {
+-        "supports-color": {
+-          "optional": true
+-        }
++      "funding": {
++        "type": "opencollective",
++        "url": "https://opencollective.com/express"
+       }
+     },
+-    "node_modules/https-proxy-agent/node_modules/ms": {
+-      "version": "2.1.3",
+-      "resolved": "https://registry.npmjs.org/ms/-/ms-2.1.3.tgz",
+-      "integrity": "sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==",
+-      "license": "MIT"
+-    },
+     "node_modules/iconv-lite": {
+       "version": "0.4.24",
+       "resolved": "https://registry.npmjs.org/iconv-lite/-/iconv-lite-0.4.24.tgz",
+@@ -1253,12 +576,6 @@
+         "node": ">=0.10.0"
+       }
+     },
+-    "node_modules/immediate": {
+-      "version": "3.0.6",
+-      "resolved": "https://registry.npmjs.org/immediate/-/immediate-3.0.6.tgz",
+-      "integrity": "sha512-XXOFtyqDjNDAQxVfYxuF7g9Il/IbWmmlQg2MYKOH8ExIT1qg6xc4zyS3HaEEATgs1btfzxq15ciUiY7gjSXRGQ==",
+-      "license": "MIT"
+-    },
+     "node_modules/inherits": {
+       "version": "2.0.4",
+       "resolved": "https://registry.npmjs.org/inherits/-/inherits-2.0.4.tgz",
+@@ -1274,254 +591,12 @@
+         "node": ">= 0.10"
+       }
+     },
+-    "node_modules/is-potential-custom-element-name": {
+-      "version": "1.0.1",
+-      "resolved": "https://registry.npmjs.org/is-potential-custom-element-name/-/is-potential-custom-element-name-1.0.1.tgz",
+-      "integrity": "sha512-bCYeRA2rVibKZd+s2625gGnGF/t7DSqDs4dP7CrLA1m7jKWz6pps0LpYLJN8Q64HtmPKJ1hrN3nzPNKFEKOUiQ==",
+-      "license": "MIT"
+-    },
+     "node_modules/isarray": {
+       "version": "1.0.0",
+       "resolved": "https://registry.npmjs.org/isarray/-/isarray-1.0.0.tgz",
+       "integrity": "sha512-VLghIWNM6ELQzo7zwmcg0NmTVyWKYjvIeM83yjp0wRDTmUnrM678fQbcKBo6n2CJEF0szoG//ytg+TKla89ALQ==",
+       "license": "MIT"
+     },
+-    "node_modules/jsdom": {
+-      "version": "28.1.0",
+-      "resolved": "https://registry.npmjs.org/jsdom/-/jsdom-28.1.0.tgz",
+-      "integrity": "sha512-0+MoQNYyr2rBHqO1xilltfDjV9G7ymYGlAUazgcDLQaUf8JDHbuGwsxN6U9qWaElZ4w1B2r7yEGIL3GdeW3Rug==",
+-      "license": "MIT",
+-      "dependencies": {
+-        "@acemir/cssom": "^0.9.31",
+-        "@asamuzakjp/dom-selector": "^6.8.1",
+-        "@bramus/specificity": "^2.4.2",
+-        "@exodus/bytes": "^1.11.0",
+-        "cssstyle": "^6.0.1",
+-        "data-urls": "^7.0.0",
+-        "decimal.js": "^10.6.0",
+-        "html-encoding-sniffer": "^6.0.0",
+-        "http-proxy-agent": "^7.0.2",
+-        "https-proxy-agent": "^7.0.6",
+-        "is-potential-custom-element-name": "^1.0.1",
+-        "parse5": "^8.0.0",
+-        "saxes": "^6.0.0",
+-        "symbol-tree": "^3.2.4",
+-        "tough-cookie": "^6.0.0",
+-        "undici": "^7.21.0",
+-        "w3c-xmlserializer": "^5.0.0",
+-        "webidl-conversions": "^8.0.1",
+-        "whatwg-mimetype": "^5.0.0",
+-        "whatwg-url": "^16.0.0",
+-        "xml-name-validator": "^5.0.0"
+-      },
+-      "engines": {
+-        "node": "^20.19.0 || ^22.12.0 || >=24.0.0"
+-      },
+-      "peerDependencies": {
+-        "canvas": "^3.0.0"
+-      },
+-      "peerDependenciesMeta": {
+-        "canvas": {
+-          "optional": true
+-        }
+-      }
+-    },
+-    "node_modules/jsdom/node_modules/agent-base": {
+-      "version": "7.1.4",
+-      "resolved": "https://registry.npmjs.org/agent-base/-/agent-base-7.1.4.tgz",
+-      "integrity": "sha512-MnA+YT8fwfJPgBx3m60MNqakm30XOkyIoH1y6huTQvC0PwZG7ki8NacLBcrPbNoo8vEZy7Jpuk7+jMO+CUovTQ==",
+-      "license": "MIT",
+-      "engines": {
+-        "node": ">= 14"
+-      }
+-    },
+-    "node_modules/jsdom/node_modules/debug": {
+-      "version": "4.4.3",
+-      "resolved": "https://registry.npmjs.org/debug/-/debug-4.4.3.tgz",
+-      "integrity": "sha512-RGwwWnwQvkVfavKVt22FGLw+xYSdzARwm0ru6DhTVA3umU5hZc28V3kO4stgYryrTlLpuvgI9GiijltAjNbcqA==",
+-      "license": "MIT",
+-      "dependencies": {
+-        "ms": "^2.1.3"
+-      },
+-      "engines": {
+-        "node": ">=6.0"
+-      },
+-      "peerDependenciesMeta": {
+-        "supports-color": {
+-          "optional": true
+-        }
+-      }
+-    },
+-    "node_modules/jsdom/node_modules/https-proxy-agent": {
+-      "version": "7.0.6",
+-      "resolved": "https://registry.npmjs.org/https-proxy-agent/-/https-proxy-agent-7.0.6.tgz",
+-      "integrity": "sha512-vK9P5/iUfdl95AI+JVyUuIcVtd4ofvtrOr3HNtM2yxC9bnMbEdp3x01OhQNnjb8IJYi38VlTE3mBXwcfvywuSw==",
+-      "license": "MIT",
+-      "dependencies": {
+-        "agent-base": "^7.1.2",
+-        "debug": "4"
+-      },
+-      "engines": {
+-        "node": ">= 14"
+-      }
+-    },
+-    "node_modules/jsdom/node_modules/ms": {
+-      "version": "2.1.3",
+-      "resolved": "https://registry.npmjs.org/ms/-/ms-2.1.3.tgz",
+-      "integrity": "sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==",
+-      "license": "MIT"
+-    },
+-    "node_modules/jsonwebtoken": {
+-      "version": "9.0.3",
+-      "resolved": "https://registry.npmjs.org/jsonwebtoken/-/jsonwebtoken-9.0.3.tgz",
+-      "integrity": "sha512-MT/xP0CrubFRNLNKvxJ2BYfy53Zkm++5bX9dtuPbqAeQpTVe0MQTFhao8+Cp//EmJp244xt6Drw/GVEGCUj40g==",
+-      "license": "MIT",
+-      "dependencies": {
+-        "jws": "^4.0.1",
+-        "lodash.includes": "^4.3.0",
+-        "lodash.isboolean": "^3.0.3",
+-        "lodash.isinteger": "^4.0.4",
+-        "lodash.isnumber": "^3.0.3",
+-        "lodash.isplainobject": "^4.0.6",
+-        "lodash.isstring": "^4.0.1",
+-        "lodash.once": "^4.0.0",
+-        "ms": "^2.1.1",
+-        "semver": "^7.5.4"
+-      },
+-      "engines": {
+-        "node": ">=12",
+-        "npm": ">=6"
+-      }
+-    },
+-    "node_modules/jsonwebtoken/node_modules/ms": {
+-      "version": "2.1.3",
+-      "resolved": "https://registry.npmjs.org/ms/-/ms-2.1.3.tgz",
+-      "integrity": "sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==",
+-      "license": "MIT"
+-    },
+-    "node_modules/jszip": {
+-      "version": "3.10.1",
+-      "resolved": "https://registry.npmjs.org/jszip/-/jszip-3.10.1.tgz",
+-      "integrity": "sha512-xXDvecyTpGLrqFrvkrUSoxxfJI5AH7U8zxxtVclpsUtMCq4JQ290LY8AW5c7Ggnr/Y/oK+bQMbqK2qmtk3pN4g==",
+-      "license": "(MIT OR GPL-3.0-or-later)",
+-      "dependencies": {
+-        "lie": "~3.3.0",
+-        "pako": "~1.0.2",
+-        "readable-stream": "~2.3.6",
+-        "setimmediate": "^1.0.5"
+-      }
+-    },
+-    "node_modules/jwa": {
+-      "version": "2.0.1",
+-      "resolved": "https://registry.npmjs.org/jwa/-/jwa-2.0.1.tgz",
+-      "integrity": "sha512-hRF04fqJIP8Abbkq5NKGN0Bbr3JxlQ+qhZufXVr0DvujKy93ZCbXZMHDL4EOtodSbCWxOqR8MS1tXA5hwqCXDg==",
+-      "license": "MIT",
+-      "dependencies": {
+-        "buffer-equal-constant-time": "^1.0.1",
+-        "ecdsa-sig-formatter": "1.0.11",
+-        "safe-buffer": "^5.0.1"
+-      }
+-    },
+-    "node_modules/jws": {
+-      "version": "4.0.1",
+-      "resolved": "https://registry.npmjs.org/jws/-/jws-4.0.1.tgz",
+-      "integrity": "sha512-EKI/M/yqPncGUUh44xz0PxSidXFr/+r0pA70+gIYhjv+et7yxM+s29Y+VGDkovRofQem0fs7Uvf4+YmAdyRduA==",
+-      "license": "MIT",
+-      "dependencies": {
+-        "jwa": "^2.0.1",
+-        "safe-buffer": "^5.0.1"
+-      }
+-    },
+-    "node_modules/lie": {
+-      "version": "3.3.0",
+-      "resolved": "https://registry.npmjs.org/lie/-/lie-3.3.0.tgz",
+-      "integrity": "sha512-UaiMJzeWRlEujzAuw5LokY1L5ecNQYZKfmyZ9L7wDHb/p5etKaxXhohBcrw0EYby+G/NA52vRSN4N39dxHAIwQ==",
+-      "license": "MIT",
+-      "dependencies": {
+-        "immediate": "~3.0.5"
+-      }
+-    },
+-    "node_modules/localforage": {
+-      "version": "1.10.0",
+-      "resolved": "https://registry.npmjs.org/localforage/-/localforage-1.10.0.tgz",
+-      "integrity": "sha512-14/H1aX7hzBBmmh7sGPd+AOMkkIrHM3Z1PAyGgZigA1H1p5O5ANnMyWzvpAETtG68/dC4pC0ncy3+PPGzXZHPg==",
+-      "license": "Apache-2.0",
+-      "dependencies": {
+-        "lie": "3.1.1"
+-      }
+-    },
+-    "node_modules/localforage/node_modules/lie": {
+-      "version": "3.1.1",
+-      "resolved": "https://registry.npmjs.org/lie/-/lie-3.1.1.tgz",
+-      "integrity": "sha512-RiNhHysUjhrDQntfYSfY4MU24coXXdEOgw9WGcKHNeEwffDYbF//u87M1EWaMGzuFoSbqW0C9C6lEEhDOAswfw==",
+-      "license": "MIT",
+-      "dependencies": {
+-        "immediate": "~3.0.5"
+-      }
+-    },
+-    "node_modules/lodash": {
+-      "version": "4.17.23",
+-      "resolved": "https://registry.npmjs.org/lodash/-/lodash-4.17.23.tgz",
+-      "integrity": "sha512-LgVTMpQtIopCi79SJeDiP0TfWi5CNEc/L/aRdTh3yIvmZXTnheWpKjSZhnvMl8iXbC1tFg9gdHHDMLoV7CnG+w==",
+-      "license": "MIT"
+-    },
+-    "node_modules/lodash.includes": {
+-      "version": "4.3.0",
+-      "resolved": "https://registry.npmjs.org/lodash.includes/-/lodash.includes-4.3.0.tgz",
+-      "integrity": "sha512-W3Bx6mdkRTGtlJISOvVD/lbqjTlPPUDTMnlXZFnVwi9NKJ6tiAk6LVdlhZMm17VZisqhKcgzpO5Wz91PCt5b0w==",
+-      "license": "MIT"
+-    },
+-    "node_modules/lodash.isboolean": {
+-      "version": "3.0.3",
+-      "resolved": "https://registry.npmjs.org/lodash.isboolean/-/lodash.isboolean-3.0.3.tgz",
+-      "integrity": "sha512-Bz5mupy2SVbPHURB98VAcw+aHh4vRV5IPNhILUCsOzRmsTmSQ17jIuqopAentWoehktxGd9e/hbIXq980/1QJg==",
+-      "license": "MIT"
+-    },
+-    "node_modules/lodash.isinteger": {
+-      "version": "4.0.4",
+-      "resolved": "https://registry.npmjs.org/lodash.isinteger/-/lodash.isinteger-4.0.4.tgz",
+-      "integrity": "sha512-DBwtEWN2caHQ9/imiNeEA5ys1JoRtRfY3d7V9wkqtbycnAmTvRRmbHKDV4a0EYc678/dia0jrte4tjYwVBaZUA==",
+-      "license": "MIT"
+-    },
+-    "node_modules/lodash.isnumber": {
+-      "version": "3.0.3",
+-      "resolved": "https://registry.npmjs.org/lodash.isnumber/-/lodash.isnumber-3.0.3.tgz",
+-      "integrity": "sha512-QYqzpfwO3/CWf3XP+Z+tkQsfaLL/EnUlXWVkIk5FUPc4sBdTehEqZONuyRt2P67PXAk+NXmTBcc97zw9t1FQrw==",
+-      "license": "MIT"
+-    },
+-    "node_modules/lodash.isplainobject": {
+-      "version": "4.0.6",
+-      "resolved": "https://registry.npmjs.org/lodash.isplainobject/-/lodash.isplainobject-4.0.6.tgz",
+-      "integrity": "sha512-oSXzaWypCMHkPC3NvBEaPHf0KsA5mvPrOPgQWDsbg8n7orZ290M0BmC/jgRZ4vcJ6DTAhjrsSYgdsW/F+MFOBA==",
+-      "license": "MIT"
+-    },
+-    "node_modules/lodash.isstring": {
+-      "version": "4.0.1",
+-      "resolved": "https://registry.npmjs.org/lodash.isstring/-/lodash.isstring-4.0.1.tgz",
+-      "integrity": "sha512-0wJxfxH1wgO3GrbuP+dTTk7op+6L41QCXbGINEmD+ny/G/eCqGzxyCsh7159S+mgDDcoarnBw6PC1PS5+wUGgw==",
+-      "license": "MIT"
+-    },
+-    "node_modules/lodash.once": {
+-      "version": "4.1.1",
+-      "resolved": "https://registry.npmjs.org/lodash.once/-/lodash.once-4.1.1.tgz",
+-      "integrity": "sha512-Sb487aTOCr9drQVL8pIxOzVhafOjZN9UU54hiN8PU3uAiSV7lx1yYNpbNmex2PK6dSJoNTSJUUswT651yww3Mg==",
+-      "license": "MIT"
+-    },
+-    "node_modules/lru-cache": {
+-      "version": "11.2.6",
+-      "resolved": "https://registry.npmjs.org/lru-cache/-/lru-cache-11.2.6.tgz",
+-      "integrity": "sha512-ESL2CrkS/2wTPfuend7Zhkzo2u0daGJ/A2VucJOgQ/C48S/zB8MMeMHSGKYpXhIjbPxfuezITkaBH1wqv00DDQ==",
+-      "license": "BlueOak-1.0.0",
+-      "engines": {
+-        "node": "20 || >=22"
+-      }
+-    },
+-    "node_modules/marks-pane": {
+-      "version": "1.0.9",
+-      "resolved": "https://registry.npmjs.org/marks-pane/-/marks-pane-1.0.9.tgz",
+-      "integrity": "sha512-Ahs4oeG90tbdPWwAJkAAoHg2lRR8lAs9mZXETNPO9hYg3AkjUJBKi1NQ4aaIQZVGrig7c/3NUV1jANl8rFTeMg==",
+-      "license": "MIT"
+-    },
+     "node_modules/math-intrinsics": {
+       "version": "1.1.0",
+       "resolved": "https://registry.npmjs.org/math-intrinsics/-/math-intrinsics-1.1.0.tgz",
+@@ -1531,12 +606,6 @@
+         "node": ">= 0.4"
+       }
+     },
+-    "node_modules/mdn-data": {
+-      "version": "2.27.1",
+-      "resolved": "https://registry.npmjs.org/mdn-data/-/mdn-data-2.27.1.tgz",
+-      "integrity": "sha512-9Yubnt3e8A0OKwxYSXyhLymGW4sCufcLG6VdiDdUGVkPhpqLxlvP5vl1983gQjJl3tqbrM731mjaZaP68AgosQ==",
+-      "license": "CC0-1.0"
+-    },
+     "node_modules/media-typer": {
+       "version": "0.3.0",
+       "resolved": "https://registry.npmjs.org/media-typer/-/media-typer-0.3.0.tgz",
+@@ -1652,12 +721,6 @@
+         "node": ">= 0.6"
+       }
+     },
+-    "node_modules/next-tick": {
+-      "version": "1.1.0",
+-      "resolved": "https://registry.npmjs.org/next-tick/-/next-tick-1.1.0.tgz",
+-      "integrity": "sha512-CXdUiJembsNjuToQvxayPZF9Vqht7hewsvy2sOWafLvi2awflj9mOC6bHIg50orX8IJvWKY9wYQ/zB2kogPslQ==",
+-      "license": "ISC"
+-    },
+     "node_modules/object-assign": {
+       "version": "4.1.1",
+       "resolved": "https://registry.npmjs.org/object-assign/-/object-assign-4.1.1.tgz",
+@@ -1691,24 +754,6 @@
+         "node": ">= 0.8"
+       }
+     },
+-    "node_modules/pako": {
+-      "version": "1.0.11",
+-      "resolved": "https://registry.npmjs.org/pako/-/pako-1.0.11.tgz",
+-      "integrity": "sha512-4hLB8Py4zZce5s4yd9XzopqwVv/yGNhV1Bl8NTmCq1763HeK2+EwVTv+leGeL13Dnh2wfbqowVPXCIO0z4taYw==",
+-      "license": "(MIT AND Zlib)"
+-    },
+-    "node_modules/parse5": {
+-      "version": "8.0.0",
+-      "resolved": "https://registry.npmjs.org/parse5/-/parse5-8.0.0.tgz",
+-      "integrity": "sha512-9m4m5GSgXjL4AjumKzq1Fgfp3Z8rsvjRNbnkVwfu2ImRqE5D0LnY2QfDen18FSY9C573YU5XxSapdHZTZ2WolA==",
+-      "license": "MIT",
+-      "dependencies": {
+-        "entities": "^6.0.0"
+-      },
+-      "funding": {
+-        "url": "https://github.com/inikulin/parse5?sponsor=1"
+-      }
+-    },
+     "node_modules/parseurl": {
+       "version": "1.3.3",
+       "resolved": "https://registry.npmjs.org/parseurl/-/parseurl-1.3.3.tgz",
+@@ -1724,12 +769,6 @@
+       "integrity": "sha512-RA1GjUVMnvYFxuqovrEqZoxxW5NUZqbwKtYz/Tt7nXerk0LbLblQmrsgdeOxV5SFHf0UDggjS/bSeOZwt1pmEQ==",
+       "license": "MIT"
+     },
+-    "node_modules/path-webpack": {
+-      "version": "0.0.3",
+-      "resolved": "https://registry.npmjs.org/path-webpack/-/path-webpack-0.0.3.tgz",
+-      "integrity": "sha512-AmeDxedoo5svf7aB3FYqSAKqMxys014lVKBzy1o/5vv9CtU7U4wgGWL1dA2o6MOzcD53ScN4Jmiq6VbtLz1vIQ==",
+-      "license": "MIT"
+-    },
+     "node_modules/process-nextick-args": {
+       "version": "2.0.1",
+       "resolved": "https://registry.npmjs.org/process-nextick-args/-/process-nextick-args-2.0.1.tgz",
+@@ -1749,21 +788,6 @@
+         "node": ">= 0.10"
+       }
+     },
+-    "node_modules/proxy-from-env": {
+-      "version": "1.1.0",
+-      "resolved": "https://registry.npmjs.org/proxy-from-env/-/proxy-from-env-1.1.0.tgz",
+-      "integrity": "sha512-D+zkORCbA9f1tdWRK0RaCR3GPv50cMxcrz4X8k5LTSUD1Dkw47mKJEZQNunItRTkWwgtaUSo1RVFRIG9ZXiFYg==",
+-      "license": "MIT"
+-    },
+-    "node_modules/punycode": {
+-      "version": "2.3.1",
+-      "resolved": "https://registry.npmjs.org/punycode/-/punycode-2.3.1.tgz",
+-      "integrity": "sha512-vYt7UD1U9Wg6138shLtLOvdAu+8DsC/ilFtEVHcH+wydcSpNE20AfSOduf6MkRFahL5FY7X1oU7nKVZFtfq8Fg==",
+-      "license": "MIT",
+-      "engines": {
+-        "node": ">=6"
+-      }
+-    },
+     "node_modules/qs": {
+       "version": "6.14.2",
+       "resolved": "https://registry.npmjs.org/qs/-/qs-6.14.2.tgz",
+@@ -1824,15 +848,6 @@
+       "integrity": "sha512-Gd2UZBJDkXlY7GbJxfsE8/nvKkUEU1G38c1siN6QP6a9PT9MmHB8GnpscSmMJSoF8LOIrt8ud/wPtojys4G6+g==",
+       "license": "MIT"
+     },
+-    "node_modules/require-from-string": {
+-      "version": "2.0.2",
+-      "resolved": "https://registry.npmjs.org/require-from-string/-/require-from-string-2.0.2.tgz",
+-      "integrity": "sha512-Xf0nWe6RseziFMu+Ap9biiUbmplq6S9/p+7w7YXP/JBHhrUDDUhwa+vANyubuqfZWTveU//DYVGsDG7RKL/vEw==",
+-      "license": "MIT",
+-      "engines": {
+-        "node": ">=0.10.0"
+-      }
+-    },
+     "node_modules/safe-buffer": {
+       "version": "5.2.1",
+       "resolved": "https://registry.npmjs.org/safe-buffer/-/safe-buffer-5.2.1.tgz",
+@@ -1859,37 +874,6 @@
+       "integrity": "sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==",
+       "license": "MIT"
+     },
+-    "node_modules/saxes": {
+-      "version": "6.0.0",
+-      "resolved": "https://registry.npmjs.org/saxes/-/saxes-6.0.0.tgz",
+-      "integrity": "sha512-xAg7SOnEhrm5zI3puOOKyy1OMcMlIJZYNJY7xLBwSze0UjhPLnWfj2GF2EpT0jmzaJKIWKHLsaSSajf35bcYnA==",
+-      "license": "ISC",
+-      "dependencies": {
+-        "xmlchars": "^2.2.0"
+-      },
+-      "engines": {
+-        "node": ">=v12.22.7"
+-      }
+-    },
+-    "node_modules/scmp": {
+-      "version": "2.1.0",
+-      "resolved": "https://registry.npmjs.org/scmp/-/scmp-2.1.0.tgz",
+-      "integrity": "sha512-o/mRQGk9Rcer/jEEw/yw4mwo3EU/NvYvp577/Btqrym9Qy5/MdWGBqipbALgd2lrdWTJ5/gqDusxfnQBxOxT2Q==",
+-      "deprecated": "Just use Node.js's crypto.timingSafeEqual()",
+-      "license": "BSD-3-Clause"
+-    },
+-    "node_modules/semver": {
+-      "version": "7.7.4",
+-      "resolved": "https://registry.npmjs.org/semver/-/semver-7.7.4.tgz",
+-      "integrity": "sha512-vFKC2IEtQnVhpT78h1Yp8wzwrf8CM+MzKMHGJZfBtzhZNycRFnXsHk6E5TxIkkMsgNS7mdX3AGB7x2QM2di4lA==",
+-      "license": "ISC",
+-      "bin": {
+-        "semver": "bin/semver.js"
+-      },
+-      "engines": {
+-        "node": ">=10"
+-      }
+-    },
+     "node_modules/send": {
+       "version": "0.19.2",
+       "resolved": "https://registry.npmjs.org/send/-/send-0.19.2.tgz",
+@@ -1935,12 +919,6 @@
+         "node": ">= 0.8.0"
+       }
+     },
+-    "node_modules/setimmediate": {
+-      "version": "1.0.5",
+-      "resolved": "https://registry.npmjs.org/setimmediate/-/setimmediate-1.0.5.tgz",
+-      "integrity": "sha512-MATJdZp8sLqDl/68LfQmbP8zKPLQNV6BIZoIgrscFDQ+RsvK/BxeDQOgyxKKoh0y/8h3BqVFnCqQ/gd+reiIXA==",
+-      "license": "MIT"
+-    },
+     "node_modules/setprototypeof": {
+       "version": "1.2.0",
+       "resolved": "https://registry.npmjs.org/setprototypeof/-/setprototypeof-1.2.0.tgz",
+@@ -2129,15 +1107,6 @@
+       "integrity": "sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==",
+       "license": "MIT"
+     },
+-    "node_modules/source-map-js": {
+-      "version": "1.2.1",
+-      "resolved": "https://registry.npmjs.org/source-map-js/-/source-map-js-1.2.1.tgz",
+-      "integrity": "sha512-UXWMKhLOwVKb728IUtQPXxfYU+usdybtUrK/8uGE8CQMvrhOpwvzDBwj0QhSL7MQc7vIsISBG8VQ8+IDQxpfQA==",
+-      "license": "BSD-3-Clause",
+-      "engines": {
+-        "node": ">=0.10.0"
+-      }
+-    },
+     "node_modules/statuses": {
+       "version": "2.0.2",
+       "resolved": "https://registry.npmjs.org/statuses/-/statuses-2.0.2.tgz",
+@@ -2170,30 +1139,6 @@
+       "integrity": "sha512-Gd2UZBJDkXlY7GbJxfsE8/nvKkUEU1G38c1siN6QP6a9PT9MmHB8GnpscSmMJSoF8LOIrt8ud/wPtojys4G6+g==",
+       "license": "MIT"
+     },
+-    "node_modules/symbol-tree": {
+-      "version": "3.2.4",
+-      "resolved": "https://registry.npmjs.org/symbol-tree/-/symbol-tree-3.2.4.tgz",
+-      "integrity": "sha512-9QNk5KwDF+Bvz+PyObkmSYjI5ksVUYtjW7AU22r2NKcfLJcXp96hkDWU3+XndOsUb+AQ9QhfzfCT2O+CNWT5Tw==",
+-      "license": "MIT"
+-    },
+-    "node_modules/tldts": {
+-      "version": "7.0.25",
+-      "resolved": "https://registry.npmjs.org/tldts/-/tldts-7.0.25.tgz",
+-      "integrity": "sha512-keinCnPbwXEUG3ilrWQZU+CqcTTzHq9m2HhoUP2l7Xmi8l1LuijAXLpAJ5zRW+ifKTNscs4NdCkfkDCBYm352w==",
+-      "license": "MIT",
+-      "dependencies": {
+-        "tldts-core": "^7.0.25"
+-      },
+-      "bin": {
+-        "tldts": "bin/cli.js"
+-      }
+-    },
+-    "node_modules/tldts-core": {
+-      "version": "7.0.25",
+-      "resolved": "https://registry.npmjs.org/tldts-core/-/tldts-core-7.0.25.tgz",
+-      "integrity": "sha512-ZjCZK0rppSBu7rjHYDYsEaMOIbbT+nWF57hKkv4IUmZWBNrBWBOjIElc0mKRgLM8bm7x/BBlof6t2gi/Oq/Asw==",
+-      "license": "MIT"
+-    },
+     "node_modules/toidentifier": {
+       "version": "1.0.1",
+       "resolved": "https://registry.npmjs.org/toidentifier/-/toidentifier-1.0.1.tgz",
+@@ -2203,54 +1148,6 @@
+         "node": ">=0.6"
+       }
+     },
+-    "node_modules/tough-cookie": {
+-      "version": "6.0.0",
+-      "resolved": "https://registry.npmjs.org/tough-cookie/-/tough-cookie-6.0.0.tgz",
+-      "integrity": "sha512-kXuRi1mtaKMrsLUxz3sQYvVl37B0Ns6MzfrtV5DvJceE9bPyspOqk9xxv7XbZWcfLWbFmm997vl83qUWVJA64w==",
+-      "license": "BSD-3-Clause",
+-      "dependencies": {
+-        "tldts": "^7.0.5"
+-      },
+-      "engines": {
+-        "node": ">=16"
+-      }
+-    },
+-    "node_modules/tr46": {
+-      "version": "6.0.0",
+-      "resolved": "https://registry.npmjs.org/tr46/-/tr46-6.0.0.tgz",
+-      "integrity": "sha512-bLVMLPtstlZ4iMQHpFHTR7GAGj2jxi8Dg0s2h2MafAE4uSWF98FC/3MomU51iQAMf8/qDUbKWf5GxuvvVcXEhw==",
+-      "license": "MIT",
+-      "dependencies": {
+-        "punycode": "^2.3.1"
+-      },
+-      "engines": {
+-        "node": ">=20"
+-      }
+-    },
+-    "node_modules/twilio": {
+-      "version": "5.12.2",
+-      "resolved": "https://registry.npmjs.org/twilio/-/twilio-5.12.2.tgz",
+-      "integrity": "sha512-yjTH04Ig0Z3PAxIXhwrto0IJC4Gv7lBDQQ9f4/P9zJhnxVdd+3tENqBMJOtdmmRags3X0jl2IGKEQefCEpJE9g==",
+-      "license": "MIT",
+-      "dependencies": {
+-        "axios": "^1.12.0",
+-        "dayjs": "^1.11.9",
+-        "https-proxy-agent": "^5.0.0",
+-        "jsonwebtoken": "^9.0.2",
+-        "qs": "^6.14.1",
+-        "scmp": "^2.1.0",
+-        "xmlbuilder": "^13.0.2"
+-      },
+-      "engines": {
+-        "node": ">=14.0"
+-      }
+-    },
+-    "node_modules/type": {
+-      "version": "2.7.3",
+-      "resolved": "https://registry.npmjs.org/type/-/type-2.7.3.tgz",
+-      "integrity": "sha512-8j+1QmAbPvLZow5Qpi6NCaN8FB60p/6x8/vfNqOk/hC+HuvFZhL4+WfekuhQLiqFZXOgQdrs3B+XxEmCc6b3FQ==",
+-      "license": "ISC"
+-    },
+     "node_modules/type-is": {
+       "version": "1.6.18",
+       "resolved": "https://registry.npmjs.org/type-is/-/type-is-1.6.18.tgz",
+@@ -2270,15 +1167,6 @@
+       "integrity": "sha512-/aCDEGatGvZ2BIk+HmLf4ifCJFwvKFNb9/JeZPMulfgFracn9QFcAf5GO8B/mweUjSoblS5In0cWhqpfs/5PQA==",
+       "license": "MIT"
+     },
+-    "node_modules/undici": {
+-      "version": "7.22.0",
+-      "resolved": "https://registry.npmjs.org/undici/-/undici-7.22.0.tgz",
+-      "integrity": "sha512-RqslV2Us5BrllB+JeiZnK4peryVTndy9Dnqq62S3yYRRTj0tFQCwEniUy2167skdGOy3vqRzEvl1Dm4sV2ReDg==",
+-      "license": "MIT",
+-      "engines": {
+-        "node": ">=20.18.1"
+-      }
+-    },
+     "node_modules/undici-types": {
+       "version": "7.18.2",
+       "resolved": "https://registry.npmjs.org/undici-types/-/undici-types-7.18.2.tgz",
+@@ -2331,50 +1219,6 @@
+         "node": ">= 0.8"
+       }
+     },
+-    "node_modules/w3c-xmlserializer": {
+-      "version": "5.0.0",
+-      "resolved": "https://registry.npmjs.org/w3c-xmlserializer/-/w3c-xmlserializer-5.0.0.tgz",
+-      "integrity": "sha512-o8qghlI8NZHU1lLPrpi2+Uq7abh4GGPpYANlalzWxyWteJOCsr/P+oPBA49TOLu5FTZO4d3F9MnWJfiMo4BkmA==",
+-      "license": "MIT",
+-      "dependencies": {
+-        "xml-name-validator": "^5.0.0"
+-      },
+-      "engines": {
+-        "node": ">=18"
+-      }
+-    },
+-    "node_modules/webidl-conversions": {
+-      "version": "8.0.1",
+-      "resolved": "https://registry.npmjs.org/webidl-conversions/-/webidl-conversions-8.0.1.tgz",
+-      "integrity": "sha512-BMhLD/Sw+GbJC21C/UgyaZX41nPt8bUTg+jWyDeg7e7YN4xOM05YPSIXceACnXVtqyEw/LMClUQMtMZ+PGGpqQ==",
+-      "license": "BSD-2-Clause",
+-      "engines": {
+-        "node": ">=20"
+-      }
+-    },
+-    "node_modules/whatwg-mimetype": {
+-      "version": "5.0.0",
+-      "resolved": "https://registry.npmjs.org/whatwg-mimetype/-/whatwg-mimetype-5.0.0.tgz",
+-      "integrity": "sha512-sXcNcHOC51uPGF0P/D4NVtrkjSU2fNsm9iog4ZvZJsL3rjoDAzXZhkm2MWt1y+PUdggKAYVoMAIYcs78wJ51Cw==",
+-      "license": "MIT",
+-      "engines": {
+-        "node": ">=20"
+-      }
+-    },
+-    "node_modules/whatwg-url": {
+-      "version": "16.0.1",
+-      "resolved": "https://registry.npmjs.org/whatwg-url/-/whatwg-url-16.0.1.tgz",
+-      "integrity": "sha512-1to4zXBxmXHV3IiSSEInrreIlu02vUOvrhxJJH5vcxYTBDAx51cqZiKdyTxlecdKNSjj8EcxGBxNf6Vg+945gw==",
+-      "license": "MIT",
+-      "dependencies": {
+-        "@exodus/bytes": "^1.11.0",
+-        "tr46": "^6.0.0",
+-        "webidl-conversions": "^8.0.1"
+-      },
+-      "engines": {
+-        "node": "^20.19.0 || ^22.12.0 || >=24.0.0"
+-      }
+-    },
+     "node_modules/ws": {
+       "version": "8.18.3",
+       "resolved": "https://registry.npmjs.org/ws/-/ws-8.18.3.tgz",
+@@ -2396,30 +1240,6 @@
+         }
+       }
+     },
+-    "node_modules/xml-name-validator": {
+-      "version": "5.0.0",
+-      "resolved": "https://registry.npmjs.org/xml-name-validator/-/xml-name-validator-5.0.0.tgz",
+-      "integrity": "sha512-EvGK8EJ3DhaHfbRlETOWAS5pO9MZITeauHKJyb8wyajUfQUenkIg2MvLDTZ4T/TgIcm3HU0TFBgWWboAZ30UHg==",
+-      "license": "Apache-2.0",
+-      "engines": {
+-        "node": ">=18"
+-      }
+-    },
+-    "node_modules/xmlbuilder": {
+-      "version": "13.0.2",
+-      "resolved": "https://registry.npmjs.org/xmlbuilder/-/xmlbuilder-13.0.2.tgz",
+-      "integrity": "sha512-Eux0i2QdDYKbdbA6AM6xE4m6ZTZr4G4xF9kahI2ukSEMCzwce2eX9WlTI5J3s+NU7hpasFsr8hWIONae7LluAQ==",
+-      "license": "MIT",
+-      "engines": {
+-        "node": ">=6.0"
+-      }
+-    },
+-    "node_modules/xmlchars": {
+-      "version": "2.2.0",
+-      "resolved": "https://registry.npmjs.org/xmlchars/-/xmlchars-2.2.0.tgz",
+-      "integrity": "sha512-JZnDKK8B0RCDw84FNdDAIpZK+JuJw+s7Lz8nksI7SIuU3UXJJslUthsi+uWBUYOwPFwW7W7PRLRfUKpxjtjFCw==",
+-      "license": "MIT"
+-    },
+     "node_modules/xtend": {
+       "version": "4.0.2",
+       "resolved": "https://registry.npmjs.org/xtend/-/xtend-4.0.2.tgz",
+diff --git a/package.json b/package.json
+index 731edfd..6317abf 100644
+--- a/package.json
++++ b/package.json
+@@ -9,14 +9,9 @@
+   },
+   "dependencies": {
+     "cors": "^2.8.6",
+-    "dot-env": "^0.0.1",
+-    "dotenv": "^17.3.1",
+-    "epubjs": "^0.3.93",
+     "express": "^4.18.2",
+-    "jsdom": "^28.1.0",
+     "multer": "^1.4.5-lts.1",
+     "socket.io": "^4.7.2",
+-    "twilio": "^5.12.2",
+     "uuid": "^9.0.0"
+   }
+ }
+diff --git a/public/css/main.css b/public/css/main.css
+index 168305e..a77a651 100644
+--- a/public/css/main.css
++++ b/public/css/main.css
+@@ -931,401 +931,60 @@ body {
+   }
+ }
+ 
+-/* ---------- Lobby Call Actions ---------- */
+-.call-actions {
+-  margin-bottom: 20px;
+-  border: 1px solid var(--border-subtle);
+-  border-radius: var(--radius-md);
+-  padding: 16px 20px;
+-  background: var(--bg-card);
+-  animation: slideUp 0.4s ease;
+-}
+-
+-.call-actions-label {
+-  display: block;
+-  font-size: 0.72rem;
+-  text-transform: uppercase;
+-  letter-spacing: 0.08em;
+-  color: var(--text-muted);
+-  font-weight: 600;
+-  margin-bottom: 12px;
+-}
+-
+-.call-btns-row {
+-  display: flex;
+-  gap: 10px;
+-}
+-
+-.call-action-btn {
+-  flex: 1;
+-  display: flex;
+-  align-items: center;
+-  justify-content: center;
+-  gap: 8px;
+-  padding: 12px 16px;
+-  border-radius: var(--radius-md);
+-  font-family: var(--font-sans);
+-  font-size: 0.9rem;
+-  font-weight: 500;
+-  cursor: pointer;
+-  transition: all var(--transition-base);
+-  border: 1px solid var(--border-medium);
+-}
+-
+-.audio-call-btn {
+-  background: var(--bg-secondary);
+-  color: var(--text-primary);
+-}
+-
+-.audio-call-btn:hover {
+-  background: var(--bg-card-hover);
+-  border-color: var(--accent);
+-  transform: translateY(-2px);
+-}
+-
+-.video-call-btn {
+-  background: var(--text-primary);
+-  color: var(--bg-primary);
+-  border-color: var(--text-primary);
+-}
+-
+-.video-call-btn:hover {
+-  opacity: 0.85;
+-  transform: translateY(-2px);
+-}
+-
+-/* Lobby call widget (active call state) */
+-.lobby-call-widget {
+-  margin-bottom: 20px;
+-  border: 1px solid var(--border-medium);
+-  border-radius: var(--radius-md);
+-  overflow: hidden;
+-  background: var(--bg-card);
+-  animation: slideUp 0.3s ease;
+-}
+-
+-.lobby-call-header {
+-  display: flex;
+-  align-items: center;
+-  justify-content: space-between;
+-  padding: 12px 16px;
+-  border-bottom: 1px solid var(--border-subtle);
+-}
+-
+-.lobby-call-status {
+-  display: flex;
+-  align-items: center;
+-  gap: 10px;
+-  font-size: 0.9rem;
+-  font-weight: 500;
+-}
+-
+-.call-pulse {
+-  width: 10px;
+-  height: 10px;
+-  border-radius: 50%;
+-  background: var(--success, #22c55e);
+-  animation: statusPulse 1.5s ease-in-out infinite;
+-  flex-shrink: 0;
+-}
+-
+-.lobby-end-call-btn {
+-  display: flex;
+-  align-items: center;
+-  gap: 6px;
+-  background: rgba(255, 0, 0, 0.08);
+-  border: 1px solid rgba(255, 0, 0, 0.2);
+-  color: var(--error);
+-  padding: 7px 14px;
+-  border-radius: var(--radius-full);
+-  font-family: var(--font-sans);
+-  font-size: 0.82rem;
+-  font-weight: 600;
+-  cursor: pointer;
+-  transition: all var(--transition-fast);
+-}
+-
+-.lobby-end-call-btn:hover {
+-  background: rgba(255, 0, 0, 0.15);
+-}
+-
+-.lobby-videos {
+-  position: relative;
+-  background: #111;
+-  aspect-ratio: 16/9;
+-  overflow: hidden;
+-}
+-
+-.lobby-call-controls {
+-  display: flex;
+-  align-items: center;
+-  justify-content: center;
+-  gap: 12px;
+-  padding: 12px;
+-  background: var(--bg-secondary);
+-}
+-
+-.lobby-ctrl-btn {
+-  width: 38px;
+-  height: 38px;
+-  border-radius: 50%;
+-  border: 1px solid var(--border-medium);
+-  background: var(--bg-card);
+-  color: var(--text-primary);
+-  display: flex;
+-  align-items: center;
+-  justify-content: center;
+-  cursor: pointer;
+-  transition: all var(--transition-fast);
+-}
+-
+-.lobby-ctrl-btn:hover {
+-  background: var(--bg-card-hover);
+-}
+-
+-.lobby-ctrl-btn.muted,
+-.lobby-ctrl-btn.off {
+-  background: rgba(255, 0, 0, 0.08);
+-  border-color: rgba(255, 0, 0, 0.2);
+-  color: var(--error);
+-}
+-
+-/* ============================================
+-   RESPONSIVE - Tablet (641pxΓÇô1024px)
+-   ============================================ */
+-@media (min-width: 641px) and (max-width: 1024px) {
+-  .screen {
+-    padding: 32px 20px;
+-  }
+-
+-  .landing-content {
+-    max-width: 560px;
+-  }
+-
+-  .logo-text {
+-    font-size: 2.6rem;
+-  }
+-
+-  .action-cards {
+-    gap: 16px;
+-  }
+-
+-  .action-card {
+-    padding: 28px 20px;
+-  }
+-
+-  .room-container {
+-    max-width: 520px;
+-  }
+-}
+-
+-/* ============================================
+-   RESPONSIVE - Mobile (Γëñ640px)
+-   ============================================ */
++/* ---------- Responsive ---------- */
+ @media (max-width: 640px) {
+-  .screen {
+-    padding: 24px 16px;
+-    align-items: flex-start;
+-    padding-top: 48px;
+-  }
+-
+-  /* Logo */
+-  .logo-area {
+-    margin-bottom: 32px;
+-  }
+-
+-  .logo-icon {
+-    width: 64px;
+-    height: 64px;
+-    border-radius: var(--radius-lg);
+-    margin-bottom: 16px;
+-  }
+-
+-  .logo-icon svg {
+-    width: 34px;
+-    height: 34px;
+-  }
+-
+   .logo-text {
+-    font-size: 2rem;
++    font-size: 2.2rem;
+   }
+ 
+-  .logo-tagline {
+-    font-size: 0.95rem;
+-  }
+-
+-  /* Action cards ΓÇô stack vertically */
+   .action-cards {
+     grid-template-columns: 1fr;
+     gap: 12px;
+-    margin-bottom: 32px;
+   }
+ 
+   .action-card {
+-    padding: 20px 18px;
+-    display: flex;
+-    align-items: center;
+-    gap: 16px;
+-    text-align: left;
++    padding: 24px 20px;
+   }
+ 
+-  .card-icon {
+-    width: 48px;
+-    height: 48px;
+-    margin-bottom: 0;
+-    flex-shrink: 0;
+-  }
+-
+-  .card-icon svg {
+-    width: 24px;
+-    height: 24px;
+-  }
+-
+-  .action-card h3 {
+-    font-size: 1.05rem;
+-    margin-bottom: 4px;
+-  }
+-
+-  .action-card p {
+-    font-size: 0.8rem;
+-  }
+-
+-  /* Features strip */
+   .features-strip {
+-    gap: 10px;
+-    justify-content: flex-start;
+-    overflow-x: auto;
+-    flex-wrap: nowrap;
+-    padding-bottom: 4px;
+-    -webkit-overflow-scrolling: touch;
+-  }
+-
+-  .features-strip span {
+-    font-size: 0.72rem;
+-    white-space: nowrap;
+-  }
+-
+-  /* Form screens */
+-  .form-container {
+-    max-width: 100%;
+-  }
+-
+-  .form-header h2 {
+-    font-size: 1.7rem;
+-  }
+-
+-  .form-header p {
+-    font-size: 0.9rem;
+-  }
+-
+-  .back-btn {
+-    margin-bottom: 24px;
+-  }
+-
+-  .input-group input {
+-    padding: 13px 14px;
+-    font-size: 0.95rem;
+-  }
+-
+-  .primary-btn {
+-    padding: 14px;
+-    font-size: 0.95rem;
+-  }
+-
+-  /* Room screen */
+-  .room-container {
+-    max-width: 100%;
+-  }
+-
+-  .room-title-area h2 {
+-    font-size: 1.5rem;
+-  }
+-
+-  .room-code-display {
+-    flex-wrap: wrap;
+-    justify-content: center;
+-    gap: 8px;
+-    padding: 14px 16px;
+-  }
+-
+-  .code-label {
+-    width: 100%;
+-    text-align: center;
+-  }
+-
+-  .code-value {
+-    width: 100%;
+-    text-align: center;
+-    font-size: 1.6rem;
+-    letter-spacing: 6px;
+-  }
+-
+-  /* User cards */
+-  .user-card {
+-    padding: 14px 16px;
+-    gap: 12px;
+-  }
+-
+-  .user-avatar {
+-    width: 38px;
+-    height: 38px;
+-  }
+-
+-  /* Book upload zone */
+-  .upload-zone {
+-    padding: 28px 16px;
+-  }
+-
+-  .upload-icon {
+-    width: 48px;
+-    height: 48px;
+-    margin-bottom: 12px;
+-  }
+-
+-  .upload-zone h3 {
+-    font-size: 1rem;
++    gap: 16px;
+   }
+ 
+-  /* Book info card */
+   .book-info-card {
+     flex-direction: column;
+     text-align: center;
+-    gap: 12px;
+-    padding: 16px;
+   }
+ 
+   .book-actions {
+     width: 100%;
+-    flex-direction: row;
+   }
+ 
+   .book-actions button {
+     flex: 1;
+-    justify-content: center;
+   }
+ 
+-  /* Toast */
+-  #toast-container {
+-    top: auto;
+-    bottom: 24px;
+-    right: 16px;
+-    left: 16px;
++  .room-code-display {
++    flex-wrap: wrap;
++    justify-content: center;
+   }
+ 
+-  .toast {
+-    max-width: 100%;
++  .code-value {
++    width: 100%;
+     text-align: center;
++    font-size: 1.4rem;
+   }
+ }
+ 
+-/* Very small phones */
+-@media (max-width: 380px) {
++@media (max-width: 400px) {
++  .screen {
++    padding: 24px 16px;
++  }
++
+   .logo-text {
+-    font-size: 1.7rem;
++    font-size: 1.8rem;
+   }
+ 
+-  .code-value {
+-    font-size: 1.3rem;
+-    letter-spacing: 4px;
++  .form-header h2 {
++    font-size: 1.5rem;
+   }
+ }
+\ No newline at end of file
+diff --git a/public/css/reader.css b/public/css/reader.css
+index 6e3b46b..d9e0253 100644
+--- a/public/css/reader.css
++++ b/public/css/reader.css
+@@ -62,19 +62,22 @@ body.sepia-theme {
+     box-sizing: border-box;
+ }
+ 
+-/* ---------- SPA Reader Screen Overrides ---------- */
+-#reader-screen {
+-    position: relative;
+-    padding: 0;
+-    flex-direction: column;
+-    justify-content: flex-start;
+-    align-items: stretch;
+-    background: var(--reader-bg);
+-    width: 100vw;
+-    height: 100vh;
++html,
++body {
++    width: 100%;
++    height: 100%;
+     overflow: hidden;
+ }
+ 
++body {
++    font-family: var(--font-sans);
++    background: var(--reader-bg);
++    color: var(--reader-text);
++    display: flex;
++    flex-direction: column;
++    -webkit-font-smoothing: antialiased;
++}
++
+ /* ---------- Reader Header ---------- */
+ .reader-header {
+     position: fixed;
+@@ -147,7 +150,6 @@ body.sepia-theme {
+ }
+ 
+ .book-title {
+-    display: block;
+     font-size: 0.85rem;
+     font-weight: 500;
+     white-space: nowrap;
+@@ -366,16 +368,14 @@ input[type="range"]::-webkit-slider-thumb {
+ 
+ /* ---------- Reader Main ---------- */
+ .reader-main {
+-    position: absolute;
+-    top: 56px;
+-    /* Below the header */
+-    bottom: 72px;
+-    /* Above the footer */
+-    left: 0;
+-    right: 0;
++    flex: 1;
++    display: flex;
++    align-items: center;
++    justify-content: center;
++    margin-top: 56px;
++    margin-bottom: 72px;
++    position: relative;
+     overflow: hidden;
+-    width: 100%;
+-    background: transparent;
+ }
+ 
+ #epub-viewer {
+@@ -417,6 +417,55 @@ input[type="range"]::-webkit-slider-thumb {
+     font-size: 0.9rem;
+ }
+ 
++/* Navigation Zones */
++.nav-zone {
++    position: absolute;
++    top: 0;
++    bottom: 0;
++    width: 80px;
++    display: flex;
++    align-items: center;
++    justify-content: center;
++    cursor: pointer;
++    z-index: 5;
++    opacity: 0;
++    transition: opacity var(--transition-fast);
++}
++
++.nav-zone:hover {
++    opacity: 1;
++}
++
++.nav-zone-prev {
++    left: 0;
++}
++
++.nav-zone-next {
++    right: 0;
++}
++
++.nav-arrow {
++    width: 40px;
++    height: 40px;
++    border-radius: 50%;
++    background: rgba(124, 106, 255, 0.15);
++    backdrop-filter: blur(8px);
++    display: flex;
++    align-items: center;
++    justify-content: center;
++    color: var(--accent-light);
++    transition: all var(--transition-fast);
++}
++
++.nav-zone:hover .nav-arrow {
++    background: rgba(124, 106, 255, 0.3);
++    transform: scale(1.1);
++}
++
++.nav-arrow svg {
++    width: 20px;
++    height: 20px;
++}
+ 
+ /* ---------- Reader Footer ---------- */
+ .reader-footer {
+@@ -1033,126 +1082,6 @@ input[type="range"]::-webkit-slider-thumb {
+     }
+ }
+ 
+-/* ---------- Video Call Widget ---------- */
+-.video-widget {
+-    position: fixed;
+-    bottom: 84px;
+-    right: 20px;
+-    width: 280px;
+-    background: var(--reader-header-bg);
+-    backdrop-filter: blur(20px);
+-    border: 1px solid var(--border-medium);
+-    border-radius: var(--radius-md);
+-    box-shadow: var(--shadow-lg);
+-    z-index: 150;
+-    display: flex;
+-    flex-direction: column;
+-    overflow: hidden;
+-    animation: dropdownIn 0.3s ease;
+-    cursor: move;
+-}
+-
+-.video-header {
+-    display: flex;
+-    align-items: center;
+-    justify-content: space-between;
+-    padding: 8px 12px;
+-    background: rgba(0, 0, 0, 0.05);
+-    border-bottom: 1px solid var(--border-subtle);
+-    font-size: 0.8rem;
+-    font-weight: 600;
+-}
+-
+-.video-header .icon-btn.sm {
+-    width: 24px;
+-    height: 24px;
+-    color: var(--error);
+-    background: rgba(255, 0, 0, 0.1);
+-}
+-
+-.video-header .icon-btn.sm:hover {
+-    background: rgba(255, 0, 0, 0.2);
+-}
+-
+-.video-streams {
+-    position: relative;
+-    width: 100%;
+-    aspect-ratio: 4/3;
+-    background: #000;
+-    display: flex;
+-    align-items: center;
+-    justify-content: center;
+-}
+-
+-#remote-video {
+-    width: 100%;
+-    height: 100%;
+-    object-fit: cover;
+-}
+-
+-#local-video {
+-    position: absolute;
+-    bottom: 10px;
+-    right: 10px;
+-    width: 80px;
+-    height: 106px;
+-    object-fit: cover;
+-    border-radius: var(--radius-sm);
+-    border: 2px solid rgba(255, 255, 255, 0.5);
+-    background: #111;
+-    z-index: 2;
+-    transform: scaleX(-1);
+-    /* Mirror local video */
+-}
+-
+-.video-overlay {
+-    position: absolute;
+-    inset: 0;
+-    background: rgba(0, 0, 0, 0.7);
+-    color: white;
+-    display: flex;
+-    flex-direction: column;
+-    align-items: center;
+-    justify-content: center;
+-    gap: 12px;
+-    z-index: 3;
+-    font-size: 0.85rem;
+-}
+-
+-.video-controls {
+-    display: flex;
+-    align-items: center;
+-    justify-content: center;
+-    gap: 12px;
+-    padding: 12px;
+-    background: rgba(0, 0, 0, 0.05);
+-    border-top: 1px solid var(--border-subtle);
+-}
+-
+-.video-control-btn {
+-    width: 36px;
+-    height: 36px;
+-    border-radius: 50%;
+-    border: none;
+-    background: rgba(0, 0, 0, 0.1);
+-    color: var(--reader-text);
+-    display: flex;
+-    align-items: center;
+-    justify-content: center;
+-    cursor: pointer;
+-    transition: all 0.2s;
+-}
+-
+-.video-control-btn:hover {
+-    background: rgba(0, 0, 0, 0.2);
+-}
+-
+-.video-control-btn.muted,
+-.video-control-btn.disabled {
+-    background: rgba(255, 0, 0, 0.1);
+-    color: var(--error);
+-}
+-
+ /* ---------- Disconnect Overlay ---------- */
+ .disconnect-overlay {
+     position: fixed;
+@@ -1251,223 +1180,80 @@ input[type="range"]::-webkit-slider-thumb {
+     }
+ }
+ 
+-/* ============================================
+-   RESPONSIVE - Tablet (641pxΓÇô1024px)
+-   ============================================ */
+-@media (min-width: 641px) and (max-width: 1024px) {
+-    .reader-header {
+-        height: 52px;
+-        padding: 0 12px;
+-    }
+-
+-    .reader-main {
+-        margin-top: 52px;
+-        margin-bottom: 70px;
+-    }
+-
+-    #epub-viewer {
+-        padding: 24px 40px;
+-    }
+-
+-    .reader-footer {
+-        height: 70px;
+-        padding: 0 16px;
+-    }
+-
+-    .chat-sidebar,
+-    .notes-sidebar {
+-        width: 320px;
+-    }
+-
+-    .chat-sidebar {
+-        right: -320px;
+-    }
+-
+-    .notes-sidebar {
+-        left: -320px;
+-    }
+-
+-    .progress-bar-container {
+-        width: 100px;
+-    }
+-
+-    .video-widget {
+-        width: 240px;
+-    }
+-}
+-
+-/* ============================================
+-   RESPONSIVE - Mobile (Γëñ640px)
+-   ============================================ */
+-@media (max-width: 640px) {
+-
+-    /* --- Header --- */
++/* ---------- Responsive ---------- */
++@media (max-width: 768px) {
+     .reader-header {
+         height: 50px;
+-        padding: 0 6px;
+-        gap: 2px;
+-    }
+-
+-    .icon-btn {
+-        width: 36px;
+-        height: 36px;
+-    }
+-
+-    .icon-btn svg {
+-        width: 18px;
+-        height: 18px;
+-    }
+-
+-    /* Hide book title on very small screens ΓÇö saves space */
+-    .book-title {
+-        display: none;
++        padding: 0 8px;
+     }
+ 
+-    /* Shrink sync indicator to icon-only */
+     .sync-indicator {
+-        padding: 4px 8px;
+-        gap: 6px;
++        padding: 4px 10px;
+     }
+ 
+     .sync-text {
+         display: none;
+     }
+ 
+-    /* --- EPUB viewer area --- */
+     .reader-main {
+         margin-top: 50px;
+-        margin-bottom: 64px;
++        margin-bottom: 68px;
+     }
+ 
+     #epub-viewer {
+-        padding: 12px 12px;
++        padding: 16px 20px;
+     }
+ 
+-    /* Tap-targets for page nav ΓÇö make wider so thumbs can reach */
+     .nav-zone {
+-        width: 52px;
+-    }
+-
+-    .nav-arrow {
+-        width: 36px;
+-        height: 36px;
++        width: 50px;
+     }
+ 
+-    /* --- Footer --- */
+     .reader-footer {
+-        height: 64px;
+-        padding: 0 8px;
+-    }
+-
+-    /* Hide progress bar on tiny screens */
+-    .footer-left {
+-        display: none;
++        height: 68px;
++        padding: 0 12px;
+     }
+ 
+-    .footer-right {
+-        flex: 0;
++    .progress-bar-container {
++        width: 80px;
+     }
+ 
+     .page-info {
+-        font-size: 0.68rem;
+-    }
+-
+-    .sync-control {
+-        gap: 10px;
+-    }
+-
+-    .sync-btn {
+-        width: 40px;
+-        height: 40px;
+-    }
+-
+-    .sync-progress-ring,
+-    .sync-progress-ring svg {
+-        width: 44px;
+-        height: 44px;
++        font-size: 0.7rem;
+     }
+ 
+-    /* --- Chat & Notes sidebars ΓÇö full-width drawers --- */
+     .chat-sidebar {
+         width: 100%;
+         right: -100%;
+     }
+ 
+-    .notes-sidebar {
+-        width: 100%;
+-        left: -100%;
+-    }
+-
+-    .chat-sidebar.open {
+-        right: 0;
+-    }
+-
+-    .notes-sidebar.open {
+-        left: 0;
+-    }
+-
+-    /* --- Font settings menu --- */
+     .font-menu {
+-        right: 6px;
+-        left: 6px;
+-        width: auto;
+-    }
+-
+-    /* --- Video widget ΓÇö move to bottom-left, make smaller --- */
+-    .video-widget {
+-        bottom: 70px;
+-        right: auto;
+-        left: 12px;
+-        width: calc(100vw - 24px);
+-        max-width: 300px;
+-    }
+-
+-    /* --- Highlight tooltip ΓÇö slightly taller tap target --- */
+-    #highlight-tooltip {
+-        font-size: 12px;
+-        padding: 9px 14px;
++        right: 8px;
++        width: 240px;
+     }
++}
+ 
+-    /* --- Notes sidebar compose area --- */
+-    .notes-compose-area {
+-        padding: 12px;
++@media (max-width: 480px) {
++    .sync-btn {
++        width: 38px;
++        height: 38px;
+     }
+ 
+-    .notes-input {
+-        font-size: 0.9rem;
++    .sync-progress-ring {
++        width: 42px;
++        height: 42px;
+     }
+ 
+-    /* --- Disconnect overlay --- */
+-    .disconnect-card {
+-        padding: 24px 20px;
+-        margin: 16px;
++    .sync-progress-ring svg {
++        width: 42px;
++        height: 42px;
+     }
+-}
+ 
+-/* ============================================
+-   iPhone safe-area (notch + home indicator)
+-   ============================================ */
+-@supports (padding-top: env(safe-area-inset-top)) {
+-    .reader-header {
+-        padding-top: env(safe-area-inset-top);
+-        /* Stretch the fixed header to cover the notch */
+-        height: calc(56px + env(safe-area-inset-top));
++    .footer-left {
++        display: none;
+     }
+ 
+-    @media (max-width: 640px) {
+-        .reader-header {
+-            height: calc(50px + env(safe-area-inset-top));
+-        }
+-
+-        .reader-main {
+-            margin-top: calc(50px + env(safe-area-inset-top));
+-            margin-bottom: calc(64px + env(safe-area-inset-bottom));
+-        }
+-
+-        .reader-footer {
+-            padding-bottom: env(safe-area-inset-bottom);
+-            height: calc(64px + env(safe-area-inset-bottom));
+-        }
++    .sync-control {
++        gap: 10px;
+     }
+ }
+ 
+diff --git a/public/index.html b/public/index.html
+index 4dfdcd4..ff2c89b 100644
+--- a/public/index.html
++++ b/public/index.html
+@@ -3,7 +3,7 @@
+ 
+ <head>
+     <meta charset="UTF-8">
+-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
++    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <meta name="description"
+         content="Read Together - A synchronized reading experience for two people. Create a room, share a book, and read in sync.">
+     <title>Read Together ΓÇö Synchronized Reading</title>
+@@ -13,9 +13,6 @@
+         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap"
+         rel="stylesheet">
+     <link rel="stylesheet" href="/css/main.css">
+-    <link rel="stylesheet" href="/css/reader.css">
+-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+-    <script src="https://cdn.jsdelivr.net/npm/epubjs/dist/epub.min.js"></script>
+ </head>
+ 
+ <body>
+@@ -291,255 +288,20 @@
+                     </div>
+                 </div>
+ 
+-                <!-- Call Actions -->
+-                <div class="call-actions" id="lobby-call-actions" style="display:none;">
+-                    <span class="call-actions-label">Connect with your reader</span>
+-                    <div class="call-btns-row">
+-                        <button class="call-action-btn audio-call-btn" id="lobby-audio-call-btn"
+-                            onclick="startLobbyCall('audio')">
+-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+-                                stroke-linecap="round" stroke-linejoin="round" width="20" height="20">
+-                                <path
+-                                    d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.39 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
+-                            </svg>
+-                            Audio Call
+-                        </button>
+-                        <button class="call-action-btn video-call-btn" id="lobby-video-call-btn"
+-                            onclick="startLobbyCall('video')">
+-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+-                                stroke-linecap="round" stroke-linejoin="round" width="20" height="20">
+-                                <path
+-                                    d="M15.6 11.6L22 7v10l-6.4-4.5v-1zM4 5h9a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7c0-1.1.9-2 2-2z" />
+-                            </svg>
+-                            Video Call
+-                        </button>
+-                    </div>
+-                </div>
+-
+-            </div>
+-
+-
+-            <!-- Notification banner -->
+-            <div class="notification-banner" id="notification-banner" style="display: none;">
+-                <span id="notification-text"></span>
+-            </div>
+-        </section>
+-
+-        <!-- Reader Screen (SPA merged) -->
+-        <section id="reader-screen" class="screen">
+-            <header class="reader-header" id="reader-header">
+-                <div class="header-left">
+-                    <button class="icon-btn" id="back-to-room-btn" onclick="exitReader()" title="Back to room">
+-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+-                            stroke-linecap="round" stroke-linejoin="round">
+-                            <line x1="19" y1="12" x2="5" y2="12"></line>
+-                            <polyline points="12 19 5 12 12 5"></polyline>
+-                        </svg>
+-                    </button>
+-                    <div class="book-title-bar">
+-                        <span class="book-title" id="reader-book-title">Loading...</span>
+-                    </div>
+-                </div>
+-                <div class="header-center">
+-                    <div class="sync-indicator" id="sync-indicator">
+-                        <div class="sync-avatars">
+-                            <div class="sync-avatar host-sync" id="host-sync-avatar" title="Host">
+-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+-                                    <circle cx="12" cy="7" r="4"></circle>
+-                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+-                                </svg>
+-                            </div>
+-                            <div class="sync-avatar guest-sync" id="guest-sync-avatar" title="Guest">
+-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+-                                    <circle cx="12" cy="7" r="4"></circle>
+-                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+-                                </svg>
+-                            </div>
+-                        </div>
+-                        <span class="sync-text" id="sync-text">Both connected</span>
+-                    </div>
+-                </div>
+-                <div class="header-right">
+-                    <button class="icon-btn" id="toggle-theme-btn" onclick="toggleTheme()" title="Toggle theme">
+-                        <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+-                            <circle cx="12" cy="12" r="5"></circle>
+-                            <line x1="12" y1="1" x2="12" y2="3"></line>
+-                            <line x1="12" y1="21" x2="12" y2="23"></line>
+-                            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+-                            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+-                            <line x1="1" y1="12" x2="3" y2="12"></line>
+-                            <line x1="21" y1="12" x2="23" y2="12"></line>
+-                            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+-                            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+-                        </svg>
+-                    </button>
+-                    <button class="icon-btn" id="font-size-btn" onclick="toggleFontMenu()" title="Font size">
+-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+-                            <polyline points="4 7 4 4 20 4 20 7"></polyline>
+-                            <line x1="9" y1="20" x2="15" y2="20"></line>
+-                            <line x1="12" y1="4" x2="12" y2="20"></line>
+-                        </svg>
+-                    </button>
+-                    <button class="icon-btn" id="notes-toggle-btn" onclick="toggleNotes()" title="Toggle notes">
+-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+-                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+-                            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+-                        </svg>
+-                    </button>
+-                    <button class="icon-btn" id="reader-audio-call-btn" onclick="toggleCall('audio')"
+-                        title="Audio call">
+-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+-                            <path
+-                                d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.39 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z">
+-                            </path>
+-                        </svg>
+-                    </button>
+-                    <button class="icon-btn" id="reader-video-call-btn" onclick="toggleCall('video')"
+-                        title="Video call">
+-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+-                            stroke-linejoin="round">
+-                            <path
+-                                d="M15.6 11.6L22 7v10l-6.4-4.5v-1zM4 5h9a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7c0-1.1.9-2 2-2z" />
+-                        </svg>
+-                    </button>
+-                    <button class="icon-btn" id="chat-toggle-btn" onclick="toggleChat()" title="Toggle chat">
+-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+-                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+-                        </svg>
+-                    </button>
+-                </div>
+-            </header>
+-
+-            <div class="font-menu" id="font-menu" style="display: none;">
+-                <div class="font-menu-header">Text Size</div>
+-                <div class="font-slider-row">
+-                    <button class="font-adj-btn" onclick="adjustFontSize(-1)">A-</button>
+-                    <input type="range" id="font-slider" min="12" max="28" value="18" oninput="setFontSize(this.value)">
+-                    <button class="font-adj-btn large" onclick="adjustFontSize(1)">A+</button>
+-                </div>
+-                <div class="font-family-options">
+-                    <button class="font-family-btn active" data-font="'Lora', serif"
+-                        onclick="setFontFamily(this)">Serif</button>
+-                    <button class="font-family-btn" data-font="'Inter', sans-serif"
+-                        onclick="setFontFamily(this)">Sans</button>
++                <!-- Notification banner -->
++                <div class="notification-banner" id="notification-banner" style="display: none;">
++                    <span id="notification-text"></span>
+                 </div>
+             </div>
+-
+-            <main class="reader-main" id="reader-main">
+-                <div class="reader-loading" id="reader-loading">
+-                    <div class="loading-spinner"></div>
+-                    <p>Loading book...</p>
+-                </div>
+-                <div id="epub-viewer"></div>
+-            </main>
+-
+-            <footer class="reader-footer" id="reader-footer">
+-                <div class="footer-left">
+-                    <span class="page-info" id="page-info">Page 0</span>
+-                </div>
+-                <div class="footer-center">
+-                    <div class="sync-control">
+-                        <button class="sync-btn prev-btn" id="prev-page-btn" onclick="requestPrevPage()">
+-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+-                                stroke-linecap="round" stroke-linejoin="round">
+-                                <polyline points="15 18 9 12 15 6"></polyline>
+-                            </svg>
+-                        </button>
+-
+-                        <div class="sync-status" id="sync-status">
+-                            <div class="sync-progress-ring">
+-                                <svg viewBox="0 0 48 48">
+-                                    <circle class="ring-bg" cx="24" cy="24" r="20"></circle>
+-                                    <circle class="ring-fill" cx="24" cy="24" r="20" id="sync-ring"></circle>
+-                                </svg>
+-                                <span class="sync-count" id="sync-count">0/2</span>
+-                            </div>
+-                            <span class="sync-label" id="sync-label">Ready</span>
+-                        </div>
+-
+-                        <button class="sync-btn next-btn" id="next-page-btn" onclick="requestNextPage()">
+-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+-                                stroke-linecap="round" stroke-linejoin="round">
+-                                <polyline points="9 18 15 12 9 6"></polyline>
+-                            </svg>
+-                        </button>
+-                    </div>
+-                </div>
+-                <div class="footer-right">
+-                    <div class="reading-progress-bar">
+-                        <div class="reading-progress-fill" id="reading-progress-fill"></div>
+-                    </div>
+-                </div>
+-            </footer>
+-
+-            <aside class="chat-sidebar" id="chat-sidebar">
+-                <div class="chat-header">
+-                    <h3>Chat</h3><button onclick="toggleChat()">├ù</button>
+-                </div>
+-                <div class="chat-messages" id="chat-messages"></div>
+-                <div class="chat-input-area">
+-                    <input type="text" id="chat-input" placeholder="Type..." onkeydown="handleChatKeydown(event)">
+-                    <button onclick="sendChatMessage()">Send</button>
+-                </div>
+-            </aside>
+         </section>
+-
+-        <!-- Global Draggable Video Widget -->
+-        <div class="video-widget" id="video-widget" style="display: none;">
+-            <div class="video-header" id="video-header">
+-                <span>Room Call</span>
+-                <button class="icon-btn sm" onclick="endLobbyCall()"><svg viewBox="0 0 24 24" fill="none"
+-                        stroke="currentColor" stroke-width="2">
+-                        <line x1="18" y1="6" x2="6" y2="18"></line>
+-                        <line x1="6" y1="6" x2="18" y2="18"></line>
+-                    </svg></button>
+-            </div>
+-            <div class="video-streams">
+-                <video id="remote-video" autoplay playsinline></video>
+-                <video id="local-video" autoplay playsinline muted></video>
+-                <div id="video-waiting-overlay" class="video-overlay">
+-                    <div class="loading-spinner"></div><span id="call-status-text">Connecting...</span>
+-                </div>
+-            </div>
+-            <!-- Add standard controls inside the unified widget -->
+-            <div class="video-controls">
+-                <button class="video-control-btn" onclick="toggleLobbyMic()" title="Mic"><svg viewBox="0 0 24 24"
+-                        fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+-                        <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z" />
+-                        <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
+-                        <line x1="12" y1="19" x2="12" y2="22" />
+-                    </svg></button>
+-                <button class="video-control-btn" id="reader-cam-ctrl" onclick="toggleLobbyCam()" title="Cam"><svg
+-                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+-                        <path
+-                            d="M15.6 11.6L22 7v10l-6.4-4.5v-1zM4 5h9a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7c0-1.1.9-2 2-2z" />
+-                    </svg></button>
+-            </div>
+-        </div>
+-
+-        <aside class="chat-sidebar" id="chat-sidebar">
+-            <div class="chat-header">
+-                <h3>Chat</h3><button onclick="toggleChat()">├ù</button>
+-            </div>
+-            <div class="chat-messages" id="chat-messages"></div>
+-            <div class="chat-input-area">
+-                <input type="text" id="chat-input" placeholder="Type..." onkeydown="handleChatKeydown(event)">
+-                <button onclick="sendChatMessage()">Send</button>
+-            </div>
+-        </aside>
+     </div>
+ 
+     <!-- Toast notifications -->
+     <div id="toast-container"></div>
+ 
+     <script src="https://cdn.socket.io/4.7.4/socket.io.min.js"></script>
+-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+-    <script src="https://cdn.jsdelivr.net/npm/epubjs/dist/epub.min.js"></script>
+-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+-    <script>pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';</script>
+     <script src="/js/config.js"></script>
+     <script src="/js/app.js"></script>
+-    <script src="/js/reader.js"></script>
+ </body>
+ 
+ </html>
+\ No newline at end of file
+diff --git a/public/js/app.js b/public/js/app.js
+index d3424b8..e59268d 100644
+--- a/public/js/app.js
++++ b/public/js/app.js
+@@ -3,11 +3,11 @@
+    ============================================ */
+ 
+ // Socket connection
+-// Socket connection - Use BACKEND_URL or auto-detect based on current origin
+-const connectionUrl = BACKEND_URL || window.location.origin;
+-console.log("Connecting Lobby to:", connectionUrl);
+-
+-const socket = io(connectionUrl, {
++const socket = BACKEND_URL ? io(BACKEND_URL, {
++    reconnection: true,
++    reconnectionDelay: 1000,
++    reconnectionAttempts: 10
++}) : io({
+     reconnection: true,
+     reconnectionDelay: 1000,
+     reconnectionAttempts: 10
+@@ -98,7 +98,6 @@ socket.on('room-joined', (data) => {
+ 
+     showScreen('room-screen');
+     showToast(`Joined room ${data.code}!`, 'success');
+-    showLobbyCallButtons();
+ });
+ 
+ socket.on('join-error', (data) => {
+@@ -120,7 +119,6 @@ socket.on('user-joined', (data) => {
+ 
+     showToast(`${data.name} joined the room!`, 'success');
+     showNotification(`${data.name} has joined! You can now start reading together.`);
+-    showLobbyCallButtons();
+ });
+ 
+ // ---- Book Upload ----
+@@ -230,13 +228,6 @@ function showBookInfo(book) {
+     document.getElementById('book-size').textContent = formatFileSize(book.size);
+     document.getElementById('book-info-card').style.display = 'flex';
+ 
+-    // Only host can start reading
+-    if (userRole === 'guest') {
+-        document.getElementById('start-reading-btn').style.display = 'none';
+-    } else {
+-        document.getElementById('start-reading-btn').style.display = 'flex';
+-    }
+-
+     // Hide upload area
+     if (document.getElementById('upload-zone')) {
+         document.getElementById('upload-zone').style.display = 'none';
+@@ -258,26 +249,9 @@ function startReading() {
+         book: bookInfo
+     }));
+ 
+-    // Notify guest to join
+-    socket.emit('start-reading');
+-
+-    showReaderScreen();
+-}
+-
+-function showReaderScreen() {
+-    showScreen('reader-screen');
+-    // Small delay ensures display:block dimensions are painted before EPUB.js reads them
+-    if (typeof initReaderSPA === 'function') {
+-        setTimeout(initReaderSPA, 50);
+-    }
++    window.location.href = '/reader.html';
+ }
+ 
+-function exitReader() {
+-    showScreen('room-screen');
+-    // We don't fully destroy the reader state here so reconnection is fast
+-}
+-
+-
+ function downloadBook() {
+     if (!currentRoom) return;
+     const downloadUrl = BACKEND_URL ? `${BACKEND_URL}/download/${currentRoom}` : `/download/${currentRoom}`;
+@@ -311,14 +285,7 @@ function showNotification(text) {
+     }, 8000);
+ }
+ 
+-// ---- Disconnect & Start Handling ----
+-socket.on('host-started-reading', () => {
+-    if (userRole === 'guest' && bookInfo && currentRoom) {
+-        showToast('Host started reading! Joining...', 'success');
+-        showReaderScreen();
+-    }
+-});
+-
++// ---- Disconnect Handling ----
+ socket.on('guest-disconnected', (data) => {
+     document.getElementById('guest-status').className = 'user-status waiting';
+     document.getElementById('guest-status-text').textContent = 'Disconnected';
+@@ -381,206 +348,3 @@ socket.on('reconnect', () => {
+         });
+     }
+ });
+-
+-// ============================================
+-// Lobby WebRTC Call (Audio / Video)
+-// ============================================
+-
+-let lobbyLocalStream = null;
+-let lobbyPeer = null;
+-let lobbyCallMode = 'audio';
+-let lobbyPendingCandidates = [];
+-
+-let lobbyRtcConfig = {
+-    iceServers: [
+-        { urls: 'stun:stun.l.google.com:19302' },
+-        { urls: 'stun:stun1.l.google.com:19302' }
+-    ]
+-};
+-
+-// Fetch premium TURN credentials via backend on load
+-async function fetchLobbyTurnConfig() {
+-    try {
+-        const response = await fetch(`${BACKEND_URL}/api/get-turn-credentials`);
+-        const data = await response.json();
+-        if (data.iceServers) {
+-            lobbyRtcConfig.iceServers = data.iceServers;
+-            console.log("Using secured ICE config");
+-        }
+-    } catch (e) {
+-        console.error("Failed to fetch TURN config, falling back to STUN", e);
+-    }
+-}
+-fetchLobbyTurnConfig();
+-
+-function showLobbyCallButtons() {
+-    document.getElementById('lobby-call-actions').style.display = 'block';
+-}
+-
+-async function startLobbyCall(mode) {
+-    lobbyCallMode = mode;
+-    const useVideo = mode === 'video';
+-
+-    try {
+-        const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: useVideo });
+-        lobbyLocalStream = stream;
+-
+-        document.getElementById('lobby-call-actions').style.display = 'none';
+-        const widget = document.getElementById('video-widget');
+-        widget.style.display = 'block';
+-        document.getElementById('call-status-text').textContent = useVideo ? 'Video call ringing...' : 'Audio call ringing...';
+-
+-        if (useVideo) {
+-            document.getElementById('reader-cam-ctrl').style.display = 'flex';
+-            document.getElementById('local-video').srcObject = stream;
+-        }
+-
+-        createLobbyPeer();
+-
+-        const offer = await lobbyPeer.createOffer();
+-        await lobbyPeer.setLocalDescription(offer);
+-        socket.emit('webrtc-offer', { offer, mode });
+-
+-    } catch (err) {
+-        console.error('Lobby call error:', err);
+-        alert('Could not access microphone/camera. Check browser permissions.');
+-    }
+-}
+-
+-function createLobbyPeer() {
+-    lobbyPeer = new RTCPeerConnection(lobbyRtcConfig);
+-    const statusText = document.getElementById('call-status-text');
+-
+-    lobbyPeer.oniceconnectionstatechange = () => {
+-        console.log("Lobby ICE State:", lobbyPeer.iceConnectionState);
+-        if (lobbyPeer.iceConnectionState === 'failed') {
+-            statusText.textContent = "Connection Failed. Check NAT/Twilio.";
+-        }
+-    };
+-
+-    if (lobbyLocalStream) {
+-        lobbyLocalStream.getTracks().forEach(t => lobbyPeer.addTrack(t, lobbyLocalStream));
+-    }
+-
+-    lobbyPeer.onicecandidate = e => {
+-        if (e.candidate) socket.emit('webrtc-ice-candidate', { candidate: e.candidate });
+-    };
+-
+-    lobbyPeer.ontrack = e => {
+-        const remoteVideo = document.getElementById('remote-video');
+-        remoteVideo.srcObject = e.streams[0];
+-        remoteVideo.play().catch(err => console.error("Play error:", err));
+-        document.getElementById('call-status-text').textContent = lobbyCallMode === 'video' ? 'Video call connected' : 'Audio call connected Γ£ô';
+-
+-        if (lobbyCallMode === 'video') {
+-            document.getElementById('video-widget').classList.add('video-active'); // ensure layout adapts
+-        }
+-        document.getElementById('video-waiting-overlay').style.display = 'none';
+-    };
+-}
+-
+-async function handleLobbyOffer(data) {
+-    lobbyCallMode = data.mode || 'audio';
+-    const useVideo = lobbyCallMode === 'video';
+-
+-    const accept = confirm(`Incoming ${lobbyCallMode} call. Accept?`);
+-    if (!accept) {
+-        socket.emit('call-ended');
+-        return;
+-    }
+-
+-    try {
+-        const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: useVideo });
+-        lobbyLocalStream = stream;
+-
+-        document.getElementById('lobby-call-actions').style.display = 'none';
+-        const widget = document.getElementById('video-widget');
+-        widget.style.display = 'block';
+-        document.getElementById('call-status-text').textContent = useVideo ? 'Video call connected' : 'Audio call connected Γ£ô';
+-
+-        if (useVideo) {
+-            document.getElementById('reader-cam-ctrl').style.display = 'flex';
+-            document.getElementById('local-video').srcObject = stream;
+-        }
+-
+-        createLobbyPeer();
+-        await lobbyPeer.setRemoteDescription(new RTCSessionDescription(data.offer));
+-        const answer = await lobbyPeer.createAnswer();
+-        await lobbyPeer.setLocalDescription(answer);
+-
+-        for (const c of lobbyPendingCandidates) {
+-            try { await lobbyPeer.addIceCandidate(new RTCIceCandidate(c)); } catch (e) { }
+-        }
+-        lobbyPendingCandidates = [];
+-
+-        socket.emit('webrtc-answer', { answer, mode: lobbyCallMode });
+-
+-    } catch (err) {
+-        console.error('Lobby answer error:', err);
+-        socket.emit('call-ended');
+-        alert('Failed to access camera or microphone.');
+-    }
+-}
+-
+-async function handleLobbyAnswer(data) {
+-    if (lobbyPeer) {
+-        await lobbyPeer.setRemoteDescription(new RTCSessionDescription(data.answer));
+-        for (const c of lobbyPendingCandidates) {
+-            try { await lobbyPeer.addIceCandidate(new RTCIceCandidate(c)); } catch (e) { }
+-        }
+-        lobbyPendingCandidates = [];
+-    }
+-}
+-
+-async function handleLobbyIce(data) {
+-    if (lobbyPeer && lobbyPeer.remoteDescription && lobbyPeer.remoteDescription.type) {
+-        try { await lobbyPeer.addIceCandidate(new RTCIceCandidate(data.candidate)); } catch (e) { }
+-    } else {
+-        lobbyPendingCandidates.push(data.candidate);
+-    }
+-}
+-
+-function endLobbyCall() {
+-    if (lobbyPeer) { lobbyPeer.close(); lobbyPeer = null; }
+-    if (lobbyLocalStream) { lobbyLocalStream.getTracks().forEach(t => t.stop()); lobbyLocalStream = null; }
+-
+-    document.getElementById('video-widget').style.display = 'none';
+-    document.getElementById('video-waiting-overlay').style.display = 'flex';
+-    const actions = document.getElementById('lobby-call-actions');
+-    if (actions) actions.style.display = 'block';
+-    lobbyPendingCandidates = [];
+-    socket.emit('call-ended');
+-}
+-
+-function toggleLobbyMic() {
+-    if (!lobbyLocalStream) return;
+-    const track = lobbyLocalStream.getAudioTracks()[0];
+-    if (track) {
+-        track.enabled = !track.enabled;
+-        document.getElementById('toggle-mic-btn').classList.toggle('muted', !track.enabled);
+-    }
+-}
+-
+-function toggleLobbyCam() {
+-    if (!lobbyLocalStream) return;
+-    const track = lobbyLocalStream.getVideoTracks()[0];
+-    if (track) {
+-        track.enabled = !track.enabled;
+-        document.getElementById('reader-cam-ctrl').classList.toggle('off', !track.enabled);
+-    }
+-}
+-
+-// Wire up WebRTC signaling in the lobby
+-socket.on('webrtc-offer', handleLobbyOffer);
+-socket.on('webrtc-answer', handleLobbyAnswer);
+-socket.on('webrtc-ice-candidate', handleLobbyIce);
+-socket.on('call-ended', () => { if (lobbyPeer) endLobbyCall(); });
+-
+-// Global toggle call for reader buttons
+-function toggleCall(mode) {
+-    if (lobbyLocalStream) {
+-        endLobbyCall();
+-    } else {
+-        startLobbyCall(mode);
+-    }
+-}
+diff --git a/public/js/config.js b/public/js/config.js
+index 30c0791..2965188 100644
+--- a/public/js/config.js
++++ b/public/js/config.js
+@@ -1,5 +1,5 @@
+ // Configuration for production deployment
+-// 1. When running locally, leave this as empty string ''
+-// 2. When deploying frontend separately (e.g. Netlify), set this to your Render.com backend URL
+-// 3. If you are serving the frontend from Render.com (same server as backend), leave this as ''
+-const BACKEND_URL = ''; // Example: 'https://readtogether-backend.onrender.com'
++// 1. When running locally, set this to empty string ''
++// 2. When deploying frontend to Netlify, set this to your Render.com backend URL
++// Example: const BACKEND_URL = 'https://read-together-backend.onrender.com';
++const BACKEND_URL = ''; // CHANGE THIS WHEN DEPLOYING
+diff --git a/public/js/reader.js b/public/js/reader.js
+index 6cabae8..6ba5fc1 100644
+--- a/public/js/reader.js
++++ b/public/js/reader.js
+@@ -1,41 +1,75 @@
+-// Header variables shifted to global scope for SPA sharing
+-let isPdf = false;
+-let pdfDoc = null;
+-let currentPdfPage = 1;
+-let totalPdfPages = 0;
+-let pdfCanvas = null;
+-let pdfCtx = null;
++/* ============================================
++   READ TOGETHER - Reader Logic
++   ============================================ */
++
++// ---- State ----
++let socket;
+ let book = null;
+ let rendition = null;
+ let sessionData = null;
+ let currentLocationIndex = 0;
+ let totalLocations = 0;
+ let locations = [];
+-let isReaderInitialized = false; // Renamed to avoid lobby collision
+-let isPageReady = false; // Tracking page sync state
++let isReady = false;
+ let chatOpen = false;
+ let notesOpen = false;
+ let fontMenuOpen = false;
+ let unreadMessages = 0;
+-let currentTheme = 'light'; // 'dark', 'light', 'sepia'
++let currentTheme = 'dark'; // 'dark', 'light', 'sepia'
+ let currentFontSize = 18;
+ let currentFontFamily = "'Lora', serif";
+ let notes = JSON.parse(localStorage.getItem('readTogether_notes') || '[]');
+ 
+-// ---- Initialize Reader for SPA Mode ----
+-function initReaderSPA() {
+-    if (isReaderInitialized) return;
+-    console.log("Initializing Reader Screen...");
+ 
+-    sessionData = {
+-        roomCode: currentRoom,
+-        role: userRole,
+-        userName: userName,
+-        book: bookInfo
+-    };
++// ---- Initialize ----
++document.addEventListener('DOMContentLoaded', () => {
++    // Load session data
++    const stored = sessionStorage.getItem('readTogether');
++    if (!stored) {
++        window.location.href = '/';
++        return;
++    }
++
++    sessionData = JSON.parse(stored);
++
++    // Connect socket
++    socket = BACKEND_URL ? io(BACKEND_URL, {
++        reconnection: true,
++        reconnectionDelay: 1000,
++        reconnectionAttempts: 10
++    }) : io({
++        reconnection: true,
++        reconnectionDelay: 1000,
++        reconnectionAttempts: 10
++    });
+ 
+     setupSocketListeners();
+ 
++    // Rejoin room
++    socket.on('connect', () => {
++        socket.emit('reconnect-room', {
++            roomCode: sessionData.roomCode,
++            role: sessionData.role,
++            name: sessionData.userName
++        });
++    });
++
++    socket.on('reconnect-success', (data) => {
++        console.log('Reconnected to room:', data.code);
++        if (data.book && !book) {
++            loadBook(data.book);
++        }
++        if (data.currentPage !== undefined) {
++            currentLocationIndex = data.currentPage;
++        }
++    });
++
++    socket.on('reconnect-error', (data) => {
++        alert(data.message);
++        window.location.href = '/';
++    });
++
++    // Load the book
+     if (sessionData.book) {
+         loadBook(sessionData.book);
+     }
+@@ -52,17 +86,12 @@ function initReaderSPA() {
+ 
+     // Notes: char counter + initial render
+     const notesInput = document.getElementById('notes-input');
+-    if (notesInput) {
+-        notesInput.addEventListener('input', () => {
+-            const len = notesInput.value.length;
+-            document.getElementById('notes-char-count').textContent = `${len} / 1000`;
+-        });
+-    }
++    notesInput.addEventListener('input', () => {
++        const len = notesInput.value.length;
++        document.getElementById('notes-char-count').textContent = `${len} / 1000`;
++    });
+     renderNotes();
+-
+-    isReaderInitialized = true;
+-    updatePageInfo();
+-}
++});
+ 
+ // ---- Book Loading ----
+ function loadBook(bookData) {
+@@ -71,62 +100,8 @@ function loadBook(bookData) {
+ 
+     document.getElementById('reader-book-title').textContent = bookData.originalName;
+ 
+-    // Initialize epub.js - Ensure path is absolute if BACKEND_URL is set
+-    const baseUrl = BACKEND_URL || window.location.origin;
+-    const fullPath = bookData.path.startsWith('http')
+-        ? bookData.path
+-        : `${baseUrl}${bookData.path}`;
+-
+-    console.log("Loading book from:", fullPath);
+-
+-    isPdf = bookData.type === '.pdf' || bookData.filename.endsWith('.pdf');
+-
+-    if (isPdf) {
+-        initPdfReader(fullPath, loadingEl);
+-        return;
+-    }
+-
+-    // Safety timeout: If book doesn't render in 60 seconds, show error
+-    const loadingTimeout = setTimeout(() => {
+-        if (loadingEl.style.display !== 'none') {
+-            console.error("Book loading timed out");
+-            loadingEl.innerHTML = `
+-                <div class="error-container" style="color: var(--error); text-align: center; padding: 20px;">
+-                    <p class="error-msg" style="margin-bottom: 20px;">Loading is taking longer than expected. The file might be corrupted or over the size limit.</p>
+-                    <button class="primary-btn" onclick="location.reload()" style="padding: 10px 20px; cursor: pointer; color: white;">Refresh App</button>
+-                </div>
+-            `;
+-        }
+-    }, 60000);
+-
+-    try {
+-        book = ePub(fullPath);
+-    } catch (e) {
+-        console.error("EPub init error:", e);
+-        loadingEl.innerHTML = `<div class="error-container" style="color: var(--error); text-align: center; padding: 20px;">
+-                <p class="error-msg" style="margin-bottom: 20px;">Failed to initialize reader engine.</p>
+-            </div>`;
+-        return;
+-    }
+-
+-    book.opened.then(() => {
+-        console.log("Book opened successfully");
+-    }).catch(err => {
+-        clearTimeout(loadingTimeout);
+-        console.error("Error opening book:", err);
+-        const is404 = err.message && err.message.includes('404');
+-        const errorMessage = is404
+-            ? "Book file not found on server. It may have been deleted during a server restart."
+-            : "Failed to load book. Make sure the server is reachable.";
+-
+-        document.getElementById('reader-book-title').textContent = "Error: File Missing";
+-        loadingEl.innerHTML = `
+-            <div class="error-container" style="color: var(--error); text-align: center; padding: 20px;">
+-                <p class="error-msg" style="margin-bottom: 20px; font-weight: bold;">${errorMessage}</p>
+-                ${sessionData.role === 'host' ? '<button class="primary-btn" onclick="let s = document.getElementById(\'reader-screen\'); s.classList.remove(\'active\'); document.getElementById(\'room-screen\').classList.add(\'active\');" style="padding: 10px 20px; cursor: pointer; color: white;">Go Back to Upload</button>' : ''}
+-            </div>
+-        `;
+-    });
++    // Initialize epub.js
++    book = ePub(bookData.path);
+ 
+     rendition = book.renderTo('epub-viewer', {
+         width: '100%',
+@@ -136,75 +111,36 @@ function loadBook(bookData) {
+         manager: 'continuous'
+     });
+ 
+-    // Handle iframe styling after rendering
+-    rendition.on('started', () => {
+-        applyTheme(currentTheme);
+-        applyFontSize(currentFontSize);
+-        applyFontFamily(currentFontFamily);
+-    });
+-
+     // Apply initial theme
+     applyTheme(currentTheme);
+     applyFontSize(currentFontSize);
+     applyFontFamily(currentFontFamily);
+ 
+-    // Display the book starting at the stored page or beginning
+-    // We do this immediately so the user doesn't wait for location generation
+-    if (sessionData.currentLocation && currentLocationIndex > 0) {
+-        rendition.display(sessionData.currentLocation);
+-    } else {
+-        rendition.display();
+-    }
+-
+-    // Generate locations for progress tracking in the background
++    // Generate locations for progress tracking
+     book.ready.then(() => {
+-        console.log("Book ready, generating locations...");
+         return book.locations.generate(1024);
+     }).then((locs) => {
+         locations = locs;
+         totalLocations = locations.length;
+-        console.log("Locations generated:", totalLocations);
+ 
+         socket.emit('set-total-locations', { total: totalLocations });
+ 
+-        // Sync progress now that locations are ready
+-        updateProgress();
+-    }).catch(err => {
+-        console.error("Error generating locations:", err);
++        // Display the book starting at the stored page or beginning
++        if (currentLocationIndex > 0 && locations[currentLocationIndex]) {
++            rendition.display(locations[currentLocationIndex]);
++        } else {
++            rendition.display();
++        }
+     });
+ 
+     rendition.on('rendered', () => {
+-        clearTimeout(loadingTimeout);
+         loadingEl.style.display = 'none';
+-        console.log("Book rendered successfully");
+-
+-        // Force a resize to fix Zero-Height rendering bugs in SPA/iOS Safari
+-        setTimeout(() => {
+-            if (rendition) {
+-                rendition.resize('100%', '100%');
+-            }
+-        }, 300);
+-    });
+-
+-    // Auto-resize on window resize or device rotation
+-    window.addEventListener('resize', () => {
+-        if (rendition) {
+-            rendition.resize('100%', '100%');
+-        }
+     });
+ 
+     rendition.on('relocated', (location) => {
+         // Update page info
+         const current = location.start.location;
+-        if (typeof current === 'number' && current >= 0) {
+-            currentLocationIndex = current;
+-        }
+-
+-        // Save precise location to session so refresh works perfectly
+-        if (sessionData) {
+-            sessionData.currentLocation = location.start.cfi;
+-            sessionStorage.setItem('readTogether', JSON.stringify(sessionData));
+-        }
++        currentLocationIndex = current;
+ 
+         updatePageInfo();
+         updateProgress();
+@@ -213,191 +149,17 @@ function loadBook(bookData) {
+     // Handle touch/swipe on mobile
+     rendition.on('touchstart', handleTouchStart);
+     rendition.on('touchend', handleTouchEnd);
+-
+-    // Highlighting / Selection features
+-    rendition.on('selected', (cfiRange, contents) => {
+-        currentSelectionCfi = cfiRange;
+-        currentSelectionText = contents.window.getSelection().toString().trim();
+-
+-        // Get iframe position
+-        const iframe = document.querySelector('#epub-viewer iframe');
+-        const iframeRect = iframe.getBoundingClientRect();
+-
+-        // Get selection rect inside iframe
+-        const range = contents.window.getSelection().getRangeAt(0);
+-        const rect = range.getBoundingClientRect();
+-
+-        const tooltip = document.getElementById('highlight-tooltip');
+-        tooltip.style.display = 'flex';
+-
+-        // Position it just above the selection
+-        const top = iframeRect.top + rect.top - 40;
+-        const left = Math.max(20, iframeRect.left + rect.left + (rect.width / 2));
+-
+-        tooltip.style.top = `${top}px`;
+-        tooltip.style.left = `${left}px`;
+-    });
+-
+-    rendition.on('click', () => {
+-        document.getElementById('highlight-tooltip').style.display = 'none';
+-    });
+ }
+ 
+-// ---- Highlighting State ----
+-let currentSelectionCfi = null;
+-let currentSelectionText = '';
+-
+-function applyHighlight() {
+-    document.getElementById('highlight-tooltip').style.display = 'none';
+-    if (!currentSelectionCfi) return;
+-
+-    // Auto highlight in reader
+-    rendition.annotations.highlight(currentSelectionCfi, {}, (e) => { });
+-
+-    const shortText = currentSelectionText.length > 80 ? currentSelectionText.substring(0, 80) + '...' : currentSelectionText;
+-
+-    // Send highlight context to chat
+-    socket.emit('chat-message', {
+-        text: shortText,
+-        isHighlight: true,
+-        cfi: currentSelectionCfi,
+-        pageIndex: currentLocationIndex
+-    });
+-
+-    // Clear selection inside iframe natively via injected JS script or simply skip for now
+-    if (rendition.getContents && rendition.getContents().length > 0) {
+-        rendition.getContents()[0].window.getSelection().removeAllRanges();
+-    }
+-}
+-
+-function jumpToCfi(cfi) {
+-    if (rendition) {
+-        // Broadcast jump to partner
+-        socket.emit('jump-to-scene', { cfi });
+-
+-        // Local jump
+-        doLocalJump(cfi);
+-    }
+-}
+-
+-// ---- PDF Rendering Logic ----
+-async function initPdfReader(url, loadingEl) {
+-    try {
+-        pdfDoc = await pdfjsLib.getDocument(url).promise;
+-        totalPdfPages = pdfDoc.numPages;
+-        totalLocations = totalPdfPages;
+-
+-        // Restore session page or start at 1
+-        currentPdfPage = sessionData.currentLocation ? parseInt(sessionData.currentLocation) : 1;
+-        if (isNaN(currentPdfPage) || currentPdfPage < 1) currentPdfPage = 1;
+-        currentLocationIndex = currentPdfPage - 1;
+-
+-        loadingEl.style.display = 'none';
+-
+-        const viewer = document.getElementById('epub-viewer');
+-        viewer.innerHTML = '<div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;"><canvas id="pdf-canvas" style="max-height: 100%; max-width: 100%; box-shadow: 0 4px 8px rgba(0,0,0,0.1);"></canvas></div>';
+-        pdfCanvas = document.getElementById('pdf-canvas');
+-        pdfCtx = pdfCanvas.getContext('2d');
+-
+-        applyTheme(currentTheme); // apply bg colors
+-        renderPdfPage(currentPdfPage);
+-
+-        // Auto-resize on window resize or device rotation
+-        window.addEventListener('resize', () => {
+-            if (isPdf && pdfDoc) {
+-                renderPdfPage(currentPdfPage);
+-            }
+-        });
+-
+-    } catch (err) {
+-        console.error("PDF init error", err);
+-        loadingEl.innerHTML = `
+-            <div class="error-container" style="color: var(--error); text-align: center; padding: 20px;">
+-                <p class="error-msg" style="margin-bottom: 20px;">Failed to load PDF file.</p>
+-                <button class="primary-btn" onclick="location.reload()" style="padding: 10px 20px; cursor: pointer; color: white;">Refresh App</button>
+-            </div>
+-        `;
+-    }
+-}
+-
+-async function renderPdfPage(pageNum) {
+-    if (!pdfDoc) return;
+-    try {
+-        const page = await pdfDoc.getPage(pageNum);
+-        const viewer = document.getElementById('epub-viewer');
+-
+-        // Calculate appropriate scale based on container
+-        const unscaledViewport = page.getViewport({ scale: 1 });
+-        const scaleX = viewer.clientWidth / unscaledViewport.width;
+-        const scaleY = viewer.clientHeight / unscaledViewport.height;
+-        let scale = Math.min(scaleX, scaleY) * 0.95; // 95% to leave a tiny padding margin
+-        if (scale > 2) scale = 2; // cap max scale
+-
+-        const viewport = page.getViewport({ scale });
+-
+-        // Ensure proper HiDPI canvas rendering
+-        const outputScale = window.devicePixelRatio || 1;
+-        pdfCanvas.width = Math.floor(viewport.width * outputScale);
+-        pdfCanvas.height = Math.floor(viewport.height * outputScale);
+-        pdfCanvas.style.width = Math.floor(viewport.width) + "px";
+-        pdfCanvas.style.height = Math.floor(viewport.height) + "px";
+-
+-        const transform = outputScale !== 1
+-            ? [outputScale, 0, 0, outputScale, 0, 0]
+-            : null;
+-
+-        const renderContext = {
+-            canvasContext: pdfCtx,
+-            transform: transform,
+-            viewport: viewport
+-        };
+-
+-        await page.render(renderContext).promise;
+-
+-        currentLocationIndex = pageNum - 1;
+-
+-        sessionData.currentLocation = pageNum;
+-        sessionStorage.setItem('readTogether', JSON.stringify(sessionData));
+-
+-        updatePageInfo();
+-        updateProgress();
+-    } catch (e) {
+-        console.error("Error rendering PDF page", e);
+-    }
+-}
+-
+-function doLocalJump(cfi) {
+-    if (isPdf) {
+-        // cfi for PDF is just the page number
+-        const pageNum = parseInt(cfi);
+-        if (!isNaN(pageNum) && pageNum >= 1 && pageNum <= totalPdfPages) {
+-            currentPdfPage = pageNum;
+-            renderPdfPage(currentPdfPage);
+-        }
+-        return;
+-    }
+-
+-    if (!rendition) return;
+-    const viewer = document.getElementById('epub-viewer');
+-    viewer.style.transition = 'opacity 0.2s';
+-    viewer.style.opacity = '0';
+-    setTimeout(() => {
+-        rendition.display(cfi).then(() => {
+-            viewer.style.opacity = '1';
+-        });
+-    }, 200);
+-}
+-
+-
+ // ---- Page Navigation with Sync ----
+ function requestNextPage() {
+-    if (isPageReady) {
++    if (isReady) {
+         // Cancel ready status
+         cancelReady();
+         return;
+     }
+ 
+-    isPageReady = true;
++    isReady = true;
+     updateLocalSyncUI();
+ 
+     socket.emit('page-ready', {
+@@ -409,12 +171,12 @@ function requestNextPage() {
+ function requestPrevPage() {
+     if (currentLocationIndex <= 0) return;
+ 
+-    if (isPageReady) {
++    if (isReady) {
+         cancelReady();
+         return;
+     }
+ 
+-    isPageReady = true;
++    isReady = true;
+     updateLocalSyncUI();
+ 
+     socket.emit('page-ready', {
+@@ -424,7 +186,7 @@ function requestPrevPage() {
+ }
+ 
+ function cancelReady() {
+-    isPageReady = false;
++    isReady = false;
+     updateLocalSyncUI();
+     socket.emit('page-cancel');
+ }
+@@ -433,7 +195,7 @@ function updateLocalSyncUI() {
+     const nextBtn = document.getElementById('next-page-btn');
+     const prevBtn = document.getElementById('prev-page-btn');
+ 
+-    if (isPageReady) {
++    if (isReady) {
+         nextBtn.classList.add('ready');
+         prevBtn.classList.add('ready');
+     } else {
+@@ -451,83 +213,23 @@ function setupSocketListeners() {
+ 
+     // Page advance (both users confirmed)
+     socket.on('page-advance', (data) => {
+-        isPageReady = false;
++        isReady = false;
+         updateLocalSyncUI();
+ 
+         currentLocationIndex = data.page;
+ 
+-        const viewer = document.getElementById('epub-viewer');
+-
+-        if (isPdf) {
+-            viewer.style.transition = 'opacity 0.15s ease-out, transform 0.15s ease-out';
+-            viewer.style.opacity = '0';
+-            viewer.style.transform = data.direction === 'next' ? 'translateX(-30px)' : 'translateX(30px)';
+-
+-            setTimeout(() => {
+-                currentPdfPage = data.direction === 'next' ? currentPdfPage + 1 : currentPdfPage - 1;
+-                if (currentPdfPage < 1) currentPdfPage = 1;
+-                if (currentPdfPage > totalPdfPages) currentPdfPage = totalPdfPages;
+-
+-                renderPdfPage(currentPdfPage).then(() => {
+-                    viewer.style.transition = 'none';
+-                    viewer.style.transform = data.direction === 'next' ? 'translateX(30px)' : 'translateX(-30px)';
+-                    void viewer.offsetWidth; // Force Reflow
+-                    viewer.style.transition = 'opacity 0.2s ease-out, transform 0.2s ease-out';
+-                    viewer.style.opacity = '1';
+-                    viewer.style.transform = 'translateX(0)';
+-                }).catch(err => {
+-                    console.error('PDF render error:', err);
+-                    viewer.style.opacity = '1';
+-                    viewer.style.transform = 'translateX(0)';
++        if (rendition && locations.length > 0) {
++            if (data.direction === 'next') {
++                rendition.next().then(() => {
++                    updatePageInfo();
++                    updateProgress();
+                 });
+-            }, 150);
+-            
+-            // Reset sync display for PDF
+-            updateSyncDisplay(0, 2);
+-            flashSyncSuccess();
+-            return;
+-        }
+-
+-        if (rendition) {
+-            // Slide transition out
+-            viewer.style.transition = 'opacity 0.15s ease-out, transform 0.15s ease-out';
+-            viewer.style.opacity = '0';
+-            viewer.style.transform = data.direction === 'next' ? 'translateX(-30px)' : 'translateX(30px)';
+-
+-            setTimeout(() => {
+-                try {
+-                    const action = data.direction === 'next' ? rendition.next() : rendition.prev();
+-                    
+-                    const handleSuccess = () => {
+-                        updatePageInfo();
+-                        updateProgress();
+-
+-                        // Reset position to opposite side invisibly
+-                        viewer.style.transition = 'none';
+-                        viewer.style.transform = data.direction === 'next' ? 'translateX(30px)' : 'translateX(-30px)';
+-                        void viewer.offsetWidth; // Force Reflow
+-
+-                        // Slide in transition
+-                        viewer.style.transition = 'opacity 0.2s ease-out, transform 0.2s ease-out';
+-                        viewer.style.opacity = '1';
+-                        viewer.style.transform = 'translateX(0)';
+-                    };
+-
+-                    if (action && typeof action.then === 'function') {
+-                        action.then(handleSuccess).catch(err => {
+-                            console.error('EPUB render error:', err);
+-                            viewer.style.opacity = '1';
+-                            viewer.style.transform = 'translateX(0)';
+-                        });
+-                    } else {
+-                        handleSuccess();
+-                    }
+-                } catch (err) {
+-                    console.error('Error turning page:', err);
+-                    viewer.style.opacity = '1';
+-                    viewer.style.transform = 'translateX(0)';
+-                }
+-            }, 150);
++            } else {
++                rendition.prev().then(() => {
++                    updatePageInfo();
++                    updateProgress();
++                });
++            }
+         }
+ 
+         // Reset sync display
+@@ -537,11 +239,6 @@ function setupSocketListeners() {
+         flashSyncSuccess();
+     });
+ 
+-    // Jump to Scene (highlight click sync)
+-    socket.on('jumped-to-scene', (data) => {
+-        doLocalJump(data.cfi);
+-    });
+-
+     // Chat
+     socket.on('chat-received', (msg) => {
+         addChatMessage(msg);
+@@ -592,9 +289,6 @@ function setupSocketListeners() {
+             loadBook(bookData);
+         }
+     });
+-
+-    // Note: WebRTC event listeners have been removed from here 
+-    // because they are now globally handled by app.js.
+ }
+ 
+ // ---- Sync Display ----
+@@ -662,8 +356,8 @@ function applyTheme(theme) {
+ 
+     if (theme === 'light') {
+         document.body.classList.add('light-theme');
+-        if (sunIcon) sunIcon.style.display = 'none';
+-        if (moonIcon) moonIcon.style.display = 'block';
++        sunIcon.style.display = 'none';
++        moonIcon.style.display = 'block';
+ 
+         if (rendition) {
+             rendition.themes.default({
+@@ -676,13 +370,10 @@ function applyTheme(theme) {
+                 }
+             });
+         }
+-        if (isPdf && pdfCanvas) {
+-            document.getElementById('epub-viewer').style.backgroundColor = '#faf8f5';
+-        }
+     } else if (theme === 'sepia') {
+         document.body.classList.add('sepia-theme');
+-        if (sunIcon) sunIcon.style.display = 'block';
+-        if (moonIcon) moonIcon.style.display = 'none';
++        sunIcon.style.display = 'block';
++        moonIcon.style.display = 'none';
+ 
+         if (rendition) {
+             rendition.themes.default({
+@@ -695,13 +386,10 @@ function applyTheme(theme) {
+                 }
+             });
+         }
+-        if (isPdf && pdfCanvas) {
+-            document.getElementById('epub-viewer').style.backgroundColor = '#f4ecd8';
+-        }
+     } else {
+         // Dark
+-        if (sunIcon) sunIcon.style.display = 'block';
+-        if (moonIcon) moonIcon.style.display = 'none';
++        sunIcon.style.display = 'block';
++        moonIcon.style.display = 'none';
+ 
+         if (rendition) {
+             rendition.themes.default({
+@@ -714,9 +402,6 @@ function applyTheme(theme) {
+                 }
+             });
+         }
+-        if (isPdf && pdfCanvas) {
+-            document.getElementById('epub-viewer').style.backgroundColor = '#1a1a2e';
+-        }
+     }
+ }
+ 
+@@ -820,29 +505,11 @@ function addChatMessage(msg) {
+     const time = new Date(msg.timestamp);
+     const timeStr = time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+ 
+-    if (msg.isHighlight) {
+-        msgEl.innerHTML = `
+-            ${!isOwn ? `<span class="chat-msg-sender">${escapeHtml(msg.sender)}</span>` : ''}
+-            <div class="chat-msg-bubble highlight-bubble" onclick="jumpToCfi('${msg.cfi}')" style="cursor: pointer; background: rgba(124,106,255,0.15); border: 1px solid rgba(124,106,255,0.3); border-radius: 8px; padding: 12px; transition: all 0.2s;">
+-                <div style="font-size: 0.65rem; color: var(--text-muted); font-weight: 700; margin-bottom: 6px; letter-spacing: 0.05em; display: flex; align-items: center; gap: 4px;">
+-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="12" height="12"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+-                    HIGHLIGHT ON LOC ${msg.pageIndex}
+-                </div>
+-                <div style="font-style: italic; font-size: 0.85rem; line-height: 1.5; color: var(--reader-text); border-left: 2px solid var(--accent); padding-left: 8px;">"${escapeHtml(msg.text)}"</div>
+-                <div style="font-size: 0.65rem; font-weight: 600; color: var(--accent-light); margin-top: 8px; display: flex; align-items: center; gap: 4px;">
+-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="12" height="12"><polyline points="9 10 4 15 9 20"/><path d="M20 4v7a4 4 0 0 1-4 4H4"/></svg>
+-                    Tap to jump to page
+-                </div>
+-            </div>
+-            <span class="chat-msg-time">${timeStr}</span>
+-        `;
+-    } else {
+-        msgEl.innerHTML = `
+-            ${!isOwn ? `<span class="chat-msg-sender">${escapeHtml(msg.sender)}</span>` : ''}
+-            <div class="chat-msg-bubble">${escapeHtml(msg.text)}</div>
+-            <span class="chat-msg-time">${timeStr}</span>
+-        `;
+-    }
++    msgEl.innerHTML = `
++    ${!isOwn ? `<span class="chat-msg-sender">${escapeHtml(msg.sender)}</span>` : ''}
++    <div class="chat-msg-bubble">${escapeHtml(msg.text)}</div>
++    <span class="chat-msg-time">${timeStr}</span>
++  `;
+ 
+     container.appendChild(msgEl);
+     container.scrollTop = container.scrollHeight;
+@@ -871,11 +538,7 @@ function hideDisconnectOverlay() {
+ 
+ // ---- Go Back ----
+ function goBackToRoom() {
+-    if (typeof exitReader === 'function') {
+-        exitReader();
+-    } else {
+-        window.location.href = '/';
+-    }
++    window.location.href = '/';
+ }
+ 
+ // ---- Keyboard Shortcuts ----
+@@ -1042,69 +705,3 @@ function renderNotes() {
+         list.appendChild(card);
+     });
+ }
+-
+-
+-// ----- Draggable Widget Logic -----
+-function setupDraggableWidget() {
+-    const widget = document.getElementById('video-widget');
+-    const header = document.getElementById('video-header');
+-
+-    let isDragging = false;
+-    let currentX;
+-    let currentY;
+-    let initialX;
+-    let initialY;
+-    let xOffset = 0;
+-    let yOffset = 0;
+-
+-    header.addEventListener('mousedown', dragStart);
+-    document.addEventListener('mouseup', dragEnd);
+-    document.addEventListener('mousemove', drag);
+-
+-    // Touch support mapping natively
+-    header.addEventListener('touchstart', dragStart, { passive: false });
+-    document.addEventListener('touchend', dragEnd);
+-    document.addEventListener('touchmove', drag, { passive: false });
+-
+-    function dragStart(e) {
+-        if (e.type === 'touchstart') {
+-            initialX = e.touches[0].clientX - xOffset;
+-            initialY = e.touches[0].clientY - yOffset;
+-        } else {
+-            initialX = e.clientX - xOffset;
+-            initialY = e.clientY - yOffset;
+-        }
+-
+-        if (e.target.closest('.icon-btn')) return; // ignore close button
+-        isDragging = true;
+-    }
+-
+-    function dragEnd(e) {
+-        initialX = currentX;
+-        initialY = currentY;
+-        isDragging = false;
+-    }
+-
+-    function drag(e) {
+-        if (isDragging) {
+-            e.preventDefault();
+-
+-            if (e.type === 'touchmove') {
+-                currentX = e.touches[0].clientX - initialX;
+-                currentY = e.touches[0].clientY - initialY;
+-            } else {
+-                currentX = e.clientX - initialX;
+-                currentY = e.clientY - initialY;
+-            }
+-
+-            xOffset = currentX;
+-            yOffset = currentY;
+-
+-            // Apply transform instead of direct style left/top for perf
+-            widget.style.transform = `translate3d(${currentX}px, ${currentY}px, 0)`;
+-        }
+-    }
+-}
+-
+-// Automatically setup dragging for global widget
+-document.addEventListener('DOMContentLoaded', setupDraggableWidget);
+diff --git a/public/reader.html b/public/reader.html
+index 04fc16d..ae25b8c 100644
+--- a/public/reader.html
++++ b/public/reader.html
+@@ -3,7 +3,7 @@
+ 
+ <head>
+     <meta charset="UTF-8">
+-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
++    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <meta name="description" content="Read Together - Synchronized book reader">
+     <title>Read Together ΓÇö Reader</title>
+     <link rel="preconnect" href="https://fonts.googleapis.com">
+@@ -86,20 +86,6 @@
+                     <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+                 </svg>
+             </button>
+-            <button class="icon-btn" id="audio-call-toggle-btn" onclick="toggleCall('audio')" title="Start audio call">
+-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+-                    stroke-linejoin="round">
+-                    <path
+-                        d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.39 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
+-                </svg>
+-            </button>
+-            <button class="icon-btn" id="video-call-toggle-btn" onclick="toggleCall('video')" title="Start video call">
+-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+-                    stroke-linejoin="round">
+-                    <path
+-                        d="M15.6 11.6L22 7v10l-6.4-4.5v-1zM4 5h9a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7c0-1.1.9-2 2-2z" />
+-                </svg>
+-            </button>
+             <button class="icon-btn" id="chat-toggle-btn" onclick="toggleChat()" title="Toggle chat">
+                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                     stroke-linejoin="round">
+@@ -277,50 +263,6 @@
+         </div>
+     </aside>
+ 
+-    <!-- Video Call Widget -->
+-    <div class="video-widget" id="video-widget" style="display: none;">
+-        <div class="video-header" id="video-header">
+-            <span>Live Call</span>
+-            <button class="icon-btn sm" onclick="endCall()" title="End call">
+-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+-                    stroke-linejoin="round" width="14" height="14">
+-                    <line x1="18" y1="6" x2="6" y2="18" />
+-                    <line x1="6" y1="6" x2="18" y2="18" />
+-                </svg>
+-            </button>
+-        </div>
+-        <div class="video-streams">
+-            <!-- Remote video (partner) -->
+-            <video id="remote-video" autoplay playsinline></video>
+-
+-            <!-- Local video (you) -->
+-            <video id="local-video" autoplay playsinline muted></video>
+-
+-            <!-- Waiting state overlay -->
+-            <div id="video-waiting-overlay" class="video-overlay">
+-                <div class="loading-spinner"></div>
+-                <span id="call-status-text">Calling partner...</span>
+-            </div>
+-        </div>
+-        <div class="video-controls">
+-            <button class="video-control-btn" id="toggle-mic-btn" onclick="toggleMic()" title="Mute/Unmute Mic">
+-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+-                    stroke-linejoin="round" width="16" height="16">
+-                    <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z" />
+-                    <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
+-                    <line x1="12" y1="19" x2="12" y2="22" />
+-                </svg>
+-            </button>
+-            <button class="video-control-btn" id="toggle-cam-btn" onclick="toggleCam()" title="Turn Camera On/Off">
+-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+-                    stroke-linejoin="round" width="16" height="16">
+-                    <path
+-                        d="M15.6 11.6L22 7v10l-6.4-4.5v-1zM4 5h9a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7c0-1.1.9-2 2-2z" />
+-                </svg>
+-            </button>
+-        </div>
+-    </div>
+-
+     <!-- Disconnect overlay -->
+     <div class="disconnect-overlay" id="disconnect-overlay" style="display: none;">
+         <div class="disconnect-card">
+@@ -344,18 +286,6 @@
+         </div>
+     </div>
+ 
+-    <!-- Highlight Tooltip -->
+-    <div id="highlight-tooltip" onclick="applyHighlight()"
+-        style="display: none; position: fixed; z-index: 1000; background: #7c6aff; color: #ffffff; padding: 8px 14px; border-radius: 9999px; font-size: 13px; font-weight: 600; cursor: pointer; box-shadow: 0 4px 8px rgba(0,0,0,0.2); align-items: center; gap: 6px; transform: translateX(-50%);">
+-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+-            stroke-linejoin="round" width="14" height="14"
+-            style="display:inline-block; vertical-align:middle; margin-right:4px;">
+-            <path d="M12 20h9"></path>
+-            <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+-        </svg>
+-        Highlight & Share
+-    </div>
+-
+     <script src="https://cdn.socket.io/4.7.4/socket.io.min.js"></script>
+     <script src="/js/config.js"></script>
+     <script src="/js/reader.js"></script>
+diff --git a/server.js b/server.js
+index 00e301e..b52d093 100644
+--- a/server.js
++++ b/server.js
+@@ -1,4 +1,3 @@
+-require('dotenv').config();
+ const express = require('express');
+ const http = require('http');
+ const { Server } = require('socket.io');
+@@ -7,7 +6,6 @@ const path = require('path');
+ const fs = require('fs');
+ const { v4: uuidv4 } = require('uuid');
+ const cors = require('cors');
+-const twilio = require('twilio');
+ 
+ const app = express();
+ app.use(cors()); // Allow requests from any origin (e.g., Netlify)
+@@ -21,34 +19,6 @@ const io = new Server(server, {
+   }
+ });
+ 
+-// Twilio TURN server generation endpoint for WebRTC stability
+-app.get('/api/get-turn-credentials', (req, res) => {
+-  const accountSid = process.env.TWILIO_ACCOUNT_SID;
+-  const authToken = process.env.TWILIO_AUTH_TOKEN;
+-
+-  // If no Twilio creds exist, just return standard free STUN servers
+-  if (!accountSid || !authToken) {
+-    return res.json({
+-      iceServers: [
+-        { urls: 'stun:stun.l.google.com:19302' },
+-        { urls: 'stun:stun1.l.google.com:19302' }
+-      ]
+-    });
+-  }
+-
+-  try {
+-    const client = twilio(accountSid, authToken);
+-    client.tokens.create().then(token => {
+-      res.json(token);
+-    }).catch(err => {
+-      console.error("Twilio error:", err);
+-      res.status(500).json({ error: 'Failed to fetch TURN credentials' });
+-    });
+-  } catch (e) {
+-    res.status(500).json({ error: 'Failed' });
+-  }
+-});
+-
+ // Ensure uploads directory exists
+ const uploadsDir = path.join(__dirname, 'uploads');
+ if (!fs.existsSync(uploadsDir)) {
+@@ -189,92 +159,38 @@ io.on('connection', (socket) => {
+       return;
+     }
+ 
+-    let targetRole = 'guest';
+-
+-    // Intelligent slot reassignment if a user disconnected and lost their session completely
+-    if (room.host && room.host.connected === false && (!room.guest || room.guest.connected !== false)) {
+-      // Host dropped out, let them reclaim the host slot!
+-      targetRole = 'host';
+-    } else if (room.guest && room.guest.connected === false) {
+-      // Guest dropped out, they reclaim the guest slot.
+-      targetRole = 'guest';
+-    } else if (!room.guest) {
+-      // Normal guest join
+-      targetRole = 'guest';
+-    } else if (room.host && room.host.id === socket.id) {
+-      targetRole = 'host';
+-    } else if (room.guest && room.guest.id === socket.id) {
+-      targetRole = 'guest';
+-    } else {
+-      // Both are strictly connected
++    if (room.guest && room.guest.id !== socket.id) {
+       socket.emit('join-error', { message: 'Room is full. Only two readers per room.' });
+       return;
+     }
+ 
+-    const userName = data.name || (targetRole === 'host' ? 'Host' : 'Guest');
++    room.guest = {
++      id: socket.id,
++      name: data.name || 'Guest'
++    };
+ 
+     socket.join(roomCode);
+     socket.roomCode = roomCode;
+-    socket.isHost = (targetRole === 'host');
+-    socket.userName = userName;
+-
+-    if (targetRole === 'host') {
+-      room.host = {
+-        id: socket.id,
+-        name: userName,
+-        connected: true
+-      };
+-
+-      // Let the joined user know they successfully became the host again
+-      socket.emit('room-created', {
+-        code: roomCode,
+-        role: 'host',
+-        userName: socket.userName
+-      });
+-
+-      // If the guest is still here waiting, silently tell them the host is back!
+-      if (room.guest && room.guest.connected !== false) {
+-        io.to(room.guest.id).emit('host-reconnected', { name: userName });
+-      }
+-
+-      console.log(`Reclaimed host slot for room: ${roomCode}`);
+-    } else {
+-      room.guest = {
+-        id: socket.id,
+-        name: userName,
+-        connected: true
+-      };
+-
+-      // Send room info to guest
+-      socket.emit('room-joined', {
+-        code: roomCode,
+-        role: 'guest',
+-        userName: socket.userName,
+-        hostName: room.host.name,
+-        book: room.book,
+-        currentPage: room.currentPage
+-      });
+-
+-      // Notify host that guest connected or reconnected
+-      if (room.host && room.host.connected !== false) {
+-        io.to(room.host.id).emit('user-joined', {
+-          name: socket.userName,
+-          id: socket.id
+-        });
+-      }
++    socket.isHost = false;
++    socket.userName = data.name || 'Guest';
+ 
+-      console.log(`${userName} joined room: ${roomCode}`);
+-    }
+-  });
++    // Send room info to guest
++    socket.emit('room-joined', {
++      code: roomCode,
++      role: 'guest',
++      userName: socket.userName,
++      hostName: room.host.name,
++      book: room.book,
++      currentPage: room.currentPage
++    });
+ 
+-  // Start reading
+-  socket.on('start-reading', () => {
+-    socket.to(socket.roomCode).emit('host-started-reading');
+-  });
++    // Notify host
++    io.to(room.host.id).emit('user-joined', {
++      name: socket.userName,
++      id: socket.id
++    });
+ 
+-  // Jump to specific CFI location (shared highlight)
+-  socket.on('jump-to-scene', (data) => {
+-    socket.to(socket.roomCode).emit('jumped-to-scene', data);
++    console.log(`${socket.userName} joined room: ${roomCode}`);
+   });
+ 
+   // Page ready (user wants to advance)
+@@ -295,7 +211,7 @@ io.on('connection', (socket) => {
+     });
+ 
+     // If all users are ready, advance the page
+-    if (readyCount >= totalUsers) {
++    if (readyCount >= totalUsers && totalUsers === 2) {
+       room.currentPage = data.nextPage;
+       room.readyUsers.clear();
+ 
+@@ -340,10 +256,7 @@ io.on('connection', (socket) => {
+       sender: socket.userName,
+       senderId: socket.id,
+       text: data.text,
+-      timestamp: new Date().toISOString(),
+-      isHighlight: data.isHighlight || false,
+-      cfi: data.cfi || null,
+-      pageIndex: data.pageIndex || 0
++      timestamp: new Date().toISOString()
+     };
+ 
+     room.chatMessages.push(message);
+@@ -414,34 +327,6 @@ io.on('connection', (socket) => {
+     }
+   });
+ 
+-  // --- WebRTC Signaling ---
+-  socket.on('webrtc-offer', (data) => {
+-    socket.to(socket.roomCode).emit('webrtc-offer', {
+-      offer: data.offer,
+-      mode: data.mode,
+-      senderId: socket.id
+-    });
+-  });
+-
+-  socket.on('webrtc-answer', (data) => {
+-    socket.to(socket.roomCode).emit('webrtc-answer', {
+-      answer: data.answer,
+-      mode: data.mode,
+-      senderId: socket.id
+-    });
+-  });
+-
+-  socket.on('webrtc-ice-candidate', (data) => {
+-    socket.to(socket.roomCode).emit('webrtc-ice-candidate', {
+-      candidate: data.candidate,
+-      senderId: socket.id
+-    });
+-  });
+-
+-  socket.on('call-ended', () => {
+-    socket.to(socket.roomCode).emit('call-ended');
+-  });
+-
+   // Reconnect to room
+   socket.on('reconnect-room', (data) => {
+     const room = rooms.get(data.roomCode);
+diff --git a/test.epub b/test.epub
+deleted file mode 100644
+index 09874e0..0000000
+Binary files a/test.epub and /dev/null differ
+diff --git a/test.pdf b/test.pdf
+deleted file mode 100644
+index 774c2ea..0000000
+--- a/test.pdf
++++ /dev/null
+@@ -1,2 +0,0 @@
+-Dummy PDF file
+-

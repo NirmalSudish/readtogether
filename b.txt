@@ -1,0 +1,307 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Read Together - A synchronized reading experience for two people. Create a room, share a book, and read in sync.">
+    <title>Read Together ΓÇö Synchronized Reading</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+
+<body>
+    <!-- Animated Background -->
+    <div class="bg-gradient"></div>
+    <div class="floating-elements">
+        <div class="float-circle c1"></div>
+        <div class="float-circle c2"></div>
+        <div class="float-circle c3"></div>
+        <div class="float-circle c4"></div>
+    </div>
+
+    <!-- Main App Container -->
+    <div id="app">
+        <!-- Landing / Home Screen -->
+        <section id="landing-screen" class="screen active">
+            <div class="landing-content">
+                <div class="logo-area">
+                    <div class="logo-icon">
+                        <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M32 8C20 8 10 14 10 14V50C10 50 20 44 32 44C44 44 54 50 54 50V14C54 14 44 8 32 8Z"
+                                stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                            <path d="M32 8V44" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
+                            <circle cx="22" cy="24" r="3" fill="currentColor" opacity="0.3" />
+                            <circle cx="42" cy="24" r="3" fill="currentColor" opacity="0.3" />
+                            <path d="M19 32H27" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                opacity="0.4" />
+                            <path d="M37 32H45" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                opacity="0.4" />
+                            <path d="M19 36H25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                opacity="0.2" />
+                            <path d="M39 36H45" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                opacity="0.2" />
+                        </svg>
+                    </div>
+                    <h1 class="logo-text">Read Together</h1>
+                    <p class="logo-tagline">Share the joy of reading, page by page</p>
+                </div>
+
+                <div class="action-cards">
+                    <button id="btn-create-room" class="action-card" onclick="showScreen('create-screen')">
+                        <div class="card-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10" />
+                                <line x1="12" y1="8" x2="12" y2="16" />
+                                <line x1="8" y1="12" x2="16" y2="12" />
+                            </svg>
+                        </div>
+                        <h3>Create Room</h3>
+                        <p>Start a reading session and invite someone</p>
+                    </button>
+
+                    <button id="btn-join-room" class="action-card" onclick="showScreen('join-screen')">
+                        <div class="card-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" />
+                                <polyline points="10 17 15 12 10 7" />
+                                <line x1="15" y1="12" x2="3" y2="12" />
+                            </svg>
+                        </div>
+                        <h3>Join Room</h3>
+                        <p>Enter a code to join a reading session</p>
+                    </button>
+                </div>
+
+                <div class="features-strip">
+                    <span><i>≡ƒôû</i> EPUB Support</span>
+                    <span><i>≡ƒöä</i> Real-time Sync</span>
+                    <span><i>≡ƒÆ¼</i> In-app Chat</span>
+                    <span><i>≡ƒîÖ</i> Dark Mode</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Create Room Screen -->
+        <section id="create-screen" class="screen">
+            <div class="form-container">
+                <button class="back-btn" onclick="showScreen('landing-screen')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <line x1="19" y1="12" x2="5" y2="12" />
+                        <polyline points="12 19 5 12 12 5" />
+                    </svg>
+                    Back
+                </button>
+
+                <div class="form-header">
+                    <h2>Create a Reading Room</h2>
+                    <p>Set up your reading space and share the code</p>
+                </div>
+
+                <form id="create-form" onsubmit="handleCreateRoom(event)">
+                    <div class="input-group">
+                        <label for="host-name">Your Name</label>
+                        <input type="text" id="host-name" placeholder="Enter your name..." maxlength="20" required
+                            autocomplete="off">
+                    </div>
+                    <button type="submit" id="create-room-btn" class="primary-btn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10" />
+                            <line x1="12" y1="8" x2="12" y2="16" />
+                            <line x1="8" y1="12" x2="16" y2="12" />
+                        </svg>
+                        Create Room
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Join Room Screen -->
+        <section id="join-screen" class="screen">
+            <div class="form-container">
+                <button class="back-btn" onclick="showScreen('landing-screen')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <line x1="19" y1="12" x2="5" y2="12" />
+                        <polyline points="12 19 5 12 12 5" />
+                    </svg>
+                    Back
+                </button>
+
+                <div class="form-header">
+                    <h2>Join a Reading Room</h2>
+                    <p>Enter the room code shared by the host</p>
+                </div>
+
+                <form id="join-form" onsubmit="handleJoinRoom(event)">
+                    <div class="input-group">
+                        <label for="guest-name">Your Name</label>
+                        <input type="text" id="guest-name" placeholder="Enter your name..." maxlength="20" required
+                            autocomplete="off">
+                    </div>
+                    <div class="input-group">
+                        <label for="room-code-input">Room Code</label>
+                        <div class="code-input-wrapper">
+                            <input type="text" id="room-code-input" placeholder="XXXXXX" maxlength="6" required
+                                autocomplete="off"
+                                style="text-transform: uppercase; letter-spacing: 6px; text-align: center; font-size: 1.4rem; font-weight: 700;">
+                        </div>
+                    </div>
+                    <div id="join-error" class="error-msg" style="display: none;"></div>
+                    <button type="submit" id="join-room-btn" class="primary-btn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" />
+                            <polyline points="10 17 15 12 10 7" />
+                            <line x1="15" y1="12" x2="3" y2="12" />
+                        </svg>
+                        Join Room
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Room Lobby Screen (after creation / join) -->
+        <section id="room-screen" class="screen">
+            <div class="room-container">
+                <div class="room-header">
+                    <div class="room-title-area">
+                        <h2>Reading Room</h2>
+                        <div class="room-code-display">
+                            <span class="code-label">Room Code</span>
+                            <div class="code-value" id="display-room-code">------</div>
+                            <button class="copy-btn" id="copy-code-btn" onclick="copyRoomCode()" title="Copy room code">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Users in room -->
+                <div class="room-users">
+                    <div class="user-card host-card" id="host-user-card">
+                        <div class="user-avatar host-avatar">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                                <circle cx="12" cy="7" r="4" />
+                            </svg>
+                        </div>
+                        <div class="user-info">
+                            <span class="user-name" id="host-name-display">Host</span>
+                            <span class="user-role">Host</span>
+                        </div>
+                        <div class="user-status online">
+                            <span class="status-dot"></span>
+                            Connected
+                        </div>
+                    </div>
+
+                    <div class="user-card guest-card" id="guest-user-card">
+                        <div class="user-avatar guest-avatar">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                                <circle cx="12" cy="7" r="4" />
+                            </svg>
+                        </div>
+                        <div class="user-info">
+                            <span class="user-name" id="guest-name-display">Waiting for reader...</span>
+                            <span class="user-role" id="guest-role-text">Share the room code</span>
+                        </div>
+                        <div class="user-status waiting" id="guest-status">
+                            <span class="status-dot"></span>
+                            <span id="guest-status-text">Waiting</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Book Upload Area (Host only) -->
+                <div class="book-upload-area" id="book-upload-area">
+                    <div class="upload-zone" id="upload-zone">
+                        <div class="upload-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                                <polyline points="17 8 12 3 7 8" />
+                                <line x1="12" y1="3" x2="12" y2="15" />
+                            </svg>
+                        </div>
+                        <h3>Upload a Book</h3>
+                        <p>Drag & drop an EPUB or PDF file, or click to browse</p>
+                        <input type="file" id="book-file-input" accept=".epub,.pdf" hidden>
+                        <button class="browse-btn" onclick="document.getElementById('book-file-input').click()">Browse
+                            Files</button>
+                    </div>
+
+                    <div class="upload-progress" id="upload-progress" style="display: none;">
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progress-fill"></div>
+                        </div>
+                        <span class="progress-text" id="progress-text">Uploading...</span>
+                    </div>
+                </div>
+
+                <!-- Book Info (shown after upload) -->
+                <div class="book-info-card" id="book-info-card" style="display: none;">
+                    <div class="book-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+                            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+                        </svg>
+                    </div>
+                    <div class="book-details">
+                        <h3 id="book-name">Book Name</h3>
+                        <span id="book-size" class="book-meta">Size</span>
+                    </div>
+                    <div class="book-actions">
+                        <button class="read-btn" id="start-reading-btn" onclick="startReading()">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
+                                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
+                            </svg>
+                            Read
+                        </button>
+                        <button class="download-btn" id="download-book-btn" onclick="downloadBook()">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                                <polyline points="7 10 12 15 17 10" />
+                                <line x1="12" y1="15" x2="12" y2="3" />
+                            </svg>
+                            Download
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Notification banner -->
+                <div class="notification-banner" id="notification-banner" style="display: none;">
+                    <span id="notification-text"></span>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Toast notifications -->
+    <div id="toast-container"></div>
+
+    <script src="https://cdn.socket.io/4.7.4/socket.io.min.js"></script>
+    <script src="/js/config.js"></script>
+    <script src="/js/app.js"></script>
+</body>
+
+</html>

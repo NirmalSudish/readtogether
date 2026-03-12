@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/reader.css">
@@ -31,33 +31,58 @@
     <!-- Main App Container -->
     <div id="app">
         <!-- Landing / Home Screen -->
-        <section id="landing-screen" class="screen active">
-            <div class="landing-content">
-                <div class="logo-area">
-                    <div class="logo-icon">
-                        <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M32 8C20 8 10 14 10 14V50C10 50 20 44 32 44C44 44 54 50 54 50V14C54 14 44 8 32 8Z"
-                                stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
-                                stroke-linejoin="round" />
-                            <path d="M32 8V44" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
-                            <circle cx="22" cy="24" r="3" fill="currentColor" opacity="0.3" />
-                            <circle cx="42" cy="24" r="3" fill="currentColor" opacity="0.3" />
-                            <path d="M19 32H27" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                                opacity="0.4" />
-                            <path d="M37 32H45" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                                opacity="0.4" />
-                            <path d="M19 36H25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                                opacity="0.2" />
-                            <path d="M39 36H45" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                                opacity="0.2" />
-                        </svg>
+        <section id="landing-screen" class="screen active" style="display: flex; flex-direction: column; padding: 0; min-height: 100vh;">
+            <header class="landing-header">
+                <div class="landing-header-left">
+                    <img class="landing-top-logo" src="/assets/Logo.svg" alt="Read Together">
+                </div>
+                <nav class="landing-nav">
+                    <a href="#" class="nav-link" onclick="showScreen('create-screen'); return false;">Create Room</a>
+                    <a href="#" class="nav-link" onclick="showScreen('join-screen'); return false;">Join Room</a>
+                    <button class="login-btn nav-btn" type="button">LOGIN</button>
+                </nav>
+            </header>
+
+            <div class="landing-main-content">
+                <div class="hero-columns">
+                    <div class="hero-left">
+                        <div class="hero-icon">
+                            <img class="hero-book" src="/assets/book.svg" alt="">
+                        </div>
+                        <h1 class="hero-title">Read Together</h1>
+                        <p class="hero-subtext">The ultimate digital hangout where books bring us<br>closer, students crush goals together, and every page<br>becomes a shared memory.</p>
                     </div>
-                    <h1 class="logo-text">Read Together</h1>
-                    <p class="logo-tagline">Share the joy of reading, page by page</p>
+                    <div class="hero-right">
+                        <button class="btn-get-started" onclick="showScreen('get-started-screen')">GET STARTED</button>
+                    </div>
+                </div>
+                
+                <div class="bottom-right-art">
+                    <img class="landing-illustration" src="/assets/panda-and-llama.svg" alt="">
+                </div>
+            </div>
+        </section>
+
+        <!-- Get Started Screen (cards layout based on reference) -->
+        <section id="get-started-screen" class="screen">
+            <div class="gs-wrapper">
+                <button class="back-btn" onclick="showScreen('landing-screen')">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <line x1="19" y1="12" x2="5" y2="12" />
+                        <polyline points="12 19 5 12 12 5" />
+                    </svg>
+                    Back
+                </button>
+
+                <div class="gs-header">
+                    <img src="/assets/Logo.svg" alt="Read Together" class="gs-logo">
+                    <h1 class="gs-title">Read Together</h1>
+                    <p class="gs-tagline">Share the joy of reading, page by page</p>
                 </div>
 
-                <div class="action-cards">
-                    <button id="btn-create-room" class="action-card" onclick="showScreen('create-screen')">
+                <div class="gs-card-row">
+                    <button class="action-card" onclick="showScreen('create-screen')">
                         <div class="card-icon">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                 stroke-linecap="round" stroke-linejoin="round">
@@ -70,7 +95,7 @@
                         <p>Start a reading session and invite someone</p>
                     </button>
 
-                    <button id="btn-join-room" class="action-card" onclick="showScreen('join-screen')">
+                    <button class="action-card" onclick="showScreen('join-screen')">
                         <div class="card-icon">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                 stroke-linecap="round" stroke-linejoin="round">
@@ -84,11 +109,11 @@
                     </button>
                 </div>
 
-                <div class="features-strip">
-                    <span><i>📖</i> EPUB Support</span>
-                    <span><i>🔄</i> Real-time Sync</span>
-                    <span><i>💬</i> In-app Chat</span>
-                    <span><i>🌙</i> Dark Mode</span>
+                <div class="gs-features">
+                    <span><i>▢</i> EPUB SUPPORT</span>
+                    <span><i>☰</i> REAL-TIME SYNC</span>
+                    <span><i>✉</i> IN-APP CHAT</span>
+                    <span><i>☾</i> DARK MODE</span>
                 </div>
             </div>
         </section>

@@ -1,0 +1,1098 @@
+﻿commit 62503ca1f929c914a61cd251c6ee20e62d603c7f
+Author: Nirmal <nirmal.sudish@gmail.com>
+Date:   Wed Mar 11 08:26:36 2026 -0700
+
+    Fix reader page sync and video call functionality
+
+diff --git a/public/js/reader.js b/public/js/reader.js
+index 31cae94..6cabae8 100644
+--- a/public/js/reader.js
++++ b/public/js/reader.js
+@@ -12,6 +12,7 @@ let currentLocationIndex = 0;
+ let totalLocations = 0;
+ let locations = [];
+ let isReaderInitialized = false; // Renamed to avoid lobby collision
++let isPageReady = false; // Tracking page sync state
+ let chatOpen = false;
+ let notesOpen = false;
+ let fontMenuOpen = false;
+@@ -390,13 +391,13 @@ function doLocalJump(cfi) {
+ 
+ // ---- Page Navigation with Sync ----
+ function requestNextPage() {
+-    if (isReady) {
++    if (isPageReady) {
+         // Cancel ready status
+         cancelReady();
+         return;
+     }
+ 
+-    isReady = true;
++    isPageReady = true;
+     updateLocalSyncUI();
+ 
+     socket.emit('page-ready', {
+@@ -408,12 +409,12 @@ function requestNextPage() {
+ function requestPrevPage() {
+     if (currentLocationIndex <= 0) return;
+ 
+-    if (isReady) {
++    if (isPageReady) {
+         cancelReady();
+         return;
+     }
+ 
+-    isReady = true;
++    isPageReady = true;
+     updateLocalSyncUI();
+ 
+     socket.emit('page-ready', {
+@@ -423,7 +424,7 @@ function requestPrevPage() {
+ }
+ 
+ function cancelReady() {
+-    isReady = false;
++    isPageReady = false;
+     updateLocalSyncUI();
+     socket.emit('page-cancel');
+ }
+@@ -432,7 +433,7 @@ function updateLocalSyncUI() {
+     const nextBtn = document.getElementById('next-page-btn');
+     const prevBtn = document.getElementById('prev-page-btn');
+ 
+-    if (isReady) {
++    if (isPageReady) {
+         nextBtn.classList.add('ready');
+         prevBtn.classList.add('ready');
+     } else {
+@@ -450,7 +451,7 @@ function setupSocketListeners() {
+ 
+     // Page advance (both users confirmed)
+     socket.on('page-advance', (data) => {
+-        isReady = false;
++        isPageReady = false;
+         updateLocalSyncUI();
+ 
+         currentLocationIndex = data.page;
+@@ -474,8 +475,16 @@ function setupSocketListeners() {
+                     viewer.style.transition = 'opacity 0.2s ease-out, transform 0.2s ease-out';
+                     viewer.style.opacity = '1';
+                     viewer.style.transform = 'translateX(0)';
++                }).catch(err => {
++                    console.error('PDF render error:', err);
++                    viewer.style.opacity = '1';
++                    viewer.style.transform = 'translateX(0)';
+                 });
+             }, 150);
++            
++            // Reset sync display for PDF
++            updateSyncDisplay(0, 2);
++            flashSyncSuccess();
+             return;
+         }
+ 
+@@ -486,21 +495,38 @@ function setupSocketListeners() {
+             viewer.style.transform = data.direction === 'next' ? 'translateX(-30px)' : 'translateX(30px)';
+ 
+             setTimeout(() => {
+-                const action = data.direction === 'next' ? rendition.next() : rendition.prev();
+-                action.then(() => {
+-                    updatePageInfo();
+-                    updateProgress();
+-
+-                    // Reset position to opposite side invisibly
+-                    viewer.style.transition = 'none';
+-                    viewer.style.transform = data.direction === 'next' ? 'translateX(30px)' : 'translateX(-30px)';
+-                    void viewer.offsetWidth; // Force Reflow
+-
+-                    // Slide in transition
+-                    viewer.style.transition = 'opacity 0.2s ease-out, transform 0.2s ease-out';
++                try {
++                    const action = data.direction === 'next' ? rendition.next() : rendition.prev();
++                    
++                    const handleSuccess = () => {
++                        updatePageInfo();
++                        updateProgress();
++
++                        // Reset position to opposite side invisibly
++                        viewer.style.transition = 'none';
++                        viewer.style.transform = data.direction === 'next' ? 'translateX(30px)' : 'translateX(-30px)';
++                        void viewer.offsetWidth; // Force Reflow
++
++                        // Slide in transition
++                        viewer.style.transition = 'opacity 0.2s ease-out, transform 0.2s ease-out';
++                        viewer.style.opacity = '1';
++                        viewer.style.transform = 'translateX(0)';
++                    };
++
++                    if (action && typeof action.then === 'function') {
++                        action.then(handleSuccess).catch(err => {
++                            console.error('EPUB render error:', err);
++                            viewer.style.opacity = '1';
++                            viewer.style.transform = 'translateX(0)';
++                        });
++                    } else {
++                        handleSuccess();
++                    }
++                } catch (err) {
++                    console.error('Error turning page:', err);
+                     viewer.style.opacity = '1';
+                     viewer.style.transform = 'translateX(0)';
+-                });
++                }
+             }, 150);
+         }
+ 
+
+commit 73d9814d354d095a6d2d94ac575746123dac495c
+Author: Nirmal <nirmal.sudish@gmail.com>
+Date:   Tue Mar 10 15:35:43 2026 -0700
+
+    Fix page sync logic: allow turning pages while location indexing is still background-calculating, and fix solo user sync button support
+
+diff --git a/public/js/reader.js b/public/js/reader.js
+index 70af6d5..31cae94 100644
+--- a/public/js/reader.js
++++ b/public/js/reader.js
+@@ -195,7 +195,9 @@ function loadBook(bookData) {
+     rendition.on('relocated', (location) => {
+         // Update page info
+         const current = location.start.location;
+-        currentLocationIndex = current;
++        if (typeof current === 'number' && current >= 0) {
++            currentLocationIndex = current;
++        }
+ 
+         // Save precise location to session so refresh works perfectly
+         if (sessionData) {
+@@ -477,7 +479,7 @@ function setupSocketListeners() {
+             return;
+         }
+ 
+-        if (rendition && locations.length > 0) {
++        if (rendition) {
+             // Slide transition out
+             viewer.style.transition = 'opacity 0.15s ease-out, transform 0.15s ease-out';
+             viewer.style.opacity = '0';
+
+commit b17d185ad33de673c67b2c0a3b4223286eec513f
+Author: Nirmal <nirmal.sudish@gmail.com>
+Date:   Tue Mar 10 14:51:36 2026 -0700
+
+    Revert arraybuffer fetch to standard epub(url) loader to fix broken EPUB parsing
+
+diff --git a/public/js/reader.js b/public/js/reader.js
+index d5a099c..70af6d5 100644
+--- a/public/js/reader.js
++++ b/public/js/reader.js
+@@ -98,131 +98,146 @@ function loadBook(bookData) {
+         }
+     }, 60000);
+ 
+-    // Fetch the EPUB as an ArrayBuffer to bypass Safari/EPUB.js XHR Range-Request bugs
+-    fetch(fullPath)
+-        .then(response => {
+-            if (!response.ok) throw new Error("Network response was not ok");
+-            return response.arrayBuffer();
+-        })
+-        .then(buffer => {
+-            book = ePub();
+-            book.open(buffer, 'binary');
+-
+-            book.opened.then(() => {
+-                console.log("Book opened successfully from ArrayBuffer");
+-            }).catch(err => {
+-                clearTimeout(loadingTimeout);
+-                console.error("Error opening book:", err);
+-                const errorMessage = "Failed to load book. Make sure the server is reachable.";
+-                document.getElementById('reader-book-title').textContent = "Error: File Missing";
+-                loadingEl.innerHTML = `
+-                    <div class="error-container" style="color: var(--error); text-align: center; padding: 20px;">
+-                        <p class="error-msg" style="margin-bottom: 20px; font-weight: bold;">${errorMessage}</p>
+-                        ${sessionData.role === 'host' ? '<button class="primary-btn" onclick="let s = document.getElementById(\'reader-screen\'); s.classList.remove(\'active\'); document.getElementById(\'room-screen\').classList.add(\'active\');" style="padding: 10px 20px; cursor: pointer; color: white;">Go Back to Upload</button>' : ''}
+-                    </div>
+-                `;
+-            });
++    try {
++        book = ePub(fullPath);
++    } catch (e) {
++        console.error("EPub init error:", e);
++        loadingEl.innerHTML = `<div class="error-container" style="color: var(--error); text-align: center; padding: 20px;">
++                <p class="error-msg" style="margin-bottom: 20px;">Failed to initialize reader engine.</p>
++            </div>`;
++        return;
++    }
+ 
+-            rendition = book.renderTo('epub-viewer', {
+-                width: '100%',
+-                height: '100%',
+-                spread: 'none',
+-                flow: 'paginated',
+-                manager: 'continuous'
+-            });
++    book.opened.then(() => {
++        console.log("Book opened successfully");
++    }).catch(err => {
++        clearTimeout(loadingTimeout);
++        console.error("Error opening book:", err);
++        const is404 = err.message && err.message.includes('404');
++        const errorMessage = is404
++            ? "Book file not found on server. It may have been deleted during a server restart."
++            : "Failed to load book. Make sure the server is reachable.";
++
++        document.getElementById('reader-book-title').textContent = "Error: File Missing";
++        loadingEl.innerHTML = `
++            <div class="error-container" style="color: var(--error); text-align: center; padding: 20px;">
++                <p class="error-msg" style="margin-bottom: 20px; font-weight: bold;">${errorMessage}</p>
++                ${sessionData.role === 'host' ? '<button class="primary-btn" onclick="let s = document.getElementById(\'reader-screen\'); s.classList.remove(\'active\'); document.getElementById(\'room-screen\').classList.add(\'active\');" style="padding: 10px 20px; cursor: pointer; color: white;">Go Back to Upload</button>' : ''}
++            </div>
++        `;
++    });
+ 
+-            // Handle iframe styling after rendering
+-            rendition.on('started', () => {
+-                applyTheme(currentTheme);
+-                applyFontSize(currentFontSize);
+-                applyFontFamily(currentFontFamily);
+-            });
++    rendition = book.renderTo('epub-viewer', {
++        width: '100%',
++        height: '100%',
++        spread: 'none',
++        flow: 'paginated',
++        manager: 'continuous'
++    });
+ 
+-            // Display the book starting at the stored page or beginning
+-            if (sessionData.currentLocation && currentLocationIndex > 0) {
+-                rendition.display(sessionData.currentLocation);
+-            } else {
+-                rendition.display();
++    // Handle iframe styling after rendering
++    rendition.on('started', () => {
++        applyTheme(currentTheme);
++        applyFontSize(currentFontSize);
++        applyFontFamily(currentFontFamily);
++    });
++
++    // Apply initial theme
++    applyTheme(currentTheme);
++    applyFontSize(currentFontSize);
++    applyFontFamily(currentFontFamily);
++
++    // Display the book starting at the stored page or beginning
++    // We do this immediately so the user doesn't wait for location generation
++    if (sessionData.currentLocation && currentLocationIndex > 0) {
++        rendition.display(sessionData.currentLocation);
++    } else {
++        rendition.display();
++    }
++
++    // Generate locations for progress tracking in the background
++    book.ready.then(() => {
++        console.log("Book ready, generating locations...");
++        return book.locations.generate(1024);
++    }).then((locs) => {
++        locations = locs;
++        totalLocations = locations.length;
++        console.log("Locations generated:", totalLocations);
++
++        socket.emit('set-total-locations', { total: totalLocations });
++
++        // Sync progress now that locations are ready
++        updateProgress();
++    }).catch(err => {
++        console.error("Error generating locations:", err);
++    });
++
++    rendition.on('rendered', () => {
++        clearTimeout(loadingTimeout);
++        loadingEl.style.display = 'none';
++        console.log("Book rendered successfully");
++
++        // Force a resize to fix Zero-Height rendering bugs in SPA/iOS Safari
++        setTimeout(() => {
++            if (rendition) {
++                rendition.resize('100%', '100%');
+             }
++        }, 300);
++    });
+ 
+-            // Generate locations asynchronously without blocking UI immediately
+-            book.ready.then(() => {
+-                console.log("Book ready, generating locations...");
+-                // Setting a huge subset size speeds up generation drastically (1600 chars vs 1024)
+-                return book.locations.generate(1600);
+-            }).then((locs) => {
+-                locations = locs;
+-                totalLocations = locations.length;
+-                console.log("Locations generated:", totalLocations);
+-
+-                socket.emit('set-total-locations', { total: totalLocations });
+-                updateProgress();
+-            }).catch(err => {
+-                console.error("Error generating locations:", err);
+-            });
++    // Auto-resize on window resize or device rotation
++    window.addEventListener('resize', () => {
++        if (rendition) {
++            rendition.resize('100%', '100%');
++        }
++    });
+ 
+-            rendition.on('rendered', () => {
+-                clearTimeout(loadingTimeout);
+-                loadingEl.style.display = 'none';
+-                console.log("Book rendered successfully");
+-
+-                // Force a resize to fix Zero-Height rendering bugs in SPA/iOS Safari
+-                setTimeout(() => {
+-                    if (rendition) {
+-                        rendition.resize('100%', '100%');
+-                    }
+-                }, 300);
+-            });
++    rendition.on('relocated', (location) => {
++        // Update page info
++        const current = location.start.location;
++        currentLocationIndex = current;
+ 
+-            // Auto-resize on window resize or device rotation
+-            window.addEventListener('resize', () => {
+-                if (rendition) {
+-                    rendition.resize('100%', '100%');
+-                }
+-            });
++        // Save precise location to session so refresh works perfectly
++        if (sessionData) {
++            sessionData.currentLocation = location.start.cfi;
++            sessionStorage.setItem('readTogether', JSON.stringify(sessionData));
++        }
+ 
+-            rendition.on('relocated', (location) => {
+-                const current = location.start.location;
+-                currentLocationIndex = current;
+-                if (sessionData) {
+-                    sessionData.currentLocation = location.start.cfi;
+-                    sessionStorage.setItem('readTogether', JSON.stringify(sessionData));
+-                }
+-                updatePageInfo();
+-                updateProgress();
+-            });
++        updatePageInfo();
++        updateProgress();
++    });
+ 
+-            rendition.on('touchstart', handleTouchStart);
+-            rendition.on('touchend', handleTouchEnd);
+-
+-            rendition.on('selected', (cfiRange, contents) => {
+-                currentSelectionCfi = cfiRange;
+-                currentSelectionText = contents.window.getSelection().toString().trim();
+-                const iframe = document.querySelector('#epub-viewer iframe');
+-                const iframeRect = iframe.getBoundingClientRect();
+-                const range = contents.window.getSelection().getRangeAt(0);
+-                const rect = range.getBoundingClientRect();
+-                const tooltip = document.getElementById('highlight-tooltip');
+-                tooltip.style.display = 'flex';
+-                const top = iframeRect.top + rect.top - 40;
+-                const left = Math.max(20, iframeRect.left + rect.left + (rect.width / 2));
+-                tooltip.style.top = `${top}px`;
+-                tooltip.style.left = `${left}px`;
+-            });
++    // Handle touch/swipe on mobile
++    rendition.on('touchstart', handleTouchStart);
++    rendition.on('touchend', handleTouchEnd);
+ 
+-            rendition.on('click', () => {
+-                document.getElementById('highlight-tooltip').style.display = 'none';
+-            });
++    // Highlighting / Selection features
++    rendition.on('selected', (cfiRange, contents) => {
++        currentSelectionCfi = cfiRange;
++        currentSelectionText = contents.window.getSelection().toString().trim();
+ 
+-        })
+-        .catch(err => {
+-            clearTimeout(loadingTimeout);
+-            console.error("Fetch init error:", err);
+-            loadingEl.innerHTML = `<div class="error-container" style="color: var(--error); text-align: center; padding: 20px;">
+-                <p class="error-msg" style="margin-bottom: 20px;">Failed to download and initialize the reader engine. Please check your network connection.</p>
+-                <button class="primary-btn" onclick="location.reload()" style="padding: 10px 20px; cursor: pointer; color: white;">Refresh App</button>
+-            </div>`;
+-        });
++        // Get iframe position
++        const iframe = document.querySelector('#epub-viewer iframe');
++        const iframeRect = iframe.getBoundingClientRect();
++
++        // Get selection rect inside iframe
++        const range = contents.window.getSelection().getRangeAt(0);
++        const rect = range.getBoundingClientRect();
++
++        const tooltip = document.getElementById('highlight-tooltip');
++        tooltip.style.display = 'flex';
++
++        // Position it just above the selection
++        const top = iframeRect.top + rect.top - 40;
++        const left = Math.max(20, iframeRect.left + rect.left + (rect.width / 2));
++
++        tooltip.style.top = `${top}px`;
++        tooltip.style.left = `${left}px`;
++    });
++
++    rendition.on('click', () => {
++        document.getElementById('highlight-tooltip').style.display = 'none';
++    });
+ }
+ 
+ // ---- Highlighting State ----
+
+commit 06f971d04757ecabe3868651a80b321e3468e64f
+Author: Nirmal <nirmal.sudish@gmail.com>
+Date:   Tue Mar 10 14:47:16 2026 -0700
+
+    Fix syntax null errors on SVG icons during reader hydrations and center PDF canvas
+
+diff --git a/public/js/reader.js b/public/js/reader.js
+index faf6f9c..d5a099c 100644
+--- a/public/js/reader.js
++++ b/public/js/reader.js
+@@ -277,7 +277,7 @@ async function initPdfReader(url, loadingEl) {
+         loadingEl.style.display = 'none';
+ 
+         const viewer = document.getElementById('epub-viewer');
+-        viewer.innerHTML = '<canvas id="pdf-canvas" style="max-height: 100%; max-width: 100%; box-shadow: 0 4px 8px rgba(0,0,0,0.1);"></canvas>';
++        viewer.innerHTML = '<div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;"><canvas id="pdf-canvas" style="max-height: 100%; max-width: 100%; box-shadow: 0 4px 8px rgba(0,0,0,0.1);"></canvas></div>';
+         pdfCanvas = document.getElementById('pdf-canvas');
+         pdfCtx = pdfCanvas.getContext('2d');
+ 
+@@ -619,8 +619,8 @@ function applyTheme(theme) {
+ 
+     if (theme === 'light') {
+         document.body.classList.add('light-theme');
+-        sunIcon.style.display = 'none';
+-        moonIcon.style.display = 'block';
++        if (sunIcon) sunIcon.style.display = 'none';
++        if (moonIcon) moonIcon.style.display = 'block';
+ 
+         if (rendition) {
+             rendition.themes.default({
+@@ -638,8 +638,8 @@ function applyTheme(theme) {
+         }
+     } else if (theme === 'sepia') {
+         document.body.classList.add('sepia-theme');
+-        sunIcon.style.display = 'block';
+-        moonIcon.style.display = 'none';
++        if (sunIcon) sunIcon.style.display = 'block';
++        if (moonIcon) moonIcon.style.display = 'none';
+ 
+         if (rendition) {
+             rendition.themes.default({
+@@ -657,8 +657,8 @@ function applyTheme(theme) {
+         }
+     } else {
+         // Dark
+-        sunIcon.style.display = 'block';
+-        moonIcon.style.display = 'none';
++        if (sunIcon) sunIcon.style.display = 'block';
++        if (moonIcon) moonIcon.style.display = 'none';
+ 
+         if (rendition) {
+             rendition.themes.default({
+
+commit 027293c8cda8dea56fe4345da79c80e05a94629a
+Author: Nirmal <nirmal.sudish@gmail.com>
+Date:   Tue Mar 10 14:35:25 2026 -0700
+
+    Completely rewrite the EPUB loading flow to bypass unstable epub.js Network Request stack with ArrayBuffer fetching directly into memory for high reliability
+
+diff --git a/public/js/reader.js b/public/js/reader.js
+index 43ff324..faf6f9c 100644
+--- a/public/js/reader.js
++++ b/public/js/reader.js
+@@ -85,15 +85,7 @@ function loadBook(bookData) {
+         return;
+     }
+ 
+-    try {
+-        book = ePub(fullPath);
+-    } catch (e) {
+-        console.error("EPub init error:", e);
+-        loadingEl.innerHTML = `<p class="error-msg">Failed to initialize reader engine.</p>`;
+-        return;
+-    }
+-
+-    // Safety timeout: If book doesn't render in 15 seconds, show error
++    // Safety timeout: If book doesn't render in 60 seconds, show error
+     const loadingTimeout = setTimeout(() => {
+         if (loadingEl.style.display !== 'none') {
+             console.error("Book loading timed out");
+@@ -106,136 +98,131 @@ function loadBook(bookData) {
+         }
+     }, 60000);
+ 
+-    book.opened.then(() => {
+-        console.log("Book opened successfully");
+-    }).catch(err => {
+-        clearTimeout(loadingTimeout);
+-        console.error("Error opening book:", err);
+-        const is404 = err.message && err.message.includes('404');
+-        const errorMessage = is404
+-            ? "Book file not found on server. It may have been deleted during a server restart."
+-            : "Failed to load book. Make sure the server is reachable.";
+-
+-        document.getElementById('reader-book-title').textContent = "Error: File Missing";
+-        loadingEl.innerHTML = `
+-            <div class="error-container" style="color: var(--error); text-align: center; padding: 20px;">
+-                <p class="error-msg" style="margin-bottom: 20px; font-weight: bold;">${errorMessage}</p>
+-                ${sessionData.role === 'host' ? '<button class="primary-btn" onclick="let s = document.getElementById(\'reader-screen\'); s.classList.remove(\'active\'); document.getElementById(\'room-screen\').classList.add(\'active\');" style="padding: 10px 20px; cursor: pointer; color: white;">Go Back to Upload</button>' : ''}
+-            </div>
+-        `;
+-    });
+-
+-    rendition = book.renderTo('epub-viewer', {
+-        width: '100%',
+-        height: '100%',
+-        spread: 'none',
+-        flow: 'paginated',
+-        manager: 'continuous'
+-    });
+-
+-    // Handle iframe styling after rendering
+-    rendition.on('started', () => {
+-        applyTheme(currentTheme);
+-        applyFontSize(currentFontSize);
+-        applyFontFamily(currentFontFamily);
+-    });
+-
+-    // Apply initial theme
+-    applyTheme(currentTheme);
+-    applyFontSize(currentFontSize);
+-    applyFontFamily(currentFontFamily);
+-
+-    // Display the book starting at the stored page or beginning
+-    // We do this immediately so the user doesn't wait for location generation
+-    if (sessionData.currentLocation && currentLocationIndex > 0) {
+-        rendition.display(sessionData.currentLocation);
+-    } else {
+-        rendition.display();
+-    }
+-
+-    // Generate locations for progress tracking in the background
+-    book.ready.then(() => {
+-        console.log("Book ready, generating locations...");
+-        return book.locations.generate(1024);
+-    }).then((locs) => {
+-        locations = locs;
+-        totalLocations = locations.length;
+-        console.log("Locations generated:", totalLocations);
+-
+-        socket.emit('set-total-locations', { total: totalLocations });
++    // Fetch the EPUB as an ArrayBuffer to bypass Safari/EPUB.js XHR Range-Request bugs
++    fetch(fullPath)
++        .then(response => {
++            if (!response.ok) throw new Error("Network response was not ok");
++            return response.arrayBuffer();
++        })
++        .then(buffer => {
++            book = ePub();
++            book.open(buffer, 'binary');
++
++            book.opened.then(() => {
++                console.log("Book opened successfully from ArrayBuffer");
++            }).catch(err => {
++                clearTimeout(loadingTimeout);
++                console.error("Error opening book:", err);
++                const errorMessage = "Failed to load book. Make sure the server is reachable.";
++                document.getElementById('reader-book-title').textContent = "Error: File Missing";
++                loadingEl.innerHTML = `
++                    <div class="error-container" style="color: var(--error); text-align: center; padding: 20px;">
++                        <p class="error-msg" style="margin-bottom: 20px; font-weight: bold;">${errorMessage}</p>
++                        ${sessionData.role === 'host' ? '<button class="primary-btn" onclick="let s = document.getElementById(\'reader-screen\'); s.classList.remove(\'active\'); document.getElementById(\'room-screen\').classList.add(\'active\');" style="padding: 10px 20px; cursor: pointer; color: white;">Go Back to Upload</button>' : ''}
++                    </div>
++                `;
++            });
+ 
+-        // Sync progress now that locations are ready
+-        updateProgress();
+-    }).catch(err => {
+-        console.error("Error generating locations:", err);
+-    });
++            rendition = book.renderTo('epub-viewer', {
++                width: '100%',
++                height: '100%',
++                spread: 'none',
++                flow: 'paginated',
++                manager: 'continuous'
++            });
+ 
+-    rendition.on('rendered', () => {
+-        clearTimeout(loadingTimeout);
+-        loadingEl.style.display = 'none';
+-        console.log("Book rendered successfully");
++            // Handle iframe styling after rendering
++            rendition.on('started', () => {
++                applyTheme(currentTheme);
++                applyFontSize(currentFontSize);
++                applyFontFamily(currentFontFamily);
++            });
+ 
+-        // Force a resize to fix Zero-Height rendering bugs in SPA/iOS Safari
+-        setTimeout(() => {
+-            if (rendition) {
+-                rendition.resize('100%', '100%');
++            // Display the book starting at the stored page or beginning
++            if (sessionData.currentLocation && currentLocationIndex > 0) {
++                rendition.display(sessionData.currentLocation);
++            } else {
++                rendition.display();
+             }
+-        }, 300);
+-    });
+-
+-    // Auto-resize on window resize or device rotation
+-    window.addEventListener('resize', () => {
+-        if (rendition) {
+-            rendition.resize('100%', '100%');
+-        }
+-    });
+-
+-    rendition.on('relocated', (location) => {
+-        // Update page info
+-        const current = location.start.location;
+-        currentLocationIndex = current;
+-
+-        // Save precise location to session so refresh works perfectly
+-        if (sessionData) {
+-            sessionData.currentLocation = location.start.cfi;
+-            sessionStorage.setItem('readTogether', JSON.stringify(sessionData));
+-        }
+-
+-        updatePageInfo();
+-        updateProgress();
+-    });
+ 
+-    // Handle touch/swipe on mobile
+-    rendition.on('touchstart', handleTouchStart);
+-    rendition.on('touchend', handleTouchEnd);
+-
+-    // Highlighting / Selection features
+-    rendition.on('selected', (cfiRange, contents) => {
+-        currentSelectionCfi = cfiRange;
+-        currentSelectionText = contents.window.getSelection().toString().trim();
++            // Generate locations asynchronously without blocking UI immediately
++            book.ready.then(() => {
++                console.log("Book ready, generating locations...");
++                // Setting a huge subset size speeds up generation drastically (1600 chars vs 1024)
++                return book.locations.generate(1600);
++            }).then((locs) => {
++                locations = locs;
++                totalLocations = locations.length;
++                console.log("Locations generated:", totalLocations);
++
++                socket.emit('set-total-locations', { total: totalLocations });
++                updateProgress();
++            }).catch(err => {
++                console.error("Error generating locations:", err);
++            });
+ 
+-        // Get iframe position
+-        const iframe = document.querySelector('#epub-viewer iframe');
+-        const iframeRect = iframe.getBoundingClientRect();
++            rendition.on('rendered', () => {
++                clearTimeout(loadingTimeout);
++                loadingEl.style.display = 'none';
++                console.log("Book rendered successfully");
++
++                // Force a resize to fix Zero-Height rendering bugs in SPA/iOS Safari
++                setTimeout(() => {
++                    if (rendition) {
++                        rendition.resize('100%', '100%');
++                    }
++                }, 300);
++            });
+ 
+-        // Get selection rect inside iframe
+-        const range = contents.window.getSelection().getRangeAt(0);
+-        const rect = range.getBoundingClientRect();
++            // Auto-resize on window resize or device rotation
++            window.addEventListener('resize', () => {
++                if (rendition) {
++                    rendition.resize('100%', '100%');
++                }
++            });
+ 
+-        const tooltip = document.getElementById('highlight-tooltip');
+-        tooltip.style.display = 'flex';
++            rendition.on('relocated', (location) => {
++                const current = location.start.location;
++                currentLocationIndex = current;
++                if (sessionData) {
++                    sessionData.currentLocation = location.start.cfi;
++                    sessionStorage.setItem('readTogether', JSON.stringify(sessionData));
++                }
++                updatePageInfo();
++                updateProgress();
++            });
+ 
+-        // Position it just above the selection
+-        const top = iframeRect.top + rect.top - 40;
+-        const left = Math.max(20, iframeRect.left + rect.left + (rect.width / 2));
++            rendition.on('touchstart', handleTouchStart);
++            rendition.on('touchend', handleTouchEnd);
++
++            rendition.on('selected', (cfiRange, contents) => {
++                currentSelectionCfi = cfiRange;
++                currentSelectionText = contents.window.getSelection().toString().trim();
++                const iframe = document.querySelector('#epub-viewer iframe');
++                const iframeRect = iframe.getBoundingClientRect();
++                const range = contents.window.getSelection().getRangeAt(0);
++                const rect = range.getBoundingClientRect();
++                const tooltip = document.getElementById('highlight-tooltip');
++                tooltip.style.display = 'flex';
++                const top = iframeRect.top + rect.top - 40;
++                const left = Math.max(20, iframeRect.left + rect.left + (rect.width / 2));
++                tooltip.style.top = `${top}px`;
++                tooltip.style.left = `${left}px`;
++            });
+ 
+-        tooltip.style.top = `${top}px`;
+-        tooltip.style.left = `${left}px`;
+-    });
++            rendition.on('click', () => {
++                document.getElementById('highlight-tooltip').style.display = 'none';
++            });
+ 
+-    rendition.on('click', () => {
+-        document.getElementById('highlight-tooltip').style.display = 'none';
+-    });
++        })
++        .catch(err => {
++            clearTimeout(loadingTimeout);
++            console.error("Fetch init error:", err);
++            loadingEl.innerHTML = `<div class="error-container" style="color: var(--error); text-align: center; padding: 20px;">
++                <p class="error-msg" style="margin-bottom: 20px;">Failed to download and initialize the reader engine. Please check your network connection.</p>
++                <button class="primary-btn" onclick="location.reload()" style="padding: 10px 20px; cursor: pointer; color: white;">Refresh App</button>
++            </div>`;
++        });
+ }
+ 
+ // ---- Highlighting State ----
+
+commit 3b6c4696b0c789f22592efdf64dffe4e5340a809
+Author: Nirmal <nirmal.sudish@gmail.com>
+Date:   Tue Mar 10 14:11:40 2026 -0700
+
+    Fix CSS zero-height flexbox bug breaking loading spinner; Increase EPUB extract timeout to 60s
+
+diff --git a/public/js/reader.js b/public/js/reader.js
+index 6fae267..43ff324 100644
+--- a/public/js/reader.js
++++ b/public/js/reader.js
+@@ -104,7 +104,7 @@ function loadBook(bookData) {
+                 </div>
+             `;
+         }
+-    }, 15000);
++    }, 60000);
+ 
+     book.opened.then(() => {
+         console.log("Book opened successfully");
+
+commit 7a341fa381a0e69f5dc2663bef3c78f58b7175f2
+Author: Nirmal <nirmal.sudish@gmail.com>
+Date:   Tue Mar 10 12:51:56 2026 -0700
+
+    Add full native PDF reader with real-time page-turn syncing capabilities using PDF.js
+
+diff --git a/public/js/reader.js b/public/js/reader.js
+index 9ca2f84..6fae267 100644
+--- a/public/js/reader.js
++++ b/public/js/reader.js
+@@ -1,4 +1,10 @@
+ // Header variables shifted to global scope for SPA sharing
++let isPdf = false;
++let pdfDoc = null;
++let currentPdfPage = 1;
++let totalPdfPages = 0;
++let pdfCanvas = null;
++let pdfCtx = null;
+ let book = null;
+ let rendition = null;
+ let sessionData = null;
+@@ -72,14 +78,10 @@ function loadBook(bookData) {
+ 
+     console.log("Loading book from:", fullPath);
+ 
+-    // Warning for PDFs (Reader currently only supports EPUB natively)
+-    if (bookData.type === '.pdf' || bookData.filename.endsWith('.pdf')) {
+-        loadingEl.innerHTML = `
+-            <div class="error-container" style="color: white; text-align: center; padding: 20px;">
+-                <p class="error-msg" style="margin-bottom: 20px;">PDF Support is currently limited. Please use an EPUB file for synchronized reading.</p>
+-                ${sessionData.role === 'host' ? '<button class="primary-btn" onclick="goBackToRoom()" style="padding: 10px 20px; cursor: pointer;">Go Back to Upload</button>' : ''}
+-            </div>
+-        `;
++    isPdf = bookData.type === '.pdf' || bookData.filename.endsWith('.pdf');
++
++    if (isPdf) {
++        initPdfReader(fullPath, loadingEl);
+         return;
+     }
+ 
+@@ -273,7 +275,103 @@ function jumpToCfi(cfi) {
+     }
+ }
+ 
++// ---- PDF Rendering Logic ----
++async function initPdfReader(url, loadingEl) {
++    try {
++        pdfDoc = await pdfjsLib.getDocument(url).promise;
++        totalPdfPages = pdfDoc.numPages;
++        totalLocations = totalPdfPages;
++
++        // Restore session page or start at 1
++        currentPdfPage = sessionData.currentLocation ? parseInt(sessionData.currentLocation) : 1;
++        if (isNaN(currentPdfPage) || currentPdfPage < 1) currentPdfPage = 1;
++        currentLocationIndex = currentPdfPage - 1;
++
++        loadingEl.style.display = 'none';
++
++        const viewer = document.getElementById('epub-viewer');
++        viewer.innerHTML = '<canvas id="pdf-canvas" style="max-height: 100%; max-width: 100%; box-shadow: 0 4px 8px rgba(0,0,0,0.1);"></canvas>';
++        pdfCanvas = document.getElementById('pdf-canvas');
++        pdfCtx = pdfCanvas.getContext('2d');
++
++        applyTheme(currentTheme); // apply bg colors
++        renderPdfPage(currentPdfPage);
++
++        // Auto-resize on window resize or device rotation
++        window.addEventListener('resize', () => {
++            if (isPdf && pdfDoc) {
++                renderPdfPage(currentPdfPage);
++            }
++        });
++
++    } catch (err) {
++        console.error("PDF init error", err);
++        loadingEl.innerHTML = `
++            <div class="error-container" style="color: var(--error); text-align: center; padding: 20px;">
++                <p class="error-msg" style="margin-bottom: 20px;">Failed to load PDF file.</p>
++                <button class="primary-btn" onclick="location.reload()" style="padding: 10px 20px; cursor: pointer; color: white;">Refresh App</button>
++            </div>
++        `;
++    }
++}
++
++async function renderPdfPage(pageNum) {
++    if (!pdfDoc) return;
++    try {
++        const page = await pdfDoc.getPage(pageNum);
++        const viewer = document.getElementById('epub-viewer');
++
++        // Calculate appropriate scale based on container
++        const unscaledViewport = page.getViewport({ scale: 1 });
++        const scaleX = viewer.clientWidth / unscaledViewport.width;
++        const scaleY = viewer.clientHeight / unscaledViewport.height;
++        let scale = Math.min(scaleX, scaleY) * 0.95; // 95% to leave a tiny padding margin
++        if (scale > 2) scale = 2; // cap max scale
++
++        const viewport = page.getViewport({ scale });
++
++        // Ensure proper HiDPI canvas rendering
++        const outputScale = window.devicePixelRatio || 1;
++        pdfCanvas.width = Math.floor(viewport.width * outputScale);
++        pdfCanvas.height = Math.floor(viewport.height * outputScale);
++        pdfCanvas.style.width = Math.floor(viewport.width) + "px";
++        pdfCanvas.style.height = Math.floor(viewport.height) + "px";
++
++        const transform = outputScale !== 1
++            ? [outputScale, 0, 0, outputScale, 0, 0]
++            : null;
++
++        const renderContext = {
++            canvasContext: pdfCtx,
++            transform: transform,
++            viewport: viewport
++        };
++
++        await page.render(renderContext).promise;
++
++        currentLocationIndex = pageNum - 1;
++
++        sessionData.currentLocation = pageNum;
++        sessionStorage.setItem('readTogether', JSON.stringify(sessionData));
++
++        updatePageInfo();
++        updateProgress();
++    } catch (e) {
++        console.error("Error rendering PDF page", e);
++    }
++}
++
+ function doLocalJump(cfi) {
++    if (isPdf) {
++        // cfi for PDF is just the page number
++        const pageNum = parseInt(cfi);
++        if (!isNaN(pageNum) && pageNum >= 1 && pageNum <= totalPdfPages) {
++            currentPdfPage = pageNum;
++            renderPdfPage(currentPdfPage);
++        }
++        return;
++    }
++
+     if (!rendition) return;
+     const viewer = document.getElementById('epub-viewer');
+     viewer.style.transition = 'opacity 0.2s';
+@@ -353,9 +451,31 @@ function setupSocketListeners() {
+ 
+         currentLocationIndex = data.page;
+ 
+-        if (rendition && locations.length > 0) {
+-            const viewer = document.getElementById('epub-viewer');
++        const viewer = document.getElementById('epub-viewer');
++
++        if (isPdf) {
++            viewer.style.transition = 'opacity 0.15s ease-out, transform 0.15s ease-out';
++            viewer.style.opacity = '0';
++            viewer.style.transform = data.direction === 'next' ? 'translateX(-30px)' : 'translateX(30px)';
+ 
++            setTimeout(() => {
++                currentPdfPage = data.direction === 'next' ? currentPdfPage + 1 : currentPdfPage - 1;
++                if (currentPdfPage < 1) currentPdfPage = 1;
++                if (currentPdfPage > totalPdfPages) currentPdfPage = totalPdfPages;
++
++                renderPdfPage(currentPdfPage).then(() => {
++                    viewer.style.transition = 'none';
++                    viewer.style.transform = data.direction === 'next' ? 'translateX(30px)' : 'translateX(-30px)';
++                    void viewer.offsetWidth; // Force Reflow
++                    viewer.style.transition = 'opacity 0.2s ease-out, transform 0.2s ease-out';
++                    viewer.style.opacity = '1';
++                    viewer.style.transform = 'translateX(0)';
++                });
++            }, 150);
++            return;
++        }
++
++        if (rendition && locations.length > 0) {
+             // Slide transition out
+             viewer.style.transition = 'opacity 0.15s ease-out, transform 0.15s ease-out';
+             viewer.style.opacity = '0';
+@@ -526,6 +646,9 @@ function applyTheme(theme) {
+                 }
+             });
+         }
++        if (isPdf && pdfCanvas) {
++            document.getElementById('epub-viewer').style.backgroundColor = '#faf8f5';
++        }
+     } else if (theme === 'sepia') {
+         document.body.classList.add('sepia-theme');
+         sunIcon.style.display = 'block';
+@@ -542,6 +665,9 @@ function applyTheme(theme) {
+                 }
+             });
+         }
++        if (isPdf && pdfCanvas) {
++            document.getElementById('epub-viewer').style.backgroundColor = '#f4ecd8';
++        }
+     } else {
+         // Dark
+         sunIcon.style.display = 'block';
+@@ -558,6 +684,9 @@ function applyTheme(theme) {
+                 }
+             });
+         }
++        if (isPdf && pdfCanvas) {
++            document.getElementById('epub-viewer').style.backgroundColor = '#1a1a2e';
++        }
+     }
+ }
+ 
+
+commit 7fb6f4cc9bbf4876d951c01a9ce6a12a03582769
+Author: Nirmal <nirmal.sudish@gmail.com>
+Date:   Tue Mar 10 12:35:36 2026 -0700
+
+    Fix JSZip version causing silent epub extract failures; Fix invisible white safety loading text on light theme
+
+diff --git a/public/js/reader.js b/public/js/reader.js
+index ad088d3..9ca2f84 100644
+--- a/public/js/reader.js
++++ b/public/js/reader.js
+@@ -96,9 +96,9 @@ function loadBook(bookData) {
+         if (loadingEl.style.display !== 'none') {
+             console.error("Book loading timed out");
+             loadingEl.innerHTML = `
+-                <div class="error-container" style="color: white; text-align: center; padding: 20px;">
+-                    <p class="error-msg" style="margin-bottom: 20px;">Loading is taking longer than expected. The file might be corrupted or too large.</p>
+-                    <button class="primary-btn" onclick="location.reload()" style="padding: 10px 20px; cursor: pointer;">Refresh App</button>
++                <div class="error-container" style="color: var(--error); text-align: center; padding: 20px;">
++                    <p class="error-msg" style="margin-bottom: 20px;">Loading is taking longer than expected. The file might be corrupted or over the size limit.</p>
++                    <button class="primary-btn" onclick="location.reload()" style="padding: 10px 20px; cursor: pointer; color: white;">Refresh App</button>
+                 </div>
+             `;
+         }
+@@ -116,9 +116,9 @@ function loadBook(bookData) {
+ 
+         document.getElementById('reader-book-title').textContent = "Error: File Missing";
+         loadingEl.innerHTML = `
+-            <div class="error-container" style="color: white; text-align: center; padding: 20px;">
+-                <p class="error-msg" style="margin-bottom: 20px;">${errorMessage}</p>
+-                ${sessionData.role === 'host' ? '<button class="primary-btn" onclick="goBackToRoom()" style="padding: 10px 20px; cursor: pointer;">Go Back to Upload</button>' : ''}
++            <div class="error-container" style="color: var(--error); text-align: center; padding: 20px;">
++                <p class="error-msg" style="margin-bottom: 20px; font-weight: bold;">${errorMessage}</p>
++                ${sessionData.role === 'host' ? '<button class="primary-btn" onclick="let s = document.getElementById(\'reader-screen\'); s.classList.remove(\'active\'); document.getElementById(\'room-screen\').classList.add(\'active\');" style="padding: 10px 20px; cursor: pointer; color: white;">Go Back to Upload</button>' : ''}
+             </div>
+         `;
+     });
+
+commit 6a82380bb6a718ca865a5e976c755eb919e2c733
+Author: Nirmal <nirmal.sudish@gmail.com>
+Date:   Tue Mar 10 12:21:06 2026 -0700
+
+    Fix EPUB.js column padding bug preventing render on iOS Safari, default theme to white
+
+diff --git a/public/js/reader.js b/public/js/reader.js
+index 5378b40..ad088d3 100644
+--- a/public/js/reader.js
++++ b/public/js/reader.js
+@@ -10,7 +10,7 @@ let chatOpen = false;
+ let notesOpen = false;
+ let fontMenuOpen = false;
+ let unreadMessages = 0;
+-let currentTheme = 'dark'; // 'dark', 'light', 'sepia'
++let currentTheme = 'light'; // 'dark', 'light', 'sepia'
+ let currentFontSize = 18;
+ let currentFontFamily = "'Lora', serif";
+ let notes = JSON.parse(localStorage.getItem('readTogether_notes') || '[]');
+
+commit abff2efc6a9cc683d76c6a6759617f6883babb51
+Author: Nirmal <nirmal.sudish@gmail.com>
+Date:   Tue Mar 10 12:15:36 2026 -0700
+
+    Fix iOS Safari flex zero-height rendering bug for epub.js and add window resize handler
+
+diff --git a/public/js/reader.js b/public/js/reader.js
+index 4124576..5378b40 100644
+--- a/public/js/reader.js
++++ b/public/js/reader.js
+@@ -172,6 +172,20 @@ function loadBook(bookData) {
+         clearTimeout(loadingTimeout);
+         loadingEl.style.display = 'none';
+         console.log("Book rendered successfully");
++
++        // Force a resize to fix Zero-Height rendering bugs in SPA/iOS Safari
++        setTimeout(() => {
++            if (rendition) {
++                rendition.resize('100%', '100%');
++            }
++        }, 300);
++    });
++
++    // Auto-resize on window resize or device rotation
++    window.addEventListener('resize', () => {
++        if (rendition) {
++            rendition.resize('100%', '100%');
++        }
+     });
+ 
+     rendition.on('relocated', (location) => {

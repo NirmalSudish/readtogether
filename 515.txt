@@ -1,0 +1,555 @@
+﻿commit 515e6a40a716a4d3b158c8d3bbb60b0c23edd568
+Author: Nirmal <nirmal.sudish@gmail.com>
+Date:   Tue Mar 10 06:43:37 2026 -0700
+
+    Full mobile & tablet responsive optimisation
+
+diff --git a/public/css/main.css b/public/css/main.css
+index a77a651..d3c102c 100644
+--- a/public/css/main.css
++++ b/public/css/main.css
+@@ -931,60 +931,242 @@ body {
+   }
+ }
+ 
+-/* ---------- Responsive ---------- */
++/* ============================================
++   RESPONSIVE - Tablet (641pxΓÇô1024px)
++   ============================================ */
++@media (min-width: 641px) and (max-width: 1024px) {
++  .screen {
++    padding: 32px 20px;
++  }
++
++  .landing-content {
++    max-width: 560px;
++  }
++
++  .logo-text {
++    font-size: 2.6rem;
++  }
++
++  .action-cards {
++    gap: 16px;
++  }
++
++  .action-card {
++    padding: 28px 20px;
++  }
++
++  .room-container {
++    max-width: 520px;
++  }
++}
++
++/* ============================================
++   RESPONSIVE - Mobile (Γëñ640px)
++   ============================================ */
+ @media (max-width: 640px) {
++  .screen {
++    padding: 24px 16px;
++    align-items: flex-start;
++    padding-top: 48px;
++  }
++
++  /* Logo */
++  .logo-area {
++    margin-bottom: 32px;
++  }
++
++  .logo-icon {
++    width: 64px;
++    height: 64px;
++    border-radius: var(--radius-lg);
++    margin-bottom: 16px;
++  }
++
++  .logo-icon svg {
++    width: 34px;
++    height: 34px;
++  }
++
+   .logo-text {
+-    font-size: 2.2rem;
++    font-size: 2rem;
+   }
+ 
++  .logo-tagline {
++    font-size: 0.95rem;
++  }
++
++  /* Action cards ΓÇô stack vertically */
+   .action-cards {
+     grid-template-columns: 1fr;
+     gap: 12px;
++    margin-bottom: 32px;
+   }
+ 
+   .action-card {
+-    padding: 24px 20px;
++    padding: 20px 18px;
++    display: flex;
++    align-items: center;
++    gap: 16px;
++    text-align: left;
++  }
++
++  .card-icon {
++    width: 48px;
++    height: 48px;
++    margin-bottom: 0;
++    flex-shrink: 0;
++  }
++
++  .card-icon svg {
++    width: 24px;
++    height: 24px;
+   }
+ 
++  .action-card h3 {
++    font-size: 1.05rem;
++    margin-bottom: 4px;
++  }
++
++  .action-card p {
++    font-size: 0.8rem;
++  }
++
++  /* Features strip */
+   .features-strip {
+-    gap: 16px;
++    gap: 10px;
++    justify-content: flex-start;
++    overflow-x: auto;
++    flex-wrap: nowrap;
++    padding-bottom: 4px;
++    -webkit-overflow-scrolling: touch;
++  }
++
++  .features-strip span {
++    font-size: 0.72rem;
++    white-space: nowrap;
+   }
+ 
++  /* Form screens */
++  .form-container {
++    max-width: 100%;
++  }
++
++  .form-header h2 {
++    font-size: 1.7rem;
++  }
++
++  .form-header p {
++    font-size: 0.9rem;
++  }
++
++  .back-btn {
++    margin-bottom: 24px;
++  }
++
++  .input-group input {
++    padding: 13px 14px;
++    font-size: 0.95rem;
++  }
++
++  .primary-btn {
++    padding: 14px;
++    font-size: 0.95rem;
++  }
++
++  /* Room screen */
++  .room-container {
++    max-width: 100%;
++  }
++
++  .room-title-area h2 {
++    font-size: 1.5rem;
++  }
++
++  .room-code-display {
++    flex-wrap: wrap;
++    justify-content: center;
++    gap: 8px;
++    padding: 14px 16px;
++  }
++
++  .code-label {
++    width: 100%;
++    text-align: center;
++  }
++
++  .code-value {
++    width: 100%;
++    text-align: center;
++    font-size: 1.6rem;
++    letter-spacing: 6px;
++  }
++
++  /* User cards */
++  .user-card {
++    padding: 14px 16px;
++    gap: 12px;
++  }
++
++  .user-avatar {
++    width: 38px;
++    height: 38px;
++  }
++
++  /* Book upload zone */
++  .upload-zone {
++    padding: 28px 16px;
++  }
++
++  .upload-icon {
++    width: 48px;
++    height: 48px;
++    margin-bottom: 12px;
++  }
++
++  .upload-zone h3 {
++    font-size: 1rem;
++  }
++
++  /* Book info card */
+   .book-info-card {
+     flex-direction: column;
+     text-align: center;
++    gap: 12px;
++    padding: 16px;
+   }
+ 
+   .book-actions {
+     width: 100%;
++    flex-direction: row;
+   }
+ 
+   .book-actions button {
+     flex: 1;
++    justify-content: center;
+   }
+ 
+-  .room-code-display {
+-    flex-wrap: wrap;
+-    justify-content: center;
++  /* Toast */
++  #toast-container {
++    top: auto;
++    bottom: 24px;
++    right: 16px;
++    left: 16px;
+   }
+ 
+-  .code-value {
+-    width: 100%;
++  .toast {
++    max-width: 100%;
+     text-align: center;
+-    font-size: 1.4rem;
+   }
+ }
+ 
+-@media (max-width: 400px) {
+-  .screen {
+-    padding: 24px 16px;
+-  }
+-
++/* Very small phones */
++@media (max-width: 380px) {
+   .logo-text {
+-    font-size: 1.8rem;
++    font-size: 1.7rem;
+   }
+ 
+-  .form-header h2 {
+-    font-size: 1.5rem;
++  .code-value {
++    font-size: 1.3rem;
++    letter-spacing: 4px;
+   }
+ }
+\ No newline at end of file
+diff --git a/public/css/reader.css b/public/css/reader.css
+index a7ae5b2..e7d34ac 100644
+--- a/public/css/reader.css
++++ b/public/css/reader.css
+@@ -1300,80 +1300,223 @@ input[type="range"]::-webkit-slider-thumb {
+     }
+ }
+ 
+-/* ---------- Responsive ---------- */
+-@media (max-width: 768px) {
++/* ============================================
++   RESPONSIVE - Tablet (641pxΓÇô1024px)
++   ============================================ */
++@media (min-width: 641px) and (max-width: 1024px) {
++    .reader-header {
++        height: 52px;
++        padding: 0 12px;
++    }
++
++    .reader-main {
++        margin-top: 52px;
++        margin-bottom: 70px;
++    }
++
++    #epub-viewer {
++        padding: 24px 40px;
++    }
++
++    .reader-footer {
++        height: 70px;
++        padding: 0 16px;
++    }
++
++    .chat-sidebar,
++    .notes-sidebar {
++        width: 320px;
++    }
++
++    .chat-sidebar {
++        right: -320px;
++    }
++
++    .notes-sidebar {
++        left: -320px;
++    }
++
++    .progress-bar-container {
++        width: 100px;
++    }
++
++    .video-widget {
++        width: 240px;
++    }
++}
++
++/* ============================================
++   RESPONSIVE - Mobile (Γëñ640px)
++   ============================================ */
++@media (max-width: 640px) {
++
++    /* --- Header --- */
+     .reader-header {
+         height: 50px;
+-        padding: 0 8px;
++        padding: 0 6px;
++        gap: 2px;
++    }
++
++    .icon-btn {
++        width: 36px;
++        height: 36px;
++    }
++
++    .icon-btn svg {
++        width: 18px;
++        height: 18px;
+     }
+ 
++    /* Hide book title on very small screens ΓÇö saves space */
++    .book-title {
++        display: none;
++    }
++
++    /* Shrink sync indicator to icon-only */
+     .sync-indicator {
+-        padding: 4px 10px;
++        padding: 4px 8px;
++        gap: 6px;
+     }
+ 
+     .sync-text {
+         display: none;
+     }
+ 
++    /* --- EPUB viewer area --- */
+     .reader-main {
+         margin-top: 50px;
+-        margin-bottom: 68px;
++        margin-bottom: 64px;
+     }
+ 
+     #epub-viewer {
+-        padding: 16px 20px;
++        padding: 12px 12px;
+     }
+ 
++    /* Tap-targets for page nav ΓÇö make wider so thumbs can reach */
+     .nav-zone {
+-        width: 50px;
++        width: 52px;
++    }
++
++    .nav-arrow {
++        width: 36px;
++        height: 36px;
+     }
+ 
++    /* --- Footer --- */
+     .reader-footer {
+-        height: 68px;
+-        padding: 0 12px;
++        height: 64px;
++        padding: 0 8px;
+     }
+ 
+-    .progress-bar-container {
+-        width: 80px;
++    /* Hide progress bar on tiny screens */
++    .footer-left {
++        display: none;
++    }
++
++    .footer-right {
++        flex: 0;
+     }
+ 
+     .page-info {
+-        font-size: 0.7rem;
++        font-size: 0.68rem;
++    }
++
++    .sync-control {
++        gap: 10px;
+     }
+ 
++    .sync-btn {
++        width: 40px;
++        height: 40px;
++    }
++
++    .sync-progress-ring,
++    .sync-progress-ring svg {
++        width: 44px;
++        height: 44px;
++    }
++
++    /* --- Chat & Notes sidebars ΓÇö full-width drawers --- */
+     .chat-sidebar {
+         width: 100%;
+         right: -100%;
+     }
+ 
++    .notes-sidebar {
++        width: 100%;
++        left: -100%;
++    }
++
++    .chat-sidebar.open {
++        right: 0;
++    }
++
++    .notes-sidebar.open {
++        left: 0;
++    }
++
++    /* --- Font settings menu --- */
+     .font-menu {
+-        right: 8px;
+-        width: 240px;
++        right: 6px;
++        left: 6px;
++        width: auto;
+     }
+-}
+ 
+-@media (max-width: 480px) {
+-    .sync-btn {
+-        width: 38px;
+-        height: 38px;
++    /* --- Video widget ΓÇö move to bottom-left, make smaller --- */
++    .video-widget {
++        bottom: 70px;
++        right: auto;
++        left: 12px;
++        width: calc(100vw - 24px);
++        max-width: 300px;
+     }
+ 
+-    .sync-progress-ring {
+-        width: 42px;
+-        height: 42px;
++    /* --- Highlight tooltip ΓÇö slightly taller tap target --- */
++    #highlight-tooltip {
++        font-size: 12px;
++        padding: 9px 14px;
+     }
+ 
+-    .sync-progress-ring svg {
+-        width: 42px;
+-        height: 42px;
++    /* --- Notes sidebar compose area --- */
++    .notes-compose-area {
++        padding: 12px;
+     }
+ 
+-    .footer-left {
+-        display: none;
++    .notes-input {
++        font-size: 0.9rem;
+     }
+ 
+-    .sync-control {
+-        gap: 10px;
++    /* --- Disconnect overlay --- */
++    .disconnect-card {
++        padding: 24px 20px;
++        margin: 16px;
++    }
++}
++
++/* ============================================
++   iPhone safe-area (notch + home indicator)
++   ============================================ */
++@supports (padding-top: env(safe-area-inset-top)) {
++    .reader-header {
++        padding-top: env(safe-area-inset-top);
++        /* Stretch the fixed header to cover the notch */
++        height: calc(56px + env(safe-area-inset-top));
++    }
++
++    @media (max-width: 640px) {
++        .reader-header {
++            height: calc(50px + env(safe-area-inset-top));
++        }
++
++        .reader-main {
++            margin-top: calc(50px + env(safe-area-inset-top));
++            margin-bottom: calc(64px + env(safe-area-inset-bottom));
++        }
++
++        .reader-footer {
++            padding-bottom: env(safe-area-inset-bottom);
++            height: calc(64px + env(safe-area-inset-bottom));
++        }
+     }
+ }
+ 
+diff --git a/public/index.html b/public/index.html
+index ff2c89b..7c91416 100644
+--- a/public/index.html
++++ b/public/index.html
+@@ -3,7 +3,7 @@
+ 
+ <head>
+     <meta charset="UTF-8">
+-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
++    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+     <meta name="description"
+         content="Read Together - A synchronized reading experience for two people. Create a room, share a book, and read in sync.">
+     <title>Read Together ΓÇö Synchronized Reading</title>
+diff --git a/public/reader.html b/public/reader.html
+index d8922ca..5916284 100644
+--- a/public/reader.html
++++ b/public/reader.html
+@@ -3,7 +3,7 @@
+ 
+ <head>
+     <meta charset="UTF-8">
+-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
++    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+     <meta name="description" content="Read Together - Synchronized book reader">
+     <title>Read Together ΓÇö Reader</title>
+     <link rel="preconnect" href="https://fonts.googleapis.com">

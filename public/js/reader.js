@@ -264,6 +264,11 @@ function applyHighlight() {
         pageIndex: currentLocationIndex
     });
 
+    // Copy to clipboard feature
+    if (navigator.clipboard && currentSelectionText) {
+        navigator.clipboard.writeText(currentSelectionText).catch(err => console.error('Copy failed:', err));
+    }
+
     // Clear selection inside iframe natively via injected JS script or simply skip for now
     if (rendition.getContents && rendition.getContents().length > 0) {
         rendition.getContents()[0].window.getSelection().removeAllRanges();

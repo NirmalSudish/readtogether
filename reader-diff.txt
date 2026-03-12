@@ -1,0 +1,104 @@
+﻿diff --git a/public/reader.html b/public/reader.html
+index 04fc16d..ae25b8c 100644
+--- a/public/reader.html
++++ b/public/reader.html
+@@ -3,7 +3,7 @@
+ 
+ <head>
+     <meta charset="UTF-8">
+-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
++    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <meta name="description" content="Read Together - Synchronized book reader">
+     <title>Read Together ΓÇö Reader</title>
+     <link rel="preconnect" href="https://fonts.googleapis.com">
+@@ -86,20 +86,6 @@
+                     <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+                 </svg>
+             </button>
+-            <button class="icon-btn" id="audio-call-toggle-btn" onclick="toggleCall('audio')" title="Start audio call">
+-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+-                    stroke-linejoin="round">
+-                    <path
+-                        d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.39 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
+-                </svg>
+-            </button>
+-            <button class="icon-btn" id="video-call-toggle-btn" onclick="toggleCall('video')" title="Start video call">
+-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+-                    stroke-linejoin="round">
+-                    <path
+-                        d="M15.6 11.6L22 7v10l-6.4-4.5v-1zM4 5h9a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7c0-1.1.9-2 2-2z" />
+-                </svg>
+-            </button>
+             <button class="icon-btn" id="chat-toggle-btn" onclick="toggleChat()" title="Toggle chat">
+                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                     stroke-linejoin="round">
+@@ -277,50 +263,6 @@
+         </div>
+     </aside>
+ 
+-    <!-- Video Call Widget -->
+-    <div class="video-widget" id="video-widget" style="display: none;">
+-        <div class="video-header" id="video-header">
+-            <span>Live Call</span>
+-            <button class="icon-btn sm" onclick="endCall()" title="End call">
+-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+-                    stroke-linejoin="round" width="14" height="14">
+-                    <line x1="18" y1="6" x2="6" y2="18" />
+-                    <line x1="6" y1="6" x2="18" y2="18" />
+-                </svg>
+-            </button>
+-        </div>
+-        <div class="video-streams">
+-            <!-- Remote video (partner) -->
+-            <video id="remote-video" autoplay playsinline></video>
+-
+-            <!-- Local video (you) -->
+-            <video id="local-video" autoplay playsinline muted></video>
+-
+-            <!-- Waiting state overlay -->
+-            <div id="video-waiting-overlay" class="video-overlay">
+-                <div class="loading-spinner"></div>
+-                <span id="call-status-text">Calling partner...</span>
+-            </div>
+-        </div>
+-        <div class="video-controls">
+-            <button class="video-control-btn" id="toggle-mic-btn" onclick="toggleMic()" title="Mute/Unmute Mic">
+-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+-                    stroke-linejoin="round" width="16" height="16">
+-                    <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z" />
+-                    <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
+-                    <line x1="12" y1="19" x2="12" y2="22" />
+-                </svg>
+-            </button>
+-            <button class="video-control-btn" id="toggle-cam-btn" onclick="toggleCam()" title="Turn Camera On/Off">
+-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+-                    stroke-linejoin="round" width="16" height="16">
+-                    <path
+-                        d="M15.6 11.6L22 7v10l-6.4-4.5v-1zM4 5h9a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7c0-1.1.9-2 2-2z" />
+-                </svg>
+-            </button>
+-        </div>
+-    </div>
+-
+     <!-- Disconnect overlay -->
+     <div class="disconnect-overlay" id="disconnect-overlay" style="display: none;">
+         <div class="disconnect-card">
+@@ -344,18 +286,6 @@
+         </div>
+     </div>
+ 
+-    <!-- Highlight Tooltip -->
+-    <div id="highlight-tooltip" onclick="applyHighlight()"
+-        style="display: none; position: fixed; z-index: 1000; background: #7c6aff; color: #ffffff; padding: 8px 14px; border-radius: 9999px; font-size: 13px; font-weight: 600; cursor: pointer; box-shadow: 0 4px 8px rgba(0,0,0,0.2); align-items: center; gap: 6px; transform: translateX(-50%);">
+-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+-            stroke-linejoin="round" width="14" height="14"
+-            style="display:inline-block; vertical-align:middle; margin-right:4px;">
+-            <path d="M12 20h9"></path>
+-            <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+-        </svg>
+-        Highlight & Share
+-    </div>
+-
+     <script src="https://cdn.socket.io/4.7.4/socket.io.min.js"></script>
+     <script src="/js/config.js"></script>
+     <script src="/js/reader.js"></script>

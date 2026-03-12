@@ -1,0 +1,452 @@
+﻿diff --git a/public/css/main.css b/public/css/main.css
+index a77a651..168305e 100644
+--- a/public/css/main.css
++++ b/public/css/main.css
+@@ -904,87 +904,428 @@ body {
+ }
+ 
+ .toast.error {
+   border-color: rgba(248, 113, 113, 0.3);
+ }
+ 
+ @keyframes toastIn {
+   from {
+     opacity: 0;
+     transform: translateX(32px);
+   }
+ 
+   to {
+     opacity: 1;
+     transform: translateX(0);
+   }
+ }
+ 
+ @keyframes toastOut {
+   from {
+     opacity: 1;
+     transform: translateX(0);
+   }
+ 
+   to {
+     opacity: 0;
+     transform: translateX(32px);
+   }
+ }
+ 
+-/* ---------- Responsive ---------- */
++/* ---------- Lobby Call Actions ---------- */
++.call-actions {
++  margin-bottom: 20px;
++  border: 1px solid var(--border-subtle);
++  border-radius: var(--radius-md);
++  padding: 16px 20px;
++  background: var(--bg-card);
++  animation: slideUp 0.4s ease;
++}
++
++.call-actions-label {
++  display: block;
++  font-size: 0.72rem;
++  text-transform: uppercase;
++  letter-spacing: 0.08em;
++  color: var(--text-muted);
++  font-weight: 600;
++  margin-bottom: 12px;
++}
++
++.call-btns-row {
++  display: flex;
++  gap: 10px;
++}
++
++.call-action-btn {
++  flex: 1;
++  display: flex;
++  align-items: center;
++  justify-content: center;
++  gap: 8px;
++  padding: 12px 16px;
++  border-radius: var(--radius-md);
++  font-family: var(--font-sans);
++  font-size: 0.9rem;
++  font-weight: 500;
++  cursor: pointer;
++  transition: all var(--transition-base);
++  border: 1px solid var(--border-medium);
++}
++
++.audio-call-btn {
++  background: var(--bg-secondary);
++  color: var(--text-primary);
++}
++
++.audio-call-btn:hover {
++  background: var(--bg-card-hover);
++  border-color: var(--accent);
++  transform: translateY(-2px);
++}
++
++.video-call-btn {
++  background: var(--text-primary);
++  color: var(--bg-primary);
++  border-color: var(--text-primary);
++}
++
++.video-call-btn:hover {
++  opacity: 0.85;
++  transform: translateY(-2px);
++}
++
++/* Lobby call widget (active call state) */
++.lobby-call-widget {
++  margin-bottom: 20px;
++  border: 1px solid var(--border-medium);
++  border-radius: var(--radius-md);
++  overflow: hidden;
++  background: var(--bg-card);
++  animation: slideUp 0.3s ease;
++}
++
++.lobby-call-header {
++  display: flex;
++  align-items: center;
++  justify-content: space-between;
++  padding: 12px 16px;
++  border-bottom: 1px solid var(--border-subtle);
++}
++
++.lobby-call-status {
++  display: flex;
++  align-items: center;
++  gap: 10px;
++  font-size: 0.9rem;
++  font-weight: 500;
++}
++
++.call-pulse {
++  width: 10px;
++  height: 10px;
++  border-radius: 50%;
++  background: var(--success, #22c55e);
++  animation: statusPulse 1.5s ease-in-out infinite;
++  flex-shrink: 0;
++}
++
++.lobby-end-call-btn {
++  display: flex;
++  align-items: center;
++  gap: 6px;
++  background: rgba(255, 0, 0, 0.08);
++  border: 1px solid rgba(255, 0, 0, 0.2);
++  color: var(--error);
++  padding: 7px 14px;
++  border-radius: var(--radius-full);
++  font-family: var(--font-sans);
++  font-size: 0.82rem;
++  font-weight: 600;
++  cursor: pointer;
++  transition: all var(--transition-fast);
++}
++
++.lobby-end-call-btn:hover {
++  background: rgba(255, 0, 0, 0.15);
++}
++
++.lobby-videos {
++  position: relative;
++  background: #111;
++  aspect-ratio: 16/9;
++  overflow: hidden;
++}
++
++.lobby-call-controls {
++  display: flex;
++  align-items: center;
++  justify-content: center;
++  gap: 12px;
++  padding: 12px;
++  background: var(--bg-secondary);
++}
++
++.lobby-ctrl-btn {
++  width: 38px;
++  height: 38px;
++  border-radius: 50%;
++  border: 1px solid var(--border-medium);
++  background: var(--bg-card);
++  color: var(--text-primary);
++  display: flex;
++  align-items: center;
++  justify-content: center;
++  cursor: pointer;
++  transition: all var(--transition-fast);
++}
++
++.lobby-ctrl-btn:hover {
++  background: var(--bg-card-hover);
++}
++
++.lobby-ctrl-btn.muted,
++.lobby-ctrl-btn.off {
++  background: rgba(255, 0, 0, 0.08);
++  border-color: rgba(255, 0, 0, 0.2);
++  color: var(--error);
++}
++
++/* ============================================
++   RESPONSIVE - Tablet (641pxΓÇô1024px)
++   ============================================ */
++@media (min-width: 641px) and (max-width: 1024px) {
++  .screen {
++    padding: 32px 20px;
++  }
++
++  .landing-content {
++    max-width: 560px;
++  }
++
++  .logo-text {
++    font-size: 2.6rem;
++  }
++
++  .action-cards {
++    gap: 16px;
++  }
++
++  .action-card {
++    padding: 28px 20px;
++  }
++
++  .room-container {
++    max-width: 520px;
++  }
++}
++
++/* ============================================
++   RESPONSIVE - Mobile (Γëñ640px)
++   ============================================ */
+ @media (max-width: 640px) {
++  .screen {
++    padding: 24px 16px;
++    align-items: flex-start;
++    padding-top: 48px;
++  }
++
++  /* Logo */
++  .logo-area {
++    margin-bottom: 32px;
++  }
++
++  .logo-icon {
++    width: 64px;
++    height: 64px;
++    border-radius: var(--radius-lg);
++    margin-bottom: 16px;
++  }
++
++  .logo-icon svg {
++    width: 34px;
++    height: 34px;
++  }
++
+   .logo-text {
+-    font-size: 2.2rem;
++    font-size: 2rem;
+   }
+ 
++  .logo-tagline {
++    font-size: 0.95rem;
++  }
++
++  /* Action cards ΓÇô stack vertically */
+   .action-cards {
+     grid-template-columns: 1fr;
+     gap: 12px;
++    margin-bottom: 32px;
+   }
+ 
+   .action-card {
+-    padding: 24px 20px;
++    padding: 20px 18px;
++    display: flex;
++    align-items: center;
++    gap: 16px;
++    text-align: left;
+   }
+ 
++  .card-icon {
++    width: 48px;
++    height: 48px;
++    margin-bottom: 0;
++    flex-shrink: 0;
++  }
++
++  .card-icon svg {
++    width: 24px;
++    height: 24px;
++  }
++
++  .action-card h3 {
++    font-size: 1.05rem;
++    margin-bottom: 4px;
++  }
++
++  .action-card p {
++    font-size: 0.8rem;
++  }
++
++  /* Features strip */
+   .features-strip {
+-    gap: 16px;
++    gap: 10px;
++    justify-content: flex-start;
++    overflow-x: auto;
++    flex-wrap: nowrap;
++    padding-bottom: 4px;
++    -webkit-overflow-scrolling: touch;
++  }
++
++  .features-strip span {
++    font-size: 0.72rem;
++    white-space: nowrap;
+   }
+ 
++  /* Form screens */
++  .form-container {
++    max-width: 100%;
++  }
++
++  .form-header h2 {
++    font-size: 1.7rem;
++  }
++
++  .form-header p {
++    font-size: 0.9rem;
++  }
++
++  .back-btn {
++    margin-bottom: 24px;
++  }
++
++  .input-group input {
++    padding: 13px 14px;
++    font-size: 0.95rem;
++  }
++
++  .primary-btn {
++    padding: 14px;
++    font-size: 0.95rem;
++  }
++
++  /* Room screen */
++  .room-container {
++    max-width: 100%;
++  }
++
++  .room-title-area h2 {
++    font-size: 1.5rem;
++  }
++
++  .room-code-display {
++    flex-wrap: wrap;
++    justify-content: center;
++    gap: 8px;
++    padding: 14px 16px;
++  }
++
++  .code-label {
++    width: 100%;
++    text-align: center;
++  }
++
++  .code-value {
++    width: 100%;
++    text-align: center;
++    font-size: 1.6rem;
++    letter-spacing: 6px;
++  }
++
++  /* User cards */
++  .user-card {
++    padding: 14px 16px;
++    gap: 12px;
++  }
++
++  .user-avatar {
++    width: 38px;
++    height: 38px;
++  }
++
++  /* Book upload zone */
++  .upload-zone {
++    padding: 28px 16px;
++  }
++
++  .upload-icon {
++    width: 48px;
++    height: 48px;
++    margin-bottom: 12px;
++  }
++
++  .upload-zone h3 {
++    font-size: 1rem;
++  }
++
++  /* Book info card */
+   .book-info-card {
+     flex-direction: column;
+     text-align: center;
++    gap: 12px;
++    padding: 16px;
+   }
+ 
+   .book-actions {
+     width: 100%;
++    flex-direction: row;
+   }
+ 
+   .book-actions button {
+     flex: 1;
++    justify-content: center;
+   }
+ 
+-  .room-code-display {
+-    flex-wrap: wrap;
+-    justify-content: center;
++  /* Toast */
++  #toast-container {
++    top: auto;
++    bottom: 24px;
++    right: 16px;
++    left: 16px;
+   }
+ 
+-  .code-value {
+-    width: 100%;
++  .toast {
++    max-width: 100%;
+     text-align: center;
+-    font-size: 1.4rem;
+   }
+ }
+ 
+-@media (max-width: 400px) {
+-  .screen {
+-    padding: 24px 16px;
+-  }
+-
++/* Very small phones */
++@media (max-width: 380px) {
+   .logo-text {
+-    font-size: 1.8rem;
++    font-size: 1.7rem;
+   }
+ 
+-  .form-header h2 {
+-    font-size: 1.5rem;
++  .code-value {
++    font-size: 1.3rem;
++    letter-spacing: 4px;
+   }
+ }
+\ No newline at end of file

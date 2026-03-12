@@ -1,0 +1,505 @@
+﻿diff --git a/public/css/reader.css b/public/css/reader.css
+index 6e3b46b..d9e0253 100644
+--- a/public/css/reader.css
++++ b/public/css/reader.css
+@@ -62,19 +62,22 @@ body.sepia-theme {
+     box-sizing: border-box;
+ }
+ 
+-/* ---------- SPA Reader Screen Overrides ---------- */
+-#reader-screen {
+-    position: relative;
+-    padding: 0;
+-    flex-direction: column;
+-    justify-content: flex-start;
+-    align-items: stretch;
+-    background: var(--reader-bg);
+-    width: 100vw;
+-    height: 100vh;
++html,
++body {
++    width: 100%;
++    height: 100%;
+     overflow: hidden;
+ }
+ 
++body {
++    font-family: var(--font-sans);
++    background: var(--reader-bg);
++    color: var(--reader-text);
++    display: flex;
++    flex-direction: column;
++    -webkit-font-smoothing: antialiased;
++}
++
+ /* ---------- Reader Header ---------- */
+ .reader-header {
+     position: fixed;
+@@ -147,7 +150,6 @@ body.sepia-theme {
+ }
+ 
+ .book-title {
+-    display: block;
+     font-size: 0.85rem;
+     font-weight: 500;
+     white-space: nowrap;
+@@ -366,16 +368,14 @@ input[type="range"]::-webkit-slider-thumb {
+ 
+ /* ---------- Reader Main ---------- */
+ .reader-main {
+-    position: absolute;
+-    top: 56px;
+-    /* Below the header */
+-    bottom: 72px;
+-    /* Above the footer */
+-    left: 0;
+-    right: 0;
++    flex: 1;
++    display: flex;
++    align-items: center;
++    justify-content: center;
++    margin-top: 56px;
++    margin-bottom: 72px;
++    position: relative;
+     overflow: hidden;
+-    width: 100%;
+-    background: transparent;
+ }
+ 
+ #epub-viewer {
+@@ -417,6 +417,55 @@ input[type="range"]::-webkit-slider-thumb {
+     font-size: 0.9rem;
+ }
+ 
++/* Navigation Zones */
++.nav-zone {
++    position: absolute;
++    top: 0;
++    bottom: 0;
++    width: 80px;
++    display: flex;
++    align-items: center;
++    justify-content: center;
++    cursor: pointer;
++    z-index: 5;
++    opacity: 0;
++    transition: opacity var(--transition-fast);
++}
++
++.nav-zone:hover {
++    opacity: 1;
++}
++
++.nav-zone-prev {
++    left: 0;
++}
++
++.nav-zone-next {
++    right: 0;
++}
++
++.nav-arrow {
++    width: 40px;
++    height: 40px;
++    border-radius: 50%;
++    background: rgba(124, 106, 255, 0.15);
++    backdrop-filter: blur(8px);
++    display: flex;
++    align-items: center;
++    justify-content: center;
++    color: var(--accent-light);
++    transition: all var(--transition-fast);
++}
++
++.nav-zone:hover .nav-arrow {
++    background: rgba(124, 106, 255, 0.3);
++    transform: scale(1.1);
++}
++
++.nav-arrow svg {
++    width: 20px;
++    height: 20px;
++}
+ 
+ /* ---------- Reader Footer ---------- */
+ .reader-footer {
+@@ -1033,126 +1082,6 @@ input[type="range"]::-webkit-slider-thumb {
+     }
+ }
+ 
+-/* ---------- Video Call Widget ---------- */
+-.video-widget {
+-    position: fixed;
+-    bottom: 84px;
+-    right: 20px;
+-    width: 280px;
+-    background: var(--reader-header-bg);
+-    backdrop-filter: blur(20px);
+-    border: 1px solid var(--border-medium);
+-    border-radius: var(--radius-md);
+-    box-shadow: var(--shadow-lg);
+-    z-index: 150;
+-    display: flex;
+-    flex-direction: column;
+-    overflow: hidden;
+-    animation: dropdownIn 0.3s ease;
+-    cursor: move;
+-}
+-
+-.video-header {
+-    display: flex;
+-    align-items: center;
+-    justify-content: space-between;
+-    padding: 8px 12px;
+-    background: rgba(0, 0, 0, 0.05);
+-    border-bottom: 1px solid var(--border-subtle);
+-    font-size: 0.8rem;
+-    font-weight: 600;
+-}
+-
+-.video-header .icon-btn.sm {
+-    width: 24px;
+-    height: 24px;
+-    color: var(--error);
+-    background: rgba(255, 0, 0, 0.1);
+-}
+-
+-.video-header .icon-btn.sm:hover {
+-    background: rgba(255, 0, 0, 0.2);
+-}
+-
+-.video-streams {
+-    position: relative;
+-    width: 100%;
+-    aspect-ratio: 4/3;
+-    background: #000;
+-    display: flex;
+-    align-items: center;
+-    justify-content: center;
+-}
+-
+-#remote-video {
+-    width: 100%;
+-    height: 100%;
+-    object-fit: cover;
+-}
+-
+-#local-video {
+-    position: absolute;
+-    bottom: 10px;
+-    right: 10px;
+-    width: 80px;
+-    height: 106px;
+-    object-fit: cover;
+-    border-radius: var(--radius-sm);
+-    border: 2px solid rgba(255, 255, 255, 0.5);
+-    background: #111;
+-    z-index: 2;
+-    transform: scaleX(-1);
+-    /* Mirror local video */
+-}
+-
+-.video-overlay {
+-    position: absolute;
+-    inset: 0;
+-    background: rgba(0, 0, 0, 0.7);
+-    color: white;
+-    display: flex;
+-    flex-direction: column;
+-    align-items: center;
+-    justify-content: center;
+-    gap: 12px;
+-    z-index: 3;
+-    font-size: 0.85rem;
+-}
+-
+-.video-controls {
+-    display: flex;
+-    align-items: center;
+-    justify-content: center;
+-    gap: 12px;
+-    padding: 12px;
+-    background: rgba(0, 0, 0, 0.05);
+-    border-top: 1px solid var(--border-subtle);
+-}
+-
+-.video-control-btn {
+-    width: 36px;
+-    height: 36px;
+-    border-radius: 50%;
+-    border: none;
+-    background: rgba(0, 0, 0, 0.1);
+-    color: var(--reader-text);
+-    display: flex;
+-    align-items: center;
+-    justify-content: center;
+-    cursor: pointer;
+-    transition: all 0.2s;
+-}
+-
+-.video-control-btn:hover {
+-    background: rgba(0, 0, 0, 0.2);
+-}
+-
+-.video-control-btn.muted,
+-.video-control-btn.disabled {
+-    background: rgba(255, 0, 0, 0.1);
+-    color: var(--error);
+-}
+-
+ /* ---------- Disconnect Overlay ---------- */
+ .disconnect-overlay {
+     position: fixed;
+@@ -1251,223 +1180,80 @@ input[type="range"]::-webkit-slider-thumb {
+     }
+ }
+ 
+-/* ============================================
+-   RESPONSIVE - Tablet (641pxΓÇô1024px)
+-   ============================================ */
+-@media (min-width: 641px) and (max-width: 1024px) {
+-    .reader-header {
+-        height: 52px;
+-        padding: 0 12px;
+-    }
+-
+-    .reader-main {
+-        margin-top: 52px;
+-        margin-bottom: 70px;
+-    }
+-
+-    #epub-viewer {
+-        padding: 24px 40px;
+-    }
+-
+-    .reader-footer {
+-        height: 70px;
+-        padding: 0 16px;
+-    }
+-
+-    .chat-sidebar,
+-    .notes-sidebar {
+-        width: 320px;
+-    }
+-
+-    .chat-sidebar {
+-        right: -320px;
+-    }
+-
+-    .notes-sidebar {
+-        left: -320px;
+-    }
+-
+-    .progress-bar-container {
+-        width: 100px;
+-    }
+-
+-    .video-widget {
+-        width: 240px;
+-    }
+-}
+-
+-/* ============================================
+-   RESPONSIVE - Mobile (Γëñ640px)
+-   ============================================ */
+-@media (max-width: 640px) {
+-
+-    /* --- Header --- */
++/* ---------- Responsive ---------- */
++@media (max-width: 768px) {
+     .reader-header {
+         height: 50px;
+-        padding: 0 6px;
+-        gap: 2px;
+-    }
+-
+-    .icon-btn {
+-        width: 36px;
+-        height: 36px;
+-    }
+-
+-    .icon-btn svg {
+-        width: 18px;
+-        height: 18px;
+-    }
+-
+-    /* Hide book title on very small screens ΓÇö saves space */
+-    .book-title {
+-        display: none;
++        padding: 0 8px;
+     }
+ 
+-    /* Shrink sync indicator to icon-only */
+     .sync-indicator {
+-        padding: 4px 8px;
+-        gap: 6px;
++        padding: 4px 10px;
+     }
+ 
+     .sync-text {
+         display: none;
+     }
+ 
+-    /* --- EPUB viewer area --- */
+     .reader-main {
+         margin-top: 50px;
+-        margin-bottom: 64px;
++        margin-bottom: 68px;
+     }
+ 
+     #epub-viewer {
+-        padding: 12px 12px;
++        padding: 16px 20px;
+     }
+ 
+-    /* Tap-targets for page nav ΓÇö make wider so thumbs can reach */
+     .nav-zone {
+-        width: 52px;
+-    }
+-
+-    .nav-arrow {
+-        width: 36px;
+-        height: 36px;
++        width: 50px;
+     }
+ 
+-    /* --- Footer --- */
+     .reader-footer {
+-        height: 64px;
+-        padding: 0 8px;
+-    }
+-
+-    /* Hide progress bar on tiny screens */
+-    .footer-left {
+-        display: none;
++        height: 68px;
++        padding: 0 12px;
+     }
+ 
+-    .footer-right {
+-        flex: 0;
++    .progress-bar-container {
++        width: 80px;
+     }
+ 
+     .page-info {
+-        font-size: 0.68rem;
+-    }
+-
+-    .sync-control {
+-        gap: 10px;
+-    }
+-
+-    .sync-btn {
+-        width: 40px;
+-        height: 40px;
+-    }
+-
+-    .sync-progress-ring,
+-    .sync-progress-ring svg {
+-        width: 44px;
+-        height: 44px;
++        font-size: 0.7rem;
+     }
+ 
+-    /* --- Chat & Notes sidebars ΓÇö full-width drawers --- */
+     .chat-sidebar {
+         width: 100%;
+         right: -100%;
+     }
+ 
+-    .notes-sidebar {
+-        width: 100%;
+-        left: -100%;
+-    }
+-
+-    .chat-sidebar.open {
+-        right: 0;
+-    }
+-
+-    .notes-sidebar.open {
+-        left: 0;
+-    }
+-
+-    /* --- Font settings menu --- */
+     .font-menu {
+-        right: 6px;
+-        left: 6px;
+-        width: auto;
+-    }
+-
+-    /* --- Video widget ΓÇö move to bottom-left, make smaller --- */
+-    .video-widget {
+-        bottom: 70px;
+-        right: auto;
+-        left: 12px;
+-        width: calc(100vw - 24px);
+-        max-width: 300px;
+-    }
+-
+-    /* --- Highlight tooltip ΓÇö slightly taller tap target --- */
+-    #highlight-tooltip {
+-        font-size: 12px;
+-        padding: 9px 14px;
++        right: 8px;
++        width: 240px;
+     }
++}
+ 
+-    /* --- Notes sidebar compose area --- */
+-    .notes-compose-area {
+-        padding: 12px;
++@media (max-width: 480px) {
++    .sync-btn {
++        width: 38px;
++        height: 38px;
+     }
+ 
+-    .notes-input {
+-        font-size: 0.9rem;
++    .sync-progress-ring {
++        width: 42px;
++        height: 42px;
+     }
+ 
+-    /* --- Disconnect overlay --- */
+-    .disconnect-card {
+-        padding: 24px 20px;
+-        margin: 16px;
++    .sync-progress-ring svg {
++        width: 42px;
++        height: 42px;
+     }
+-}
+ 
+-/* ============================================
+-   iPhone safe-area (notch + home indicator)
+-   ============================================ */
+-@supports (padding-top: env(safe-area-inset-top)) {
+-    .reader-header {
+-        padding-top: env(safe-area-inset-top);
+-        /* Stretch the fixed header to cover the notch */
+-        height: calc(56px + env(safe-area-inset-top));
++    .footer-left {
++        display: none;
+     }
+ 
+-    @media (max-width: 640px) {
+-        .reader-header {
+-            height: calc(50px + env(safe-area-inset-top));
+-        }
+-
+-        .reader-main {
+-            margin-top: calc(50px + env(safe-area-inset-top));
+-            margin-bottom: calc(64px + env(safe-area-inset-bottom));
+-        }
+-
+-        .reader-footer {
+-            padding-bottom: env(safe-area-inset-bottom);
+-            height: calc(64px + env(safe-area-inset-bottom));
+-        }
++    .sync-control {
++        gap: 10px;
+     }
+ }
+ 

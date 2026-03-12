@@ -1,0 +1,2554 @@
+﻿commit 515e6a40a716a4d3b158c8d3bbb60b0c23edd568
+Author: Nirmal <nirmal.sudish@gmail.com>
+Date:   Tue Mar 10 06:43:37 2026 -0700
+
+    Full mobile & tablet responsive optimisation
+
+diff --git a/public/css/reader.css b/public/css/reader.css
+index a7ae5b2..e7d34ac 100644
+--- a/public/css/reader.css
++++ b/public/css/reader.css
+@@ -1300,80 +1300,223 @@ input[type="range"]::-webkit-slider-thumb {
+     }
+ }
+ 
+-/* ---------- Responsive ---------- */
+-@media (max-width: 768px) {
++/* ============================================
++   RESPONSIVE - Tablet (641pxΓÇô1024px)
++   ============================================ */
++@media (min-width: 641px) and (max-width: 1024px) {
++    .reader-header {
++        height: 52px;
++        padding: 0 12px;
++    }
++
++    .reader-main {
++        margin-top: 52px;
++        margin-bottom: 70px;
++    }
++
++    #epub-viewer {
++        padding: 24px 40px;
++    }
++
++    .reader-footer {
++        height: 70px;
++        padding: 0 16px;
++    }
++
++    .chat-sidebar,
++    .notes-sidebar {
++        width: 320px;
++    }
++
++    .chat-sidebar {
++        right: -320px;
++    }
++
++    .notes-sidebar {
++        left: -320px;
++    }
++
++    .progress-bar-container {
++        width: 100px;
++    }
++
++    .video-widget {
++        width: 240px;
++    }
++}
++
++/* ============================================
++   RESPONSIVE - Mobile (Γëñ640px)
++   ============================================ */
++@media (max-width: 640px) {
++
++    /* --- Header --- */
+     .reader-header {
+         height: 50px;
+-        padding: 0 8px;
++        padding: 0 6px;
++        gap: 2px;
++    }
++
++    .icon-btn {
++        width: 36px;
++        height: 36px;
++    }
++
++    .icon-btn svg {
++        width: 18px;
++        height: 18px;
+     }
+ 
++    /* Hide book title on very small screens ΓÇö saves space */
++    .book-title {
++        display: none;
++    }
++
++    /* Shrink sync indicator to icon-only */
+     .sync-indicator {
+-        padding: 4px 10px;
++        padding: 4px 8px;
++        gap: 6px;
+     }
+ 
+     .sync-text {
+         display: none;
+     }
+ 
++    /* --- EPUB viewer area --- */
+     .reader-main {
+         margin-top: 50px;
+-        margin-bottom: 68px;
++        margin-bottom: 64px;
+     }
+ 
+     #epub-viewer {
+-        padding: 16px 20px;
++        padding: 12px 12px;
+     }
+ 
++    /* Tap-targets for page nav ΓÇö make wider so thumbs can reach */
+     .nav-zone {
+-        width: 50px;
++        width: 52px;
++    }
++
++    .nav-arrow {
++        width: 36px;
++        height: 36px;
+     }
+ 
++    /* --- Footer --- */
+     .reader-footer {
+-        height: 68px;
+-        padding: 0 12px;
++        height: 64px;
++        padding: 0 8px;
+     }
+ 
+-    .progress-bar-container {
+-        width: 80px;
++    /* Hide progress bar on tiny screens */
++    .footer-left {
++        display: none;
++    }
++
++    .footer-right {
++        flex: 0;
+     }
+ 
+     .page-info {
+-        font-size: 0.7rem;
++        font-size: 0.68rem;
++    }
++
++    .sync-control {
++        gap: 10px;
+     }
+ 
++    .sync-btn {
++        width: 40px;
++        height: 40px;
++    }
++
++    .sync-progress-ring,
++    .sync-progress-ring svg {
++        width: 44px;
++        height: 44px;
++    }
++
++    /* --- Chat & Notes sidebars ΓÇö full-width drawers --- */
+     .chat-sidebar {
+         width: 100%;
+         right: -100%;
+     }
+ 
++    .notes-sidebar {
++        width: 100%;
++        left: -100%;
++    }
++
++    .chat-sidebar.open {
++        right: 0;
++    }
++
++    .notes-sidebar.open {
++        left: 0;
++    }
++
++    /* --- Font settings menu --- */
+     .font-menu {
+-        right: 8px;
+-        width: 240px;
++        right: 6px;
++        left: 6px;
++        width: auto;
+     }
+-}
+ 
+-@media (max-width: 480px) {
+-    .sync-btn {
+-        width: 38px;
+-        height: 38px;
++    /* --- Video widget ΓÇö move to bottom-left, make smaller --- */
++    .video-widget {
++        bottom: 70px;
++        right: auto;
++        left: 12px;
++        width: calc(100vw - 24px);
++        max-width: 300px;
+     }
+ 
+-    .sync-progress-ring {
+-        width: 42px;
+-        height: 42px;
++    /* --- Highlight tooltip ΓÇö slightly taller tap target --- */
++    #highlight-tooltip {
++        font-size: 12px;
++        padding: 9px 14px;
+     }
+ 
+-    .sync-progress-ring svg {
+-        width: 42px;
+-        height: 42px;
++    /* --- Notes sidebar compose area --- */
++    .notes-compose-area {
++        padding: 12px;
+     }
+ 
+-    .footer-left {
+-        display: none;
++    .notes-input {
++        font-size: 0.9rem;
+     }
+ 
+-    .sync-control {
+-        gap: 10px;
++    /* --- Disconnect overlay --- */
++    .disconnect-card {
++        padding: 24px 20px;
++        margin: 16px;
++    }
++}
++
++/* ============================================
++   iPhone safe-area (notch + home indicator)
++   ============================================ */
++@supports (padding-top: env(safe-area-inset-top)) {
++    .reader-header {
++        padding-top: env(safe-area-inset-top);
++        /* Stretch the fixed header to cover the notch */
++        height: calc(56px + env(safe-area-inset-top));
++    }
++
++    @media (max-width: 640px) {
++        .reader-header {
++            height: calc(50px + env(safe-area-inset-top));
++        }
++
++        .reader-main {
++            margin-top: calc(50px + env(safe-area-inset-top));
++            margin-bottom: calc(64px + env(safe-area-inset-bottom));
++        }
++
++        .reader-footer {
++            padding-bottom: env(safe-area-inset-bottom);
++            height: calc(64px + env(safe-area-inset-bottom));
++        }
+     }
+ }
+ 
+
+commit 1ad7bbcbee40188c086625c593e46f6b20761f27
+Author: Nirmal <nirmal.sudish@gmail.com>
+Date:   Tue Mar 10 05:48:36 2026 -0700
+
+    Initial commit for Read Together
+
+diff --git a/public/css/reader.css b/public/css/reader.css
+new file mode 100644
+index 0000000..d9e0253
+--- /dev/null
++++ b/public/css/reader.css
+@@ -0,0 +1,1263 @@
++/* ============================================
++   READ TOGETHER - Reader Styles
++   ============================================ */
++
++:root {
++    --reader-bg: #ffffff;
++    --reader-text: #000000;
++    --reader-header-bg: rgba(255, 255, 255, 0.95);
++    --reader-footer-bg: rgba(255, 255, 255, 0.95);
++    --accent: #000000;
++    --accent-light: #333333;
++    --accent-dark: #000000;
++    --accent-glow: rgba(0, 0, 0, 0.1);
++    --success: #000000;
++    --warning: #4a4a4a;
++    --error: #ff0000;
++    --text-secondary: #4a4a4a;
++    --text-muted: #888888;
++    --border-subtle: #eaeaea;
++    --border-medium: #cccccc;
++    --radius-sm: 8px;
++    --radius-md: 12px;
++    --radius-lg: 16px;
++    --radius-full: 9999px;
++    --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.08);
++    --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.1);
++    --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
++    --transition-fast: 150ms ease;
++    --transition-base: 250ms ease;
++}
++
++/* Light theme */
++body.light-theme {
++    --reader-bg: #faf8f5;
++    --reader-text: #2a2a35;
++    --reader-header-bg: rgba(250, 248, 245, 0.92);
++    --reader-footer-bg: rgba(250, 248, 245, 0.92);
++    --text-secondary: #666;
++    --text-muted: #999;
++    --border-subtle: rgba(0, 0, 0, 0.06);
++    --border-medium: rgba(0, 0, 0, 0.1);
++}
++
++/* Sepia theme */
++body.sepia-theme {
++    --reader-bg: #f4ecd8;
++    --reader-text: #3a3020;
++    --reader-header-bg: rgba(244, 236, 216, 0.92);
++    --reader-footer-bg: rgba(244, 236, 216, 0.92);
++    --text-secondary: #6a5f4a;
++    --text-muted: #8a8070;
++    --border-subtle: rgba(0, 0, 0, 0.06);
++    --border-medium: rgba(0, 0, 0, 0.1);
++}
++
++/* ---------- Reset ---------- */
++*,
++*::before,
++*::after {
++    margin: 0;
++    padding: 0;
++    box-sizing: border-box;
++}
++
++html,
++body {
++    width: 100%;
++    height: 100%;
++    overflow: hidden;
++}
++
++body {
++    font-family: var(--font-sans);
++    background: var(--reader-bg);
++    color: var(--reader-text);
++    display: flex;
++    flex-direction: column;
++    -webkit-font-smoothing: antialiased;
++}
++
++/* ---------- Reader Header ---------- */
++.reader-header {
++    position: fixed;
++    top: 0;
++    left: 0;
++    right: 0;
++    height: 56px;
++    background: var(--reader-header-bg);
++    backdrop-filter: blur(16px);
++    -webkit-backdrop-filter: blur(16px);
++    border-bottom: 1px solid var(--border-subtle);
++    display: flex;
++    align-items: center;
++    justify-content: space-between;
++    padding: 0 16px;
++    z-index: 100;
++    transition: background var(--transition-base);
++}
++
++.header-left,
++.header-right {
++    display: flex;
++    align-items: center;
++    gap: 8px;
++}
++
++.header-left {
++    flex: 1;
++    min-width: 0;
++}
++
++.header-center {
++    flex-shrink: 0;
++}
++
++.header-right {
++    flex: 1;
++    justify-content: flex-end;
++}
++
++.icon-btn {
++    width: 40px;
++    height: 40px;
++    border-radius: var(--radius-sm);
++    background: none;
++    border: none;
++    color: var(--reader-text);
++    display: flex;
++    align-items: center;
++    justify-content: center;
++    cursor: pointer;
++    transition: all var(--transition-fast);
++    position: relative;
++    flex-shrink: 0;
++}
++
++.icon-btn:hover {
++    background: rgba(124, 106, 255, 0.1);
++    color: var(--accent-light);
++}
++
++.icon-btn svg {
++    width: 20px;
++    height: 20px;
++}
++
++.book-title-bar {
++    min-width: 0;
++    flex: 1;
++}
++
++.book-title {
++    font-size: 0.85rem;
++    font-weight: 500;
++    white-space: nowrap;
++    overflow: hidden;
++    text-overflow: ellipsis;
++    color: var(--text-secondary);
++}
++
++/* Sync Indicator */
++.sync-indicator {
++    display: flex;
++    align-items: center;
++    gap: 10px;
++    background: rgba(124, 106, 255, 0.08);
++    border: 1px solid rgba(124, 106, 255, 0.15);
++    border-radius: var(--radius-full);
++    padding: 6px 14px;
++}
++
++.sync-avatars {
++    display: flex;
++    align-items: center;
++}
++
++.sync-avatar {
++    width: 26px;
++    height: 26px;
++    border-radius: 50%;
++    display: flex;
++    align-items: center;
++    justify-content: center;
++    border: 2px solid var(--reader-bg);
++}
++
++.sync-avatar svg {
++    width: 14px;
++    height: 14px;
++}
++
++.sync-avatar:nth-child(2) {
++    margin-left: -8px;
++}
++
++.host-sync {
++    background: var(--text-primary);
++    color: var(--bg-primary);
++}
++
++.guest-sync {
++    background: var(--bg-card-hover);
++    color: var(--text-secondary);
++}
++
++.guest-sync.connected {
++    background: var(--text-primary);
++    color: var(--bg-primary);
++}
++
++.sync-text {
++    font-size: 0.75rem;
++    font-weight: 500;
++    color: var(--text-secondary);
++    white-space: nowrap;
++}
++
++/* Chat Badge */
++.chat-badge {
++    position: absolute;
++    top: 4px;
++    right: 4px;
++    width: 18px;
++    height: 18px;
++    background: var(--error);
++    color: white;
++    font-size: 0.6rem;
++    font-weight: 700;
++    border-radius: 50%;
++    display: flex;
++    align-items: center;
++    justify-content: center;
++    animation: badgePop 0.3s ease;
++}
++
++@keyframes badgePop {
++    0% {
++        transform: scale(0);
++    }
++
++    50% {
++        transform: scale(1.3);
++    }
++
++    100% {
++        transform: scale(1);
++    }
++}
++
++/* ---------- Font Menu ---------- */
++.font-menu {
++    position: fixed;
++    top: 60px;
++    right: 60px;
++    width: 260px;
++    background: var(--reader-header-bg);
++    backdrop-filter: blur(20px);
++    -webkit-backdrop-filter: blur(20px);
++    border: 1px solid var(--border-medium);
++    border-radius: var(--radius-md);
++    padding: 16px;
++    z-index: 200;
++    box-shadow: var(--shadow-lg);
++    animation: dropdownIn 0.2s ease;
++}
++
++@keyframes dropdownIn {
++    from {
++        opacity: 0;
++        transform: translateY(-8px);
++    }
++
++    to {
++        opacity: 1;
++        transform: translateY(0);
++    }
++}
++
++.font-menu-header {
++    font-size: 0.7rem;
++    text-transform: uppercase;
++    letter-spacing: 0.1em;
++    color: var(--text-muted);
++    font-weight: 600;
++    margin-bottom: 10px;
++}
++
++.font-slider-row {
++    display: flex;
++    align-items: center;
++    gap: 12px;
++}
++
++.font-adj-btn {
++    background: rgba(124, 106, 255, 0.1);
++    border: 1px solid rgba(124, 106, 255, 0.15);
++    color: var(--accent-light);
++    width: 32px;
++    height: 32px;
++    border-radius: var(--radius-sm);
++    font-family: var(--font-sans);
++    font-size: 0.8rem;
++    font-weight: 600;
++    cursor: pointer;
++    display: flex;
++    align-items: center;
++    justify-content: center;
++    transition: all var(--transition-fast);
++    flex-shrink: 0;
++}
++
++.font-adj-btn.large {
++    font-size: 1rem;
++}
++
++.font-adj-btn:hover {
++    background: rgba(124, 106, 255, 0.2);
++}
++
++input[type="range"] {
++    flex: 1;
++    height: 4px;
++    -webkit-appearance: none;
++    appearance: none;
++    background: rgba(255, 255, 255, 0.1);
++    border-radius: 2px;
++    outline: none;
++}
++
++input[type="range"]::-webkit-slider-thumb {
++    -webkit-appearance: none;
++    width: 16px;
++    height: 16px;
++    border-radius: 50%;
++    background: var(--accent);
++    cursor: pointer;
++    box-shadow: 0 0 8px var(--accent-glow);
++}
++
++.font-family-options {
++    display: flex;
++    gap: 6px;
++}
++
++.font-family-btn {
++    flex: 1;
++    padding: 8px;
++    background: rgba(255, 255, 255, 0.04);
++    border: 1px solid var(--border-subtle);
++    border-radius: var(--radius-sm);
++    color: var(--reader-text);
++    font-size: 0.8rem;
++    font-weight: 500;
++    cursor: pointer;
++    transition: all var(--transition-fast);
++    font-family: var(--font-sans);
++}
++
++.font-family-btn.active {
++    background: rgba(124, 106, 255, 0.15);
++    border-color: var(--accent);
++    color: var(--accent-light);
++}
++
++.font-family-btn:hover:not(.active) {
++    background: rgba(255, 255, 255, 0.08);
++}
++
++/* ---------- Reader Main ---------- */
++.reader-main {
++    flex: 1;
++    display: flex;
++    align-items: center;
++    justify-content: center;
++    margin-top: 56px;
++    margin-bottom: 72px;
++    position: relative;
++    overflow: hidden;
++}
++
++#epub-viewer {
++    width: 100%;
++    height: 100%;
++    max-width: 800px;
++    margin: 0 auto;
++    padding: 32px 60px;
++}
++
++.reader-loading {
++    position: absolute;
++    inset: 0;
++    display: flex;
++    flex-direction: column;
++    align-items: center;
++    justify-content: center;
++    gap: 16px;
++    z-index: 10;
++}
++
++.loading-spinner {
++    width: 40px;
++    height: 40px;
++    border: 3px solid rgba(124, 106, 255, 0.2);
++    border-top-color: var(--accent);
++    border-radius: 50%;
++    animation: spin 0.8s linear infinite;
++}
++
++@keyframes spin {
++    to {
++        transform: rotate(360deg);
++    }
++}
++
++.reader-loading p {
++    color: var(--text-secondary);
++    font-size: 0.9rem;
++}
++
++/* Navigation Zones */
++.nav-zone {
++    position: absolute;
++    top: 0;
++    bottom: 0;
++    width: 80px;
++    display: flex;
++    align-items: center;
++    justify-content: center;
++    cursor: pointer;
++    z-index: 5;
++    opacity: 0;
++    transition: opacity var(--transition-fast);
++}
++
++.nav-zone:hover {
++    opacity: 1;
++}
++
++.nav-zone-prev {
++    left: 0;
++}
++
++.nav-zone-next {
++    right: 0;
++}
++
++.nav-arrow {
++    width: 40px;
++    height: 40px;
++    border-radius: 50%;
++    background: rgba(124, 106, 255, 0.15);
++    backdrop-filter: blur(8px);
++    display: flex;
++    align-items: center;
++    justify-content: center;
++    color: var(--accent-light);
++    transition: all var(--transition-fast);
++}
++
++.nav-zone:hover .nav-arrow {
++    background: rgba(124, 106, 255, 0.3);
++    transform: scale(1.1);
++}
++
++.nav-arrow svg {
++    width: 20px;
++    height: 20px;
++}
++
++/* ---------- Reader Footer ---------- */
++.reader-footer {
++    position: fixed;
++    bottom: 0;
++    left: 0;
++    right: 0;
++    height: 72px;
++    background: var(--reader-footer-bg);
++    backdrop-filter: blur(16px);
++    -webkit-backdrop-filter: blur(16px);
++    border-top: 1px solid var(--border-subtle);
++    display: flex;
++    align-items: center;
++    padding: 0 20px;
++    z-index: 100;
++    transition: background var(--transition-base);
++}
++
++.footer-left {
++    flex: 1;
++}
++
++.footer-center {
++    flex-shrink: 0;
++}
++
++.footer-right {
++    flex: 1;
++    display: flex;
++    justify-content: flex-end;
++    align-items: center;
++}
++
++.page-info {
++    font-size: 0.8rem;
++    color: var(--text-muted);
++    font-weight: 500;
++}
++
++.sync-control {
++    display: flex;
++    align-items: center;
++    gap: 16px;
++}
++
++.sync-btn {
++    width: 44px;
++    height: 44px;
++    border-radius: 50%;
++    background: rgba(124, 106, 255, 0.1);
++    border: 1px solid rgba(124, 106, 255, 0.15);
++    color: var(--accent-light);
++    display: flex;
++    align-items: center;
++    justify-content: center;
++    cursor: pointer;
++    transition: all var(--transition-fast);
++}
++
++.sync-btn:hover {
++    background: rgba(124, 106, 255, 0.2);
++    transform: scale(1.05);
++}
++
++.sync-btn:active {
++    transform: scale(0.95);
++}
++
++.sync-btn svg {
++    width: 20px;
++    height: 20px;
++}
++
++.sync-btn.ready {
++    background: rgba(74, 222, 128, 0.15);
++    border-color: rgba(74, 222, 128, 0.3);
++    color: var(--success);
++}
++
++.sync-status {
++    display: flex;
++    flex-direction: column;
++    align-items: center;
++    gap: 4px;
++}
++
++.sync-progress-ring {
++    position: relative;
++    width: 48px;
++    height: 48px;
++}
++
++.sync-progress-ring svg {
++    transform: rotate(-90deg);
++    width: 48px;
++    height: 48px;
++}
++
++.ring-bg {
++    fill: none;
++    stroke: rgba(255, 255, 255, 0.06);
++    stroke-width: 3;
++}
++
++.ring-fill {
++    fill: none;
++    stroke: var(--accent);
++    stroke-width: 3;
++    stroke-linecap: round;
++    stroke-dasharray: 125.66;
++    stroke-dashoffset: 125.66;
++    transition: stroke-dashoffset 0.5s cubic-bezier(0.16, 1, 0.3, 1);
++}
++
++.ring-fill.complete {
++    stroke: var(--success);
++}
++
++.sync-count {
++    position: absolute;
++    inset: 0;
++    display: flex;
++    align-items: center;
++    justify-content: center;
++    font-size: 0.75rem;
++    font-weight: 700;
++    color: var(--accent-light);
++}
++
++.sync-label {
++    font-size: 0.7rem;
++    color: var(--text-muted);
++    white-space: nowrap;
++    font-weight: 500;
++}
++
++/* Progress Bar */
++.progress-bar-container {
++    width: 120px;
++}
++
++.reading-progress-bar {
++    width: 100%;
++    height: 4px;
++    background: rgba(255, 255, 255, 0.06);
++    border-radius: 2px;
++    overflow: hidden;
++}
++
++.reading-progress-fill {
++    height: 100%;
++    background: var(--text-primary);
++    border-radius: 2px;
++    width: 0%;
++    transition: width 0.5s ease;
++}
++
++/* ---------- Chat Sidebar ---------- */
++.chat-sidebar {
++    position: fixed;
++    top: 0;
++    right: -360px;
++    width: 360px;
++    height: 100%;
++    background: var(--reader-header-bg);
++    backdrop-filter: blur(20px);
++    -webkit-backdrop-filter: blur(20px);
++    border-left: 1px solid var(--border-subtle);
++    display: flex;
++    flex-direction: column;
++    z-index: 300;
++    transition: right 0.35s cubic-bezier(0.16, 1, 0.3, 1);
++    box-shadow: -8px 0 32px rgba(0, 0, 0, 0.3);
++}
++
++.chat-sidebar.open {
++    right: 0;
++}
++
++.chat-header {
++    display: flex;
++    align-items: center;
++    justify-content: space-between;
++    padding: 16px 20px;
++    border-bottom: 1px solid var(--border-subtle);
++}
++
++.chat-header h3 {
++    font-size: 1rem;
++    font-weight: 600;
++}
++
++.chat-messages {
++    flex: 1;
++    overflow-y: auto;
++    padding: 16px;
++    display: flex;
++    flex-direction: column;
++    gap: 12px;
++}
++
++.chat-messages::-webkit-scrollbar {
++    width: 4px;
++}
++
++.chat-messages::-webkit-scrollbar-thumb {
++    background: rgba(255, 255, 255, 0.1);
++    border-radius: 2px;
++}
++
++.chat-empty {
++    display: flex;
++    align-items: center;
++    justify-content: center;
++    height: 100%;
++}
++
++.chat-empty p {
++    color: var(--text-muted);
++    font-size: 0.9rem;
++}
++
++.chat-msg {
++    display: flex;
++    flex-direction: column;
++    animation: msgIn 0.3s ease;
++}
++
++@keyframes msgIn {
++    from {
++        opacity: 0;
++        transform: translateY(8px);
++    }
++
++    to {
++        opacity: 1;
++        transform: translateY(0);
++    }
++}
++
++.chat-msg.own {
++    align-items: flex-end;
++}
++
++.chat-msg-sender {
++    font-size: 0.7rem;
++    color: var(--text-muted);
++    margin-bottom: 4px;
++    font-weight: 500;
++}
++
++.chat-msg-bubble {
++    max-width: 85%;
++    padding: 10px 14px;
++    border-radius: 14px;
++    font-size: 0.85rem;
++    line-height: 1.5;
++    word-break: break-word;
++}
++
++.chat-msg:not(.own) .chat-msg-bubble {
++    background: rgba(255, 255, 255, 0.06);
++    border-bottom-left-radius: 4px;
++}
++
++.chat-msg.own .chat-msg-bubble {
++    background: var(--text-primary);
++    color: var(--bg-primary);
++    border-bottom-right-radius: 4px;
++}
++
++.chat-msg-time {
++    font-size: 0.6rem;
++    color: var(--text-muted);
++    margin-top: 4px;
++}
++
++.chat-input-area {
++    display: flex;
++    gap: 8px;
++    padding: 16px;
++    border-top: 1px solid var(--border-subtle);
++}
++
++.chat-input-area input {
++    flex: 1;
++    padding: 12px 16px;
++    background: rgba(255, 255, 255, 0.06);
++    border: 1px solid var(--border-subtle);
++    border-radius: var(--radius-full);
++    color: var(--reader-text);
++    font-family: var(--font-sans);
++    font-size: 0.85rem;
++    outline: none;
++    transition: border-color var(--transition-fast);
++}
++
++.chat-input-area input::placeholder {
++    color: var(--text-muted);
++}
++
++.chat-input-area input:focus {
++    border-color: var(--accent);
++}
++
++.send-btn {
++    width: 44px;
++    height: 44px;
++    border-radius: 50%;
++    background: var(--text-primary);
++    border: none;
++    color: var(--bg-primary);
++    display: flex;
++    align-items: center;
++    justify-content: center;
++    cursor: pointer;
++    transition: all var(--transition-fast);
++    flex-shrink: 0;
++}
++
++.send-btn:hover {
++    transform: scale(1.05);
++    box-shadow: 0 0 20px var(--accent-glow);
++}
++
++.send-btn svg {
++    width: 18px;
++    height: 18px;
++}
++
++/* ---------- Notes Sidebar ---------- */
++.notes-sidebar {
++    position: fixed;
++    top: 0;
++    left: -380px;
++    width: 380px;
++    height: 100%;
++    background: var(--reader-header-bg);
++    backdrop-filter: blur(20px);
++    -webkit-backdrop-filter: blur(20px);
++    border-right: 1px solid var(--border-subtle);
++    display: flex;
++    flex-direction: column;
++    z-index: 300;
++    transition: left 0.35s cubic-bezier(0.16, 1, 0.3, 1);
++    box-shadow: 8px 0 32px rgba(0, 0, 0, 0.15);
++}
++
++.notes-sidebar.open {
++    left: 0;
++}
++
++.notes-header {
++    display: flex;
++    align-items: center;
++    justify-content: space-between;
++    padding: 16px 20px;
++    border-bottom: 1px solid var(--border-subtle);
++    flex-shrink: 0;
++}
++
++.notes-header-left {
++    display: flex;
++    align-items: center;
++    gap: 10px;
++    color: var(--reader-text);
++}
++
++.notes-header-left svg {
++    opacity: 0.7;
++}
++
++.notes-header h3 {
++    font-size: 1rem;
++    font-weight: 600;
++}
++
++/* Compose Area */
++.notes-compose {
++    padding: 16px;
++    border-bottom: 1px solid var(--border-subtle);
++    flex-shrink: 0;
++}
++
++#notes-input {
++    width: 100%;
++    min-height: 110px;
++    max-height: 200px;
++    background: rgba(255, 255, 255, 0.04);
++    border: 1px solid var(--border-subtle);
++    border-radius: var(--radius-md);
++    color: var(--reader-text);
++    font-family: var(--font-sans);
++    font-size: 0.875rem;
++    line-height: 1.6;
++    padding: 12px 14px;
++    resize: vertical;
++    outline: none;
++    transition: border-color var(--transition-fast), background var(--transition-fast);
++}
++
++#notes-input::placeholder {
++    color: var(--text-muted);
++}
++
++#notes-input:focus {
++    border-color: var(--accent);
++    background: rgba(255, 255, 255, 0.06);
++}
++
++.notes-compose-footer {
++    display: flex;
++    align-items: center;
++    justify-content: space-between;
++    margin-top: 10px;
++}
++
++.notes-char-count {
++    font-size: 0.72rem;
++    color: var(--text-muted);
++    font-weight: 500;
++}
++
++.notes-save-btn {
++    padding: 8px 18px;
++    background: var(--reader-text);
++    color: var(--reader-bg);
++    border: none;
++    border-radius: var(--radius-full);
++    font-family: var(--font-sans);
++    font-size: 0.8rem;
++    font-weight: 600;
++    cursor: pointer;
++    transition: all var(--transition-fast);
++    letter-spacing: 0.02em;
++}
++
++.notes-save-btn:hover {
++    opacity: 0.85;
++    transform: scale(1.03);
++}
++
++.notes-save-btn:active {
++    transform: scale(0.97);
++}
++
++/* Notes List Header */
++.notes-list-header {
++    display: flex;
++    align-items: center;
++    justify-content: space-between;
++    padding: 12px 20px 8px;
++    font-size: 0.7rem;
++    text-transform: uppercase;
++    letter-spacing: 0.1em;
++    color: var(--text-muted);
++    font-weight: 600;
++    flex-shrink: 0;
++}
++
++.notes-count-badge {
++    background: var(--reader-text);
++    color: var(--reader-bg);
++    font-size: 0.65rem;
++    font-weight: 700;
++    padding: 2px 7px;
++    border-radius: var(--radius-full);
++    min-width: 20px;
++    text-align: center;
++}
++
++/* Notes List */
++.notes-list {
++    flex: 1;
++    overflow-y: auto;
++    padding: 8px 16px 16px;
++    display: flex;
++    flex-direction: column;
++    gap: 10px;
++}
++
++.notes-list::-webkit-scrollbar {
++    width: 4px;
++}
++
++.notes-list::-webkit-scrollbar-thumb {
++    background: rgba(255, 255, 255, 0.1);
++    border-radius: 2px;
++}
++
++/* Empty State */
++.notes-empty {
++    display: flex;
++    flex-direction: column;
++    align-items: center;
++    justify-content: center;
++    height: 100%;
++    gap: 10px;
++    color: var(--text-muted);
++    text-align: center;
++    padding: 40px 0;
++}
++
++.notes-empty svg {
++    opacity: 0.35;
++}
++
++.notes-empty p {
++    font-size: 0.9rem;
++    font-weight: 500;
++}
++
++.notes-empty-sub {
++    font-size: 0.8rem !important;
++    font-weight: 400 !important;
++    opacity: 0.7;
++}
++
++/* Individual Note Card */
++.note-card {
++    background: rgba(255, 255, 255, 0.04);
++    border: 1px solid var(--border-subtle);
++    border-radius: var(--radius-md);
++    padding: 14px;
++    animation: noteIn 0.3s ease;
++    transition: border-color var(--transition-fast), background var(--transition-fast);
++    position: relative;
++}
++
++.note-card:hover {
++    border-color: var(--border-medium);
++    background: rgba(255, 255, 255, 0.06);
++}
++
++@keyframes noteIn {
++    from {
++        opacity: 0;
++        transform: translateX(-10px);
++    }
++
++    to {
++        opacity: 1;
++        transform: translateX(0);
++    }
++}
++
++.note-card-meta {
++    display: flex;
++    align-items: center;
++    justify-content: space-between;
++    margin-bottom: 8px;
++}
++
++.note-card-page {
++    font-size: 0.68rem;
++    font-weight: 600;
++    color: var(--text-muted);
++    text-transform: uppercase;
++    letter-spacing: 0.08em;
++    background: rgba(255, 255, 255, 0.06);
++    padding: 2px 8px;
++    border-radius: var(--radius-full);
++}
++
++.note-card-time {
++    font-size: 0.65rem;
++    color: var(--text-muted);
++}
++
++.note-card-text {
++    font-size: 0.85rem;
++    line-height: 1.6;
++    color: var(--reader-text);
++    white-space: pre-wrap;
++    word-break: break-word;
++}
++
++.note-card-actions {
++    display: flex;
++    justify-content: flex-end;
++    margin-top: 10px;
++}
++
++.note-delete-btn {
++    background: none;
++    border: none;
++    color: var(--text-muted);
++    cursor: pointer;
++    display: flex;
++    align-items: center;
++    gap: 4px;
++    font-size: 0.72rem;
++    font-family: var(--font-sans);
++    padding: 4px 8px;
++    border-radius: var(--radius-sm);
++    transition: all var(--transition-fast);
++}
++
++.note-delete-btn:hover {
++    color: var(--error);
++    background: rgba(255, 0, 0, 0.06);
++}
++
++.note-delete-btn svg {
++    width: 13px;
++    height: 13px;
++}
++
++@media (max-width: 768px) {
++    .notes-sidebar {
++        width: 100%;
++        left: -100%;
++    }
++}
++
++/* ---------- Disconnect Overlay ---------- */
++.disconnect-overlay {
++    position: fixed;
++    inset: 0;
++    background: rgba(0, 0, 0, 0.7);
++    backdrop-filter: blur(8px);
++    display: flex;
++    align-items: center;
++    justify-content: center;
++    z-index: 500;
++    animation: fadeIn 0.3s ease;
++}
++
++@keyframes fadeIn {
++    from {
++        opacity: 0;
++    }
++
++    to {
++        opacity: 1;
++    }
++}
++
++.disconnect-card {
++    background: rgba(26, 26, 46, 0.95);
++    border: 1px solid var(--border-medium);
++    border-radius: var(--radius-lg);
++    padding: 40px;
++    text-align: center;
++    max-width: 380px;
++    width: 90%;
++}
++
++.disconnect-icon {
++    width: 64px;
++    height: 64px;
++    border-radius: 50%;
++    background: rgba(248, 113, 113, 0.1);
++    color: var(--error);
++    display: flex;
++    align-items: center;
++    justify-content: center;
++    margin: 0 auto 20px;
++}
++
++.disconnect-icon svg {
++    width: 32px;
++    height: 32px;
++}
++
++.disconnect-card h3 {
++    font-size: 1.2rem;
++    margin-bottom: 8px;
++}
++
++.disconnect-card p {
++    color: var(--text-secondary);
++    font-size: 0.9rem;
++    margin-bottom: 20px;
++}
++
++.loading-dots {
++    display: flex;
++    justify-content: center;
++    gap: 6px;
++}
++
++.loading-dots span {
++    width: 8px;
++    height: 8px;
++    border-radius: 50%;
++    background: var(--accent);
++    animation: dotBounce 1.4s ease-in-out infinite;
++}
++
++.loading-dots span:nth-child(2) {
++    animation-delay: 0.2s;
++}
++
++.loading-dots span:nth-child(3) {
++    animation-delay: 0.4s;
++}
++
++@keyframes dotBounce {
++
++    0%,
++    80%,
++    100% {
++        transform: scale(0.6);
++        opacity: 0.4;
++    }
++
++    40% {
++        transform: scale(1);
++        opacity: 1;
++    }
++}
++
++/* ---------- Responsive ---------- */
++@media (max-width: 768px) {
++    .reader-header {
++        height: 50px;
++        padding: 0 8px;
++    }
++
++    .sync-indicator {
++        padding: 4px 10px;
++    }
++
++    .sync-text {
++        display: none;
++    }
++
++    .reader-main {
++        margin-top: 50px;
++        margin-bottom: 68px;
++    }
++
++    #epub-viewer {
++        padding: 16px 20px;
++    }
++
++    .nav-zone {
++        width: 50px;
++    }
++
++    .reader-footer {
++        height: 68px;
++        padding: 0 12px;
++    }
++
++    .progress-bar-container {
++        width: 80px;
++    }
++
++    .page-info {
++        font-size: 0.7rem;
++    }
++
++    .chat-sidebar {
++        width: 100%;
++        right: -100%;
++    }
++
++    .font-menu {
++        right: 8px;
++        width: 240px;
++    }
++}
++
++@media (max-width: 480px) {
++    .sync-btn {
++        width: 38px;
++        height: 38px;
++    }
++
++    .sync-progress-ring {
++        width: 42px;
++        height: 42px;
++    }
++
++    .sync-progress-ring svg {
++        width: 42px;
++        height: 42px;
++    }
++
++    .footer-left {
++        display: none;
++    }
++
++    .sync-control {
++        gap: 10px;
++    }
++}
++
++/* EPUB.js iframe styling override */
++#epub-viewer iframe {
++    border: none !important;
++}
+\ No newline at end of file
+diff --git a/public/js/reader.js b/public/js/reader.js
+new file mode 100644
+index 0000000..6ba5fc1
+--- /dev/null
++++ b/public/js/reader.js
+@@ -0,0 +1,707 @@
++/* ============================================
++   READ TOGETHER - Reader Logic
++   ============================================ */
++
++// ---- State ----
++let socket;
++let book = null;
++let rendition = null;
++let sessionData = null;
++let currentLocationIndex = 0;
++let totalLocations = 0;
++let locations = [];
++let isReady = false;
++let chatOpen = false;
++let notesOpen = false;
++let fontMenuOpen = false;
++let unreadMessages = 0;
++let currentTheme = 'dark'; // 'dark', 'light', 'sepia'
++let currentFontSize = 18;
++let currentFontFamily = "'Lora', serif";
++let notes = JSON.parse(localStorage.getItem('readTogether_notes') || '[]');
++
++
++// ---- Initialize ----
++document.addEventListener('DOMContentLoaded', () => {
++    // Load session data
++    const stored = sessionStorage.getItem('readTogether');
++    if (!stored) {
++        window.location.href = '/';
++        return;
++    }
++
++    sessionData = JSON.parse(stored);
++
++    // Connect socket
++    socket = BACKEND_URL ? io(BACKEND_URL, {
++        reconnection: true,
++        reconnectionDelay: 1000,
++        reconnectionAttempts: 10
++    }) : io({
++        reconnection: true,
++        reconnectionDelay: 1000,
++        reconnectionAttempts: 10
++    });
++
++    setupSocketListeners();
++
++    // Rejoin room
++    socket.on('connect', () => {
++        socket.emit('reconnect-room', {
++            roomCode: sessionData.roomCode,
++            role: sessionData.role,
++            name: sessionData.userName
++        });
++    });
++
++    socket.on('reconnect-success', (data) => {
++        console.log('Reconnected to room:', data.code);
++        if (data.book && !book) {
++            loadBook(data.book);
++        }
++        if (data.currentPage !== undefined) {
++            currentLocationIndex = data.currentPage;
++        }
++    });
++
++    socket.on('reconnect-error', (data) => {
++        alert(data.message);
++        window.location.href = '/';
++    });
++
++    // Load the book
++    if (sessionData.book) {
++        loadBook(sessionData.book);
++    }
++
++    // Keyboard shortcuts
++    document.addEventListener('keydown', handleKeydown);
++
++    // Close menus on outside click
++    document.addEventListener('click', (e) => {
++        if (fontMenuOpen && !e.target.closest('.font-menu') && !e.target.closest('#font-size-btn')) {
++            closeFontMenu();
++        }
++    });
++
++    // Notes: char counter + initial render
++    const notesInput = document.getElementById('notes-input');
++    notesInput.addEventListener('input', () => {
++        const len = notesInput.value.length;
++        document.getElementById('notes-char-count').textContent = `${len} / 1000`;
++    });
++    renderNotes();
++});
++
++// ---- Book Loading ----
++function loadBook(bookData) {
++    const loadingEl = document.getElementById('reader-loading');
++    loadingEl.style.display = 'flex';
++
++    document.getElementById('reader-book-title').textContent = bookData.originalName;
++
++    // Initialize epub.js
++    book = ePub(bookData.path);
++
++    rendition = book.renderTo('epub-viewer', {
++        width: '100%',
++        height: '100%',
++        spread: 'none',
++        flow: 'paginated',
++        manager: 'continuous'
++    });
++
++    // Apply initial theme
++    applyTheme(currentTheme);
++    applyFontSize(currentFontSize);
++    applyFontFamily(currentFontFamily);
++
++    // Generate locations for progress tracking
++    book.ready.then(() => {
++        return book.locations.generate(1024);
++    }).then((locs) => {
++        locations = locs;
++        totalLocations = locations.length;
++
++        socket.emit('set-total-locations', { total: totalLocations });
++
++        // Display the book starting at the stored page or beginning
++        if (currentLocationIndex > 0 && locations[currentLocationIndex]) {
++            rendition.display(locations[currentLocationIndex]);
++        } else {
++            rendition.display();
++        }
++    });
++
++    rendition.on('rendered', () => {
++        loadingEl.style.display = 'none';
++    });
++
++    rendition.on('relocated', (location) => {
++        // Update page info
++        const current = location.start.location;
++        currentLocationIndex = current;
++
++        updatePageInfo();
++        updateProgress();
++    });
++
++    // Handle touch/swipe on mobile
++    rendition.on('touchstart', handleTouchStart);
++    rendition.on('touchend', handleTouchEnd);
++}
++
++// ---- Page Navigation with Sync ----
++function requestNextPage() {
++    if (isReady) {
++        // Cancel ready status
++        cancelReady();
++        return;
++    }
++
++    isReady = true;
++    updateLocalSyncUI();
++
++    socket.emit('page-ready', {
++        nextPage: currentLocationIndex + 1,
++        direction: 'next'
++    });
++}
++
++function requestPrevPage() {
++    if (currentLocationIndex <= 0) return;
++
++    if (isReady) {
++        cancelReady();
++        return;
++    }
++
++    isReady = true;
++    updateLocalSyncUI();
++
++    socket.emit('page-ready', {
++        nextPage: currentLocationIndex - 1,
++        direction: 'prev'
++    });
++}
++
++function cancelReady() {
++    isReady = false;
++    updateLocalSyncUI();
++    socket.emit('page-cancel');
++}
++
++function updateLocalSyncUI() {
++    const nextBtn = document.getElementById('next-page-btn');
++    const prevBtn = document.getElementById('prev-page-btn');
++
++    if (isReady) {
++        nextBtn.classList.add('ready');
++        prevBtn.classList.add('ready');
++    } else {
++        nextBtn.classList.remove('ready');
++        prevBtn.classList.remove('ready');
++    }
++}
++
++// ---- Socket Listeners ----
++function setupSocketListeners() {
++    // Sync update
++    socket.on('page-sync-update', (data) => {
++        updateSyncDisplay(data.readyCount, data.totalUsers);
++    });
++
++    // Page advance (both users confirmed)
++    socket.on('page-advance', (data) => {
++        isReady = false;
++        updateLocalSyncUI();
++
++        currentLocationIndex = data.page;
++
++        if (rendition && locations.length > 0) {
++            if (data.direction === 'next') {
++                rendition.next().then(() => {
++                    updatePageInfo();
++                    updateProgress();
++                });
++            } else {
++                rendition.prev().then(() => {
++                    updatePageInfo();
++                    updateProgress();
++                });
++            }
++        }
++
++        // Reset sync display
++        updateSyncDisplay(0, 2);
++
++        // Visual feedback
++        flashSyncSuccess();
++    });
++
++    // Chat
++    socket.on('chat-received', (msg) => {
++        addChatMessage(msg);
++
++        if (!chatOpen) {
++            unreadMessages++;
++            updateChatBadge();
++        }
++    });
++
++    // User typing
++    socket.on('user-typing', (data) => {
++        // Could show typing indicator
++    });
++
++    // Disconnect handling
++    socket.on('host-disconnected', (data) => {
++        showDisconnectOverlay('Host Disconnected', data.message);
++        document.getElementById('guest-sync-avatar').classList.remove('connected');
++        document.getElementById('sync-text').textContent = 'Partner offline';
++    });
++
++    socket.on('guest-disconnected', (data) => {
++        showDisconnectOverlay('Partner Disconnected', data.message);
++        document.getElementById('guest-sync-avatar').classList.remove('connected');
++        document.getElementById('sync-text').textContent = 'Partner offline';
++    });
++
++    socket.on('host-reconnected', () => {
++        hideDisconnectOverlay();
++        document.getElementById('guest-sync-avatar').classList.add('connected');
++        document.getElementById('sync-text').textContent = 'Both connected';
++    });
++
++    socket.on('guest-reconnected', () => {
++        hideDisconnectOverlay();
++        document.getElementById('guest-sync-avatar').classList.add('connected');
++        document.getElementById('sync-text').textContent = 'Both connected';
++    });
++
++    socket.on('user-joined', (data) => {
++        document.getElementById('guest-sync-avatar').classList.add('connected');
++        document.getElementById('sync-text').textContent = 'Both connected';
++    });
++
++    socket.on('book-available', (bookData) => {
++        if (!book) {
++            loadBook(bookData);
++        }
++    });
++}
++
++// ---- Sync Display ----
++function updateSyncDisplay(readyCount, totalUsers) {
++    const countEl = document.getElementById('sync-count');
++    const ringEl = document.getElementById('sync-ring');
++    const labelEl = document.getElementById('sync-label');
++
++    countEl.textContent = `${readyCount}/${totalUsers}`;
++
++    // Update ring progress
++    const circumference = 2 * Math.PI * 20; // r=20
++    const progress = readyCount / totalUsers;
++    const offset = circumference * (1 - progress);
++    ringEl.style.strokeDashoffset = offset;
++
++    if (readyCount === totalUsers && totalUsers > 1) {
++        ringEl.classList.add('complete');
++        labelEl.textContent = 'Advancing...';
++    } else if (readyCount > 0) {
++        ringEl.classList.remove('complete');
++        labelEl.textContent = `${readyCount} of ${totalUsers} ready`;
++    } else {
++        ringEl.classList.remove('complete');
++        labelEl.textContent = 'Ready to read';
++    }
++}
++
++function flashSyncSuccess() {
++    const footer = document.getElementById('reader-footer');
++    footer.style.borderTopColor = 'rgba(74, 222, 128, 0.5)';
++    setTimeout(() => {
++        footer.style.borderTopColor = '';
++    }, 600);
++}
++
++// ---- Page Info ----
++function updatePageInfo() {
++    const pageInfo = document.getElementById('page-info');
++    if (totalLocations > 0) {
++        pageInfo.textContent = `Location ${currentLocationIndex} of ${totalLocations}`;
++    } else {
++        pageInfo.textContent = `Location ${currentLocationIndex}`;
++    }
++}
++
++function updateProgress() {
++    if (totalLocations <= 0) return;
++    const pct = Math.min((currentLocationIndex / totalLocations) * 100, 100);
++    document.getElementById('reading-progress-fill').style.width = pct + '%';
++}
++
++// ---- Theme ----
++function toggleTheme() {
++    const themes = ['dark', 'light', 'sepia'];
++    const idx = themes.indexOf(currentTheme);
++    currentTheme = themes[(idx + 1) % themes.length];
++    applyTheme(currentTheme);
++}
++
++function applyTheme(theme) {
++    document.body.classList.remove('light-theme', 'sepia-theme');
++    const sunIcon = document.querySelector('.sun-icon');
++    const moonIcon = document.querySelector('.moon-icon');
++
++    if (theme === 'light') {
++        document.body.classList.add('light-theme');
++        sunIcon.style.display = 'none';
++        moonIcon.style.display = 'block';
++
++        if (rendition) {
++            rendition.themes.default({
++                body: {
++                    background: '#faf8f5 !important',
++                    color: '#2a2a35 !important'
++                },
++                'p, div, span, h1, h2, h3, h4, h5, h6, li, a': {
++                    color: '#2a2a35 !important'
++                }
++            });
++        }
++    } else if (theme === 'sepia') {
++        document.body.classList.add('sepia-theme');
++        sunIcon.style.display = 'block';
++        moonIcon.style.display = 'none';
++
++        if (rendition) {
++            rendition.themes.default({
++                body: {
++                    background: '#f4ecd8 !important',
++                    color: '#3a3020 !important'
++                },
++                'p, div, span, h1, h2, h3, h4, h5, h6, li, a': {
++                    color: '#3a3020 !important'
++                }
++            });
++        }
++    } else {
++        // Dark
++        sunIcon.style.display = 'block';
++        moonIcon.style.display = 'none';
++
++        if (rendition) {
++            rendition.themes.default({
++                body: {
++                    background: '#1a1a2e !important',
++                    color: '#e0e0e8 !important'
++                },
++                'p, div, span, h1, h2, h3, h4, h5, h6, li, a': {
++                    color: '#e0e0e8 !important'
++                }
++            });
++        }
++    }
++}
++
++// ---- Font Size ----
++function toggleFontMenu() {
++    if (fontMenuOpen) {
++        closeFontMenu();
++    } else {
++        openFontMenu();
++    }
++}
++
++function openFontMenu() {
++    document.getElementById('font-menu').style.display = 'block';
++    fontMenuOpen = true;
++}
++
++function closeFontMenu() {
++    document.getElementById('font-menu').style.display = 'none';
++    fontMenuOpen = false;
++}
++
++function adjustFontSize(delta) {
++    const slider = document.getElementById('font-slider');
++    let newVal = parseInt(slider.value) + delta;
++    newVal = Math.max(12, Math.min(28, newVal));
++    slider.value = newVal;
++    setFontSize(newVal);
++}
++
++function setFontSize(size) {
++    currentFontSize = parseInt(size);
++    applyFontSize(currentFontSize);
++}
++
++function applyFontSize(size) {
++    if (rendition) {
++        rendition.themes.fontSize(size + 'px');
++    }
++}
++
++// ---- Font Family ----
++function setFontFamily(btn) {
++    document.querySelectorAll('.font-family-btn').forEach(b => b.classList.remove('active'));
++    btn.classList.add('active');
++    currentFontFamily = btn.dataset.font;
++    applyFontFamily(currentFontFamily);
++}
++
++function applyFontFamily(family) {
++    if (rendition) {
++        rendition.themes.font(family);
++    }
++}
++
++// ---- Chat ----
++function toggleChat() {
++    const sidebar = document.getElementById('chat-sidebar');
++    chatOpen = !chatOpen;
++
++    if (chatOpen) {
++        sidebar.classList.add('open');
++        unreadMessages = 0;
++        updateChatBadge();
++        document.getElementById('chat-input').focus();
++    } else {
++        sidebar.classList.remove('open');
++    }
++}
++
++function sendChatMessage() {
++    const input = document.getElementById('chat-input');
++    const text = input.value.trim();
++    if (!text || !socket) return;
++
++    socket.emit('chat-message', { text });
++    input.value = '';
++}
++
++function handleChatKeydown(e) {
++    if (e.key === 'Enter') {
++        sendChatMessage();
++    }
++    // Emit typing indicator
++    if (socket) {
++        socket.emit('typing');
++    }
++}
++
++function addChatMessage(msg) {
++    const container = document.getElementById('chat-messages');
++
++    // Remove empty state
++    const emptyEl = container.querySelector('.chat-empty');
++    if (emptyEl) emptyEl.remove();
++
++    const isOwn = msg.senderId === socket.id;
++    const msgEl = document.createElement('div');
++    msgEl.className = `chat-msg ${isOwn ? 'own' : ''}`;
++
++    const time = new Date(msg.timestamp);
++    const timeStr = time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
++
++    msgEl.innerHTML = `
++    ${!isOwn ? `<span class="chat-msg-sender">${escapeHtml(msg.sender)}</span>` : ''}
++    <div class="chat-msg-bubble">${escapeHtml(msg.text)}</div>
++    <span class="chat-msg-time">${timeStr}</span>
++  `;
++
++    container.appendChild(msgEl);
++    container.scrollTop = container.scrollHeight;
++}
++
++function updateChatBadge() {
++    const badge = document.getElementById('chat-badge');
++    if (unreadMessages > 0) {
++        badge.style.display = 'flex';
++        badge.textContent = unreadMessages > 9 ? '9+' : unreadMessages;
++    } else {
++        badge.style.display = 'none';
++    }
++}
++
++// ---- Disconnect Overlay ----
++function showDisconnectOverlay(title, message) {
++    document.getElementById('disconnect-title').textContent = title;
++    document.getElementById('disconnect-message').textContent = message;
++    document.getElementById('disconnect-overlay').style.display = 'flex';
++}
++
++function hideDisconnectOverlay() {
++    document.getElementById('disconnect-overlay').style.display = 'none';
++}
++
++// ---- Go Back ----
++function goBackToRoom() {
++    window.location.href = '/';
++}
++
++// ---- Keyboard Shortcuts ----
++function handleKeydown(e) {
++    // Don't handle shortcuts when typing in chat
++    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
++
++    switch (e.key) {
++        case 'ArrowRight':
++        case ' ':
++            e.preventDefault();
++            requestNextPage();
++            break;
++        case 'ArrowLeft':
++            e.preventDefault();
++            requestPrevPage();
++            break;
++        case 'Escape':
++            if (chatOpen) toggleChat();
++            if (fontMenuOpen) closeFontMenu();
++            if (notesOpen) toggleNotes();
++            break;
++        case 'c':
++        case 'C':
++            if (!e.ctrlKey && !e.metaKey) {
++                toggleChat();
++            }
++            break;
++        case 'n':
++        case 'N':
++            if (!e.ctrlKey && !e.metaKey) {
++                toggleNotes();
++            }
++            break;
++    }
++}
++
++// ---- Touch Handling ----
++let touchStartX = 0;
++let touchStartY = 0;
++
++function handleTouchStart(e) {
++    touchStartX = e.changedTouches[0].screenX;
++    touchStartY = e.changedTouches[0].screenY;
++}
++
++function handleTouchEnd(e) {
++    const dx = e.changedTouches[0].screenX - touchStartX;
++    const dy = e.changedTouches[0].screenY - touchStartY;
++
++    // Only handle horizontal swipes
++    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 50) {
++        if (dx < 0) {
++            requestNextPage();
++        } else {
++            requestPrevPage();
++        }
++    }
++}
++
++// ---- Utility ----
++function escapeHtml(text) {
++    const div = document.createElement('div');
++    div.textContent = text;
++    return div.innerHTML;
++}
++
++// ---- Notes ----
++function toggleNotes() {
++    const sidebar = document.getElementById('notes-sidebar');
++    notesOpen = !notesOpen;
++
++    if (notesOpen) {
++        sidebar.classList.add('open');
++        document.getElementById('notes-input').focus();
++    } else {
++        sidebar.classList.remove('open');
++    }
++}
++
++function saveNote() {
++    const input = document.getElementById('notes-input');
++    const text = input.value.trim();
++    if (!text) return;
++
++    const note = {
++        id: Date.now(),
++        text,
++        page: currentLocationIndex,
++        timestamp: new Date().toISOString()
++    };
++
++    notes.unshift(note);
++    localStorage.setItem('readTogether_notes', JSON.stringify(notes));
++
++    input.value = '';
++    document.getElementById('notes-char-count').textContent = '0 / 1000';
++    renderNotes();
++
++    // Brief visual confirmation
++    const btn = document.getElementById('notes-save-btn');
++    const orig = btn.textContent;
++    btn.textContent = 'Γ£ô Saved';
++    btn.style.opacity = '0.6';
++    setTimeout(() => {
++        btn.textContent = orig;
++        btn.style.opacity = '';
++    }, 1200);
++}
++
++function deleteNote(id) {
++    notes = notes.filter(n => n.id !== id);
++    localStorage.setItem('readTogether_notes', JSON.stringify(notes));
++    renderNotes();
++}
++
++function renderNotes() {
++    const list = document.getElementById('notes-list');
++    const emptyEl = document.getElementById('notes-empty');
++    const badge = document.getElementById('notes-count-badge');
++
++    badge.textContent = notes.length;
++
++    // Clear existing note cards (not the empty state)
++    Array.from(list.querySelectorAll('.note-card')).forEach(el => el.remove());
++
++    if (notes.length === 0) {
++        if (emptyEl) emptyEl.style.display = 'flex';
++        return;
++    }
++
++    if (emptyEl) emptyEl.style.display = 'none';
++
++    notes.forEach(note => {
++        const card = document.createElement('div');
++        card.className = 'note-card';
++        card.dataset.id = note.id;
++
++        const time = new Date(note.timestamp);
++        const timeStr = time.toLocaleDateString([], { month: 'short', day: 'numeric' }) +
++            ' ┬╖ ' + time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
++
++        const pageLabel = note.page > 0 ? `Loc ${note.page}` : 'Start';
++
++        card.innerHTML = `
++            <div class="note-card-meta">
++                <span class="note-card-page">${escapeHtml(pageLabel)}</span>
++                <span class="note-card-time">${escapeHtml(timeStr)}</span>
++            </div>
++            <div class="note-card-text">${escapeHtml(note.text)}</div>
++            <div class="note-card-actions">
++                <button class="note-delete-btn" onclick="deleteNote(${note.id})">
++                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
++                        <polyline points="3 6 5 6 21 6"/>
++                        <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>
++                        <path d="M10 11v6"/><path d="M14 11v6"/>
++                        <path d="M9 6V4h6v2"/>
++                    </svg>
++                    Delete
++                </button>
++            </div>
++        `;
++
++        list.appendChild(card);
++    });
++}
+diff --git a/public/reader.html b/public/reader.html
+new file mode 100644
+index 0000000..ae25b8c
+--- /dev/null
++++ b/public/reader.html
+@@ -0,0 +1,294 @@
++<!DOCTYPE html>
++<html lang="en">
++
++<head>
++    <meta charset="UTF-8">
++    <meta name="viewport" content="width=device-width, initial-scale=1.0">
++    <meta name="description" content="Read Together - Synchronized book reader">
++    <title>Read Together ΓÇö Reader</title>
++    <link rel="preconnect" href="https://fonts.googleapis.com">
++    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
++    <link
++        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap"
++        rel="stylesheet">
++    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
++    <script src="https://cdn.jsdelivr.net/npm/epubjs/dist/epub.min.js"></script>
++    <link rel="stylesheet" href="/css/reader.css">
++</head>
++
++<body>
++    <!-- Reader Top Bar -->
++    <header class="reader-header" id="reader-header">
++        <div class="header-left">
++            <button class="icon-btn" id="back-to-room-btn" onclick="goBackToRoom()" title="Back to room">
++                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
++                    stroke-linejoin="round">
++                    <line x1="19" y1="12" x2="5" y2="12" />
++                    <polyline points="12 19 5 12 12 5" />
++                </svg>
++            </button>
++            <div class="book-title-bar">
++                <span class="book-title" id="reader-book-title">Loading...</span>
++            </div>
++        </div>
++
++        <div class="header-center">
++            <div class="sync-indicator" id="sync-indicator">
++                <div class="sync-avatars">
++                    <div class="sync-avatar host-sync" id="host-sync-avatar" title="Host">
++                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
++                            <circle cx="12" cy="7" r="4" />
++                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
++                        </svg>
++                    </div>
++                    <div class="sync-avatar guest-sync" id="guest-sync-avatar" title="Guest">
++                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
++                            <circle cx="12" cy="7" r="4" />
++                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
++                        </svg>
++                    </div>
++                </div>
++                <span class="sync-text" id="sync-text">Both connected</span>
++            </div>
++        </div>
++
++        <div class="header-right">
++            <button class="icon-btn" id="toggle-theme-btn" onclick="toggleTheme()" title="Toggle theme">
++                <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
++                    stroke-linecap="round" stroke-linejoin="round">
++                    <circle cx="12" cy="12" r="5" />
++                    <line x1="12" y1="1" x2="12" y2="3" />
++                    <line x1="12" y1="21" x2="12" y2="23" />
++                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
++                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
++                    <line x1="1" y1="12" x2="3" y2="12" />
++                    <line x1="21" y1="12" x2="23" y2="12" />
++                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
++                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
++                </svg>
++                <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
++                    stroke-linecap="round" stroke-linejoin="round" style="display:none;">
++                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
++                </svg>
++            </button>
++            <button class="icon-btn" id="font-size-btn" onclick="toggleFontMenu()" title="Font size">
++                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
++                    stroke-linejoin="round">
++                    <polyline points="4 7 4 4 20 4 20 7" />
++                    <line x1="9" y1="20" x2="15" y2="20" />
++                    <line x1="12" y1="4" x2="12" y2="20" />
++                </svg>
++            </button>
++            <button class="icon-btn" id="notes-toggle-btn" onclick="toggleNotes()" title="Toggle notes">
++                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
++                    stroke-linejoin="round">
++                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
++                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
++                </svg>
++            </button>
++            <button class="icon-btn" id="chat-toggle-btn" onclick="toggleChat()" title="Toggle chat">
++                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
++                    stroke-linejoin="round">
++                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
++                </svg>
++                <span class="chat-badge" id="chat-badge" style="display:none;">0</span>
++            </button>
++        </div>
++    </header>
++
++    <!-- Font Size Dropdown -->
++    <div class="font-menu" id="font-menu" style="display: none;">
++        <div class="font-menu-header">Text Size</div>
++        <div class="font-slider-row">
++            <button class="font-adj-btn" onclick="adjustFontSize(-1)">A-</button>
++            <input type="range" id="font-slider" min="12" max="28" value="18" oninput="setFontSize(this.value)">
++            <button class="font-adj-btn large" onclick="adjustFontSize(1)">A+</button>
++        </div>
++        <div class="font-menu-header" style="margin-top: 12px;">Font Family</div>
++        <div class="font-family-options">
++            <button class="font-family-btn active" data-font="'Lora', serif"
++                onclick="setFontFamily(this)">Serif</button>
++            <button class="font-family-btn" data-font="'Inter', sans-serif" onclick="setFontFamily(this)">Sans</button>
++            <button class="font-family-btn" data-font="'Merriweather', serif"
++                onclick="setFontFamily(this)">Classic</button>
++        </div>
++    </div>
++
++    <!-- Main Reader Area -->
++    <main class="reader-main" id="reader-main">
++        <!-- Loading state -->
++        <div class="reader-loading" id="reader-loading">
++            <div class="loading-spinner"></div>
++            <p>Loading book...</p>
++        </div>
++
++        <!-- EPUB viewer -->
++        <div id="epub-viewer"></div>
++
++        <!-- Navigation areas (invisible, clickable) -->
++        <div class="nav-zone nav-zone-prev" id="nav-prev" onclick="requestPrevPage()" title="Previous page">
++            <div class="nav-arrow">
++                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
++                    stroke-linejoin="round">
++                    <polyline points="15 18 9 12 15 6" />
++                </svg>
++            </div>
++        </div>
++        <div class="nav-zone nav-zone-next" id="nav-next" onclick="requestNextPage()" title="Next page">
++            <div class="nav-arrow">
++                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
++                    stroke-linejoin="round">
++                    <polyline points="9 18 15 12 9 6" />
++                </svg>
++            </div>
++        </div>
++    </main>
++
++    <!-- Bottom Bar -->
++    <footer class="reader-footer" id="reader-footer">
++        <div class="footer-left">
++            <span class="page-info" id="page-info">Page 0</span>
++        </div>
++
++        <div class="footer-center">
++            <div class="sync-control">
++                <button class="sync-btn prev-btn" id="prev-page-btn" onclick="requestPrevPage()">
++                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
++                        stroke-linejoin="round">
++                        <polyline points="15 18 9 12 15 6" />
++                    </svg>
++                </button>
++
++                <div class="sync-status" id="sync-status">
++                    <div class="sync-progress-ring">
++                        <svg viewBox="0 0 48 48">
++                            <circle class="ring-bg" cx="24" cy="24" r="20" />
++                            <circle class="ring-fill" cx="24" cy="24" r="20" id="sync-ring" />
++                        </svg>
++                        <span class="sync-count" id="sync-count">0/2</span>
++                    </div>
++                    <span class="sync-label" id="sync-label">Ready to read</span>
++                </div>
++
++                <button class="sync-btn next-btn" id="next-page-btn" onclick="requestNextPage()">
++                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
++                        stroke-linejoin="round">
++                        <polyline points="9 18 15 12 9 6" />
++                    </svg>
++                </button>
++            </div>
++        </div>
++
++        <div class="footer-right">
++            <div class="progress-bar-container">
++                <div class="reading-progress-bar">
++                    <div class="reading-progress-fill" id="reading-progress-fill"></div>
++                </div>
++            </div>
++        </div>
++    </footer>
++
++    <!-- Notes Sidebar -->
++    <aside class="notes-sidebar" id="notes-sidebar">
++        <div class="notes-header">
++            <div class="notes-header-left">
++                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
++                    stroke-linejoin="round" width="18" height="18">
++                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
++                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
++                </svg>
++                <h3>Notes</h3>
++            </div>
++            <button class="icon-btn" onclick="toggleNotes()">
++                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
++                    stroke-linejoin="round">
++                    <line x1="18" y1="6" x2="6" y2="18" />
++                    <line x1="6" y1="6" x2="18" y2="18" />
++                </svg>
++            </button>
++        </div>
++        <div class="notes-compose">
++            <textarea id="notes-input" placeholder="Write a note about this page..." maxlength="1000"></textarea>
++            <div class="notes-compose-footer">
++                <span class="notes-char-count" id="notes-char-count">0 / 1000</span>
++                <button class="notes-save-btn" id="notes-save-btn" onclick="saveNote()">Save Note</button>
++            </div>
++        </div>
++        <div class="notes-list-header">
++            <span>Saved Notes</span>
++            <span class="notes-count-badge" id="notes-count-badge">0</span>
++        </div>
++        <div class="notes-list" id="notes-list">
++            <div class="notes-empty" id="notes-empty">
++                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="32" height="32">
++                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
++                    <polyline points="14 2 14 8 20 8" />
++                    <line x1="16" y1="13" x2="8" y2="13" />
++                    <line x1="16" y1="17" x2="8" y2="17" />
++                    <polyline points="10 9 9 9 8 9" />
++                </svg>
++                <p>No notes yet.</p>
++                <p class="notes-empty-sub">Start writing above!</p>
++            </div>
++        </div>
++    </aside>
++
++    <!-- Chat Sidebar -->
++    <aside class="chat-sidebar" id="chat-sidebar">
++        <div class="chat-header">
++            <h3>Chat</h3>
++            <button class="icon-btn" onclick="toggleChat()">
++                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
++                    stroke-linejoin="round">
++                    <line x1="18" y1="6" x2="6" y2="18" />
++                    <line x1="6" y1="6" x2="18" y2="18" />
++                </svg>
++            </button>
++        </div>
++        <div class="chat-messages" id="chat-messages">
++            <div class="chat-empty">
++                <p>No messages yet. Say hello! ≡ƒæï</p>
++            </div>
++        </div>
++        <div class="chat-input-area">
++            <input type="text" id="chat-input" placeholder="Type a message..." maxlength="500"
++                onkeydown="handleChatKeydown(event)">
++            <button class="send-btn" id="send-msg-btn" onclick="sendChatMessage()">
++                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
++                    stroke-linejoin="round">
++                    <line x1="22" y1="2" x2="11" y2="13" />
++                    <polygon points="22 2 15 22 11 13 2 9 22 2" />
++                </svg>
++            </button>
++        </div>
++    </aside>
++
++    <!-- Disconnect overlay -->
++    <div class="disconnect-overlay" id="disconnect-overlay" style="display: none;">
++        <div class="disconnect-card">
++            <div class="disconnect-icon">
++                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
++                    stroke-linejoin="round">
++                    <line x1="1" y1="1" x2="23" y2="23" />
++                    <path d="M16.72 11.06A10.94 10.94 0 0 1 19 12.55" />
++                    <path d="M5 12.55a10.94 10.94 0 0 1 5.17-2.39" />
++                    <path d="M10.71 5.05A16 16 0 0 1 22.56 9" />
++                    <path d="M1.42 9a15.91 15.91 0 0 1 4.7-2.88" />
++                    <path d="M8.53 16.11a6 6 0 0 1 6.95 0" />
++                    <line x1="12" y1="20" x2="12.01" y2="20" />
++                </svg>
++            </div>
++            <h3 id="disconnect-title">Partner Disconnected</h3>
++            <p id="disconnect-message">Waiting for reconnection...</p>
++            <div class="loading-dots">
++                <span></span><span></span><span></span>
++            </div>
++        </div>
++    </div>
++
++    <script src="https://cdn.socket.io/4.7.4/socket.io.min.js"></script>
++    <script src="/js/config.js"></script>
++    <script src="/js/reader.js"></script>
++</body>
++
++</html>
+\ No newline at end of file
